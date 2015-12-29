@@ -1,6 +1,5 @@
 ##I18n
   - i18n: remove `*Labels.js`
-  - i18n: how is it managed by other frameworks. Is there any emerging standard for React apps ?
   - see also https://github.com/yahoo/react-intl
   - https://hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/
   - see also the module used by uMap
@@ -16,11 +15,11 @@
   - LESS files / JS files and folders
   - lib -> src ? see also what we do for others
 
-##Mosaic-ui-map:
+##Mosaic-ui-map
   - map background tiles URL: can be set via this.props.tilesUrl but how to pass that property ?
   - map background: in a later stage, manage several layers (see 'externalize it' in Map.js) eg land + labels
 
-##Mosaic-ui-list:
+##Mosaic-ui-list
   - introduce a config object (instead of labels) ?
   - configuration of:
     - icons used by the list pagination widget (instead of the default glyphicons)
