@@ -14,8 +14,28 @@
   - conventions
   - I18NMessages -> I18nMessages ?
   - mui -> mau ? Capitalized or not ? See if existing conventions in JavaScript
-  - Existing conventions:
-    https://github.com/airbnb/javascript
+  - package naming: should we use a dash or a point as separator? mosaic.app, mosaic.ui.map, ...
+
+  ###Airbnb
+
+https://github.com/airbnb/javascript
+
+###ProseMirror
+
+Explore the code structure of ProseMirror and CodeMirror + recommendations in Eloquent JavaScript
+
+###Leaflet
+
+https://github.com/Leaflet/Leaflet
+
+- Usage of dots for naming projects, for example: Leaflet.markercluster
+
+### Meteor
+
+Everything in one project https://github.com/meteor/meteor
+
+##Libs
+  - Consider using Saas instead of LESS?
 
 ##Source folders
   - LESS files / JS files and folders
@@ -26,6 +46,9 @@
   - see also https://github.com/yahoo/react-intl
   - https://hacks.mozilla.org/2014/12/introducing-the-javascript-internationalization-api/
   - see also the module used by uMap
+
+##Mosaic-app-core
+  - We may rename this project into mosaic-app and mosaic-app-ui into mosaic-app-map?
 
 ##Mosaic-ui-map
   - map background tiles URL: can be set via this.props.tilesUrl but how to pass that property ?
