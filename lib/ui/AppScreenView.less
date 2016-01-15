@@ -1,16 +1,125 @@
-.main {
+.box-shadow(@arguments) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+.panel-decoration() {
+  .box-shadow(1px 1px 1px 1px rgba(0, 0, 0, 0.3) );
+  background: white;
+}
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+.main-container {
+  position: relative;
+  overflow: hidden;
+  .main {
     position: absolute;
-    top : 0px;
-    right : 0px;
-    bottom : 0px;
-    left : 0px;
-    background-color: red;
-    .map-container {
-	    position: absolute;
-	    top : 0px;
-	    right : 0px;
-	    bottom : 0px;
-	    left : 0px;
-	    background-color: blue;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    @header-height: 30px;
+    @search-width: 45%;
+    @footer-height: 0;
+    .header-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: @header-height;
     }
+    .map-container {
+      position: absolute;
+      top: @header-height;
+      right: 0;
+      bottom: @footer-height;
+      left: 0;
+    }
+    .search-container {
+      position: absolute;
+      width: @search-width;
+      top: @header-height + 10px;
+      right: 1em;
+      background-color: transparent;
+      .search-box-container {
+        .search-input-container {
+          .panel-decoration;
+          .Select {
+            .Select-control {
+              padding: 0.5em;
+              border: none;
+              background-color: transparent;
+              .Select-item {
+                background-color: #3C464D;
+                border-radius: 0;
+                border: 1px solid #3C464D;
+                color: white;
+                display: inline-block;
+                font-size: 0.9em;
+                margin-left: 5px;
+                margin-top: 5px;
+                vertical-align: top;
+                .Select-item-icon {
+                  .border-radius(0px);
+                  &:hover,
+                  &:focus {
+                    background-color: transparent;
+                    color: white;
+                  }
+                }
+              }
+            }
+            .Select-menu-outer {
+              .panel-decoration;
+              z-index: 1000;
+            }
+          }
+        }
+        .search-results-title {
+          .panel-decoration;
+          position: relative;
+          margin-top: 1em;
+          h3 {
+            margin: 0;
+            padding: 0.5em;
+          }
+          .navbar-right {
+            margin-right: 0.5em;
+          }
+          a,
+          a:hover,
+          a:focus {
+            text-decoration: none;
+          }
+        }
+      }
+      .search-results-container {
+        .panel-decoration;
+        overflow: auto;
+        .pagination {
+          margin: 0.5em auto;
+        }
+      }
+    }
+    .footer-container {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: @footer-height;
+    }
+  }
+  &.mode-mobile {
+    width: 500px;
+  }
+  &.mode-tablet {
+    width: 800px;
+  }
+  &.mode-desktop {
+    /* width: 1024px; */
+  }
+  &.mode-embed {}
 }
