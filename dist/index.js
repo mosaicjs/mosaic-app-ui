@@ -30795,7 +30795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        _get(Object.getPrototypeOf(Map.prototype), 'constructor', this).apply(this, params);
-	        var model = this.model = this.props.app.model;
+	        this.model = this.props.app.model;
 	        var adapters = this.props.app.adapters;
 
 	        // TODO: externalize it
@@ -30812,7 +30812,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this._onMapBackgroundChange = this._onMapBackgroundChange.bind(this);
 
 	        this._mapView = new _mosaicUiMap.MapView({
-	            selectedItems: model.openItems,
+	            selectedItems: this.model.openItems,
 	            id: "map",
 	            dataSet: this._layers,
 	            className: 'map-container',
