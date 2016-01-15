@@ -30849,7 +30849,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                });
 	                layers.push(tiles);
 	            }
-	            layers.push(model.searchIndex);
+	            layers.push(this.model.searchIndex);
 	            this._layers.items = layers;
 	        }
 	    }, {
