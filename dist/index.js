@@ -94,15 +94,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ui2 = _interopRequireDefault(_ui);
 
-	var _DataLoader = __webpack_require__(316);
+	var _DataLoader = __webpack_require__(317);
 
 	var _DataLoader2 = _interopRequireDefault(_DataLoader);
 
-	var _MainApplication = __webpack_require__(320);
+	var _MainApplication = __webpack_require__(321);
 
 	var _MainApplication2 = _interopRequireDefault(_MainApplication);
 
-	var _MainLabels = __webpack_require__(340);
+	var _MainLabels = __webpack_require__(341);
 
 	var _MainLabels2 = _interopRequireDefault(_MainLabels);
 
@@ -7597,7 +7597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _AppScreen2 = _interopRequireDefault(_AppScreen);
 
-	var _AppScreenLabels = __webpack_require__(312);
+	var _AppScreenLabels = __webpack_require__(313);
 
 	var _AppScreenLabels2 = _interopRequireDefault(_AppScreenLabels);
 
@@ -7605,7 +7605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _AppScreenView2 = _interopRequireDefault(_AppScreenView);
 
-	var _indexingProgressListener = __webpack_require__(315);
+	var _indexingProgressListener = __webpack_require__(316);
 
 	var _indexingProgressListener2 = _interopRequireDefault(_indexingProgressListener);
 
@@ -28279,11 +28279,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Map2 = _interopRequireDefault(_Map);
 
-	var _AppScreenLabels = __webpack_require__(312);
+	var _AppScreenLabels = __webpack_require__(313);
 
 	var _AppScreenLabels2 = _interopRequireDefault(_AppScreenLabels);
 
-	__webpack_require__(313);
+	__webpack_require__(314);
 
 	var AppScreenView = (function (_React$Component) {
 	    _inherits(AppScreenView, _React$Component);
@@ -30782,7 +30782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _mosaicUiMap = __webpack_require__(242);
 
-	__webpack_require__(301);
+	__webpack_require__(302);
 
 	var Map = (function (_React$Component) {
 	    _inherits(Map, _React$Component);
@@ -30975,15 +30975,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _libMapLayout2 = _interopRequireDefault(_libMapLayout);
 
-	var _libMapViewport = __webpack_require__(298);
+	var _libMapViewport = __webpack_require__(299);
 
 	var _libMapViewport2 = _interopRequireDefault(_libMapViewport);
 
-	var _libRegisterAdapters = __webpack_require__(299);
+	var _libRegisterAdapters = __webpack_require__(300);
 
 	var _libRegisterAdapters2 = _interopRequireDefault(_libRegisterAdapters);
 
-	var _libTilesInfo = __webpack_require__(300);
+	var _libTilesInfo = __webpack_require__(301);
 
 	var _libTilesInfo2 = _interopRequireDefault(_libTilesInfo);
 
@@ -37381,6 +37381,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _leaflet2 = _interopRequireDefault(_leaflet);
 
+	__webpack_require__(298);
+
 	var _reactDom = __webpack_require__(287);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -37684,7 +37686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    width: Math.abs(info.bottomRight[1] - info.topLeft[1]) + 'px'
 	                };
 	                var center = this.map.getCenter();
-	                //            this.map.setActiveArea(options);
+	                this.map.setActiveArea(options);
 	                this.map.setView(center);
 	            }
 	        }
@@ -37715,6 +37717,339 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 298 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	(function (previousMethods) {
+	    if (typeof previousMethods === 'undefined') {
+	        // Defining previously that object allows you to use that plugin even if you have overridden L.map
+	        previousMethods = {
+	            getCenter: L.Map.prototype.getCenter,
+	            setView: L.Map.prototype.setView,
+	            setZoomAround: L.Map.prototype.setZoomAround,
+	            getBoundsZoom: L.Map.prototype.getBoundsZoom
+	        };
+	    }
+
+	    L.Map.include({
+	        getBounds: function getBounds() {
+	            if (this._viewport) {
+	                return this.getViewportLatLngBounds();
+	            } else {
+	                var bounds = this.getPixelBounds(),
+	                    sw = this.unproject(bounds.getBottomLeft()),
+	                    ne = this.unproject(bounds.getTopRight());
+
+	                return new L.LatLngBounds(sw, ne);
+	            }
+	        },
+
+	        getViewport: function getViewport() {
+	            return this._viewport;
+	        },
+
+	        getViewportBounds: function getViewportBounds() {
+	            var vp = this._viewport,
+	                topleft = L.point(vp.offsetLeft, vp.offsetTop),
+	                vpsize = L.point(vp.clientWidth, vp.clientHeight);
+
+	            if (vpsize.x === 0 || vpsize.y === 0) {
+	                //Our own viewport has no good size - so we fallback to the container size:
+	                vp = this.getContainer();
+	                if (vp) {
+	                    topleft = L.point(0, 0);
+	                    vpsize = L.point(vp.clientWidth, vp.clientHeight);
+	                }
+	            }
+
+	            return L.bounds(topleft, topleft.add(vpsize));
+	        },
+
+	        getViewportLatLngBounds: function getViewportLatLngBounds() {
+	            var bounds = this.getViewportBounds();
+	            return L.latLngBounds(this.containerPointToLatLng(bounds.min), this.containerPointToLatLng(bounds.max));
+	        },
+
+	        getOffset: function getOffset() {
+	            var mCenter = this.getSize().divideBy(2),
+	                vCenter = this.getViewportBounds().getCenter();
+
+	            return mCenter.subtract(vCenter);
+	        },
+
+	        getCenter: function getCenter(withoutViewport) {
+	            var center = previousMethods.getCenter.call(this);
+
+	            if (this.getViewport() && !withoutViewport) {
+	                var zoom = this.getZoom(),
+	                    point = this.project(center, zoom);
+	                point = point.subtract(this.getOffset());
+
+	                center = this.unproject(point, zoom);
+	            }
+
+	            return center;
+	        },
+
+	        setView: function setView(center, zoom, options) {
+	            center = L.latLng(center);
+	            zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
+
+	            if (this.getViewport()) {
+	                var point = this.project(center, this._limitZoom(zoom));
+	                point = point.add(this.getOffset());
+	                center = this.unproject(point, this._limitZoom(zoom));
+	            }
+
+	            return previousMethods.setView.call(this, center, zoom, options);
+	        },
+
+	        setZoomAround: function setZoomAround(latlng, zoom, options) {
+	            var vp = this.getViewport();
+
+	            if (vp) {
+	                var scale = this.getZoomScale(zoom),
+	                    viewHalf = this.getViewportBounds().getCenter(),
+	                    containerPoint = latlng instanceof L.Point ? latlng : this.latLngToContainerPoint(latlng),
+	                    centerOffset = containerPoint.subtract(viewHalf).multiplyBy(1 - 1 / scale),
+	                    newCenter = this.containerPointToLatLng(viewHalf.add(centerOffset));
+
+	                return this.setView(newCenter, zoom, { zoom: options });
+	            } else {
+	                return previousMethods.setZoomAround.call(this, latlng, zoom, options);
+	            }
+	        },
+
+	        getBoundsZoom: function getBoundsZoom(bounds, inside, padding) {
+	            // (LatLngBounds[, Boolean, Point]) -> Number
+	            bounds = L.latLngBounds(bounds);
+
+	            var zoom = this.getMinZoom() - (inside ? 1 : 0),
+	                maxZoom = this.getMaxZoom(),
+	                vp = this.getViewport(),
+	                size = vp ? L.point(vp.clientWidth, vp.clientHeight) : this.getSize(),
+	                nw = bounds.getNorthWest(),
+	                se = bounds.getSouthEast(),
+	                zoomNotFound = true,
+	                boundsSize;
+
+	            padding = L.point(padding || [0, 0]);
+
+	            do {
+	                zoom++;
+	                boundsSize = this.project(se, zoom).subtract(this.project(nw, zoom)).add(padding);
+	                zoomNotFound = !inside ? size.contains(boundsSize) : boundsSize.x < size.x || boundsSize.y < size.y;
+	            } while (zoomNotFound && zoom <= maxZoom);
+
+	            if (zoomNotFound && inside) {
+	                return null;
+	            }
+
+	            return inside ? zoom : zoom - 1;
+	        }
+
+	    });
+
+	    L.Map.include({
+	        setActiveArea: function setActiveArea(css) {
+	            if (!this._viewport) {
+	                //Make viewport if not already made
+	                var container = this.getContainer();
+	                this._viewport = L.DomUtil.create('div', '');
+	                container.insertBefore(this._viewport, container.firstChild);
+	            }
+
+	            if (typeof css === 'string') {
+	                this._viewport.className = css;
+	            } else {
+	                L.extend(this._viewport.style, css);
+	            }
+	            return this;
+	        }
+	    });
+
+	    L.Renderer.include({
+	        _updateTransform: function _updateTransform() {
+	            var zoom = this._map.getZoom(),
+	                center = this._map.getCenter(true),
+	                scale = this._map.getZoomScale(zoom, this._zoom),
+	                offset = this._map._latLngToNewLayerPoint(this._topLeft, zoom, center);
+
+	            L.DomUtil.setTransform(this._container, offset, scale);
+	        }
+	    });
+
+	    L.GridLayer.include({
+	        _updateLevels: function _updateLevels() {
+
+	            var zoom = this._tileZoom,
+	                maxZoom = this.options.maxZoom;
+
+	            for (var z in this._levels) {
+	                if (this._levels[z].el.children.length || z === zoom) {
+	                    this._levels[z].el.style.zIndex = maxZoom - Math.abs(zoom - z);
+	                } else {
+	                    L.DomUtil.remove(this._levels[z].el);
+	                    delete this._levels[z];
+	                }
+	            }
+
+	            var level = this._levels[zoom],
+	                map = this._map;
+
+	            if (!level) {
+	                level = this._levels[zoom] = {};
+
+	                level.el = L.DomUtil.create('div', 'leaflet-tile-container leaflet-zoom-animated', this._container);
+	                level.el.style.zIndex = maxZoom;
+
+	                level.origin = map.project(map.unproject(map.getPixelOrigin()), zoom).round();
+	                level.zoom = zoom;
+
+	                this._setZoomTransform(level, map.getCenter(true), map.getZoom());
+
+	                // force the browser to consider the newly added element for transition
+	                L.Util.falseFn(level.el.offsetWidth);
+	            }
+
+	            this._level = level;
+
+	            return level;
+	        },
+
+	        _resetView: function _resetView(e) {
+	            var pinch = e && e.pinch;
+	            this._setView(this._map.getCenter(true), this._map.getZoom(), pinch, pinch);
+	        },
+
+	        _update: function _update(center, zoom) {
+
+	            var map = this._map;
+	            if (!map) {
+	                return;
+	            }
+
+	            if (center === undefined) {
+	                center = map.getCenter(true);
+	            }
+	            if (zoom === undefined) {
+	                zoom = map.getZoom();
+	            }
+	            var tileZoom = Math.round(zoom);
+
+	            if (tileZoom > this.options.maxZoom || tileZoom < this.options.minZoom) {
+	                return;
+	            }
+
+	            var pixelBounds = this._getTiledPixelBounds(center, zoom, tileZoom);
+
+	            var tileRange = this._pxBoundsToTileRange(pixelBounds),
+	                tileCenter = tileRange.getCenter(),
+	                queue = [];
+
+	            for (var key in this._tiles) {
+	                this._tiles[key].current = false;
+	            }
+
+	            // create a queue of coordinates to load tiles from
+	            for (var j = tileRange.min.y; j <= tileRange.max.y; j++) {
+	                for (var i = tileRange.min.x; i <= tileRange.max.x; i++) {
+	                    var coords = new L.Point(i, j);
+	                    coords.z = tileZoom;
+
+	                    if (!this._isValidTile(coords)) {
+	                        continue;
+	                    }
+
+	                    var tile = this._tiles[this._tileCoordsToKey(coords)];
+	                    if (tile) {
+	                        tile.current = true;
+	                    } else {
+	                        queue.push(coords);
+	                    }
+	                }
+	            }
+
+	            // sort tile queue to load tiles in order of their distance to center
+	            queue.sort(function (a, b) {
+	                return a.distanceTo(tileCenter) - b.distanceTo(tileCenter);
+	            });
+
+	            if (queue.length !== 0) {
+	                // if its the first batch of tiles to load
+	                if (!this._loading) {
+	                    this._loading = true;
+	                    this.fire('loading');
+	                }
+
+	                // create DOM fragment to append tiles in one batch
+	                var fragment = document.createDocumentFragment();
+
+	                for (i = 0; i < queue.length; i++) {
+	                    this._addTile(queue[i], fragment);
+	                }
+
+	                this._level.el.appendChild(fragment);
+	            }
+	        }
+	    });
+
+	    L.Popup.include({
+	        _adjustPan: function _adjustPan() {
+	            if (!this._map._viewport) {
+	                previousMethods.PopupAdjustPan.call(this);
+	            } else {
+	                if (!this.options.autoPan) {
+	                    return;
+	                }
+
+	                var map = this._map,
+	                    vp = map._viewport,
+	                    containerHeight = this._container.offsetHeight,
+	                    containerWidth = this._containerWidth,
+	                    vpTopleft = L.point(vp.offsetLeft, vp.offsetTop),
+	                    layerPos = new L.Point(this._containerLeft - vpTopleft.x, -containerHeight - this._containerBottom - vpTopleft.y);
+
+	                if (this._zoomAnimated) {
+	                    layerPos._add(L.DomUtil.getPosition(this._container));
+	                }
+
+	                var containerPos = map.layerPointToContainerPoint(layerPos),
+	                    padding = L.point(this.options.autoPanPadding),
+	                    paddingTL = L.point(this.options.autoPanPaddingTopLeft || padding),
+	                    paddingBR = L.point(this.options.autoPanPaddingBottomRight || padding),
+	                    size = L.point(vp.clientWidth, vp.clientHeight),
+	                    dx = 0,
+	                    dy = 0;
+
+	                if (containerPos.x + containerWidth + paddingBR.x > size.x) {
+	                    // right
+	                    dx = containerPos.x + containerWidth - size.x + paddingBR.x;
+	                }
+	                if (containerPos.x - dx - paddingTL.x < 0) {
+	                    // left
+	                    dx = containerPos.x - paddingTL.x;
+	                }
+	                if (containerPos.y + containerHeight + paddingBR.y > size.y) {
+	                    // bottom
+	                    dy = containerPos.y + containerHeight - size.y + paddingBR.y;
+	                }
+	                if (containerPos.y - dy - paddingTL.y < 0) {
+	                    // top
+	                    dy = containerPos.y - paddingTL.y;
+	                }
+
+	                if (dx || dy) {
+	                    map.fire('autopanstart').panBy([dx, dy]);
+	                }
+	            }
+	        }
+	    });
+	})(window.leafletActiveAreaPreviousMethods);
+
+/***/ },
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37896,7 +38231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = MapViewport;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37922,7 +38257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _LeafletTilesAdapter2 = _interopRequireDefault(_LeafletTilesAdapter);
 
-	var _TilesInfo = __webpack_require__(300);
+	var _TilesInfo = __webpack_require__(301);
 
 	var _TilesInfo2 = _interopRequireDefault(_TilesInfo);
 
@@ -37935,7 +38270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37987,28 +38322,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	__webpack_require__(302);
+	__webpack_require__(303);
 
-	__webpack_require__(308);
+	__webpack_require__(309);
 
-	__webpack_require__(310);
+	__webpack_require__(311);
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(303);
+	var content = __webpack_require__(304);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(307)(content, {});
+	var update = __webpack_require__(308)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -38025,21 +38360,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(304)();
+	exports = module.exports = __webpack_require__(305)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "/* required styles */\n.leaflet-pane,\n.leaflet-tile,\n.leaflet-marker-icon,\n.leaflet-marker-shadow,\n.leaflet-tile-container,\n.leaflet-map-pane svg,\n.leaflet-map-pane canvas,\n.leaflet-zoom-box,\n.leaflet-image-layer,\n.leaflet-layer {\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n.leaflet-container {\n  overflow: hidden;\n  -ms-touch-action: none;\n  touch-action: none;\n}\n.leaflet-tile,\n.leaflet-marker-icon,\n.leaflet-marker-shadow {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  user-select: none;\n  -webkit-user-drag: none;\n}\n/* Safari renders non-retina tile on retina better with this, but Chrome is worse */\n.leaflet-safari .leaflet-tile {\n  image-rendering: -webkit-optimize-contrast;\n}\n/* hack that prevents hw layers \"stretching\" when loading new tiles */\n.leaflet-safari .leaflet-tile-container {\n  width: 1600px;\n  height: 1600px;\n  -webkit-transform-origin: 0 0;\n}\n.leaflet-marker-icon,\n.leaflet-marker-shadow {\n  display: block;\n}\n/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */\n/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */\n.leaflet-container .leaflet-overlay-pane svg,\n.leaflet-container .leaflet-marker-pane img,\n.leaflet-container .leaflet-tile-pane img,\n.leaflet-container img.leaflet-image-layer {\n  max-width: none !important;\n}\n.leaflet-tile {\n  filter: inherit;\n  visibility: hidden;\n}\n.leaflet-tile-loaded {\n  visibility: inherit;\n}\n.leaflet-zoom-box {\n  width: 0;\n  height: 0;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  z-index: 800;\n}\n/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */\n.leaflet-overlay-pane svg {\n  -moz-user-select: none;\n}\n.leaflet-pane {\n  z-index: 400;\n}\n.leaflet-tile-pane {\n  z-index: 200;\n}\n.leaflet-overlay-pane {\n  z-index: 400;\n}\n.leaflet-shadow-pane {\n  z-index: 500;\n}\n.leaflet-marker-pane {\n  z-index: 600;\n}\n.leaflet-popup-pane {\n  z-index: 700;\n}\n.leaflet-map-pane canvas {\n  z-index: 100;\n}\n.leaflet-map-pane svg {\n  z-index: 200;\n}\n.leaflet-vml-shape {\n  width: 1px;\n  height: 1px;\n}\n.lvml {\n  behavior: url(#default#VML);\n  display: inline-block;\n  position: absolute;\n}\n/* control positioning */\n.leaflet-control {\n  position: relative;\n  z-index: 800;\n  pointer-events: auto;\n}\n.leaflet-top,\n.leaflet-bottom {\n  position: absolute;\n  z-index: 1000;\n  pointer-events: none;\n}\n.leaflet-top {\n  top: 0;\n}\n.leaflet-right {\n  right: 0;\n}\n.leaflet-bottom {\n  bottom: 0;\n}\n.leaflet-left {\n  left: 0;\n}\n.leaflet-control {\n  float: left;\n  clear: both;\n}\n.leaflet-right .leaflet-control {\n  float: right;\n}\n.leaflet-top .leaflet-control {\n  margin-top: 10px;\n}\n.leaflet-bottom .leaflet-control {\n  margin-bottom: 10px;\n}\n.leaflet-left .leaflet-control {\n  margin-left: 10px;\n}\n.leaflet-right .leaflet-control {\n  margin-right: 10px;\n}\n/* zoom and fade animations */\n.leaflet-fade-anim .leaflet-tile {\n  will-change: opacity;\n}\n.leaflet-fade-anim .leaflet-popup {\n  opacity: 0;\n  -webkit-transition: opacity 0.2s linear;\n  -moz-transition: opacity 0.2s linear;\n  -o-transition: opacity 0.2s linear;\n  transition: opacity 0.2s linear;\n}\n.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {\n  opacity: 1;\n}\n.leaflet-zoom-animated {\n  -webkit-transform-origin: 0 0;\n  -ms-transform-origin: 0 0;\n  transform-origin: 0 0;\n}\n.leaflet-zoom-anim .leaflet-zoom-animated {\n  will-change: transform;\n}\n.leaflet-zoom-anim .leaflet-zoom-animated {\n  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  -o-transition: -o-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n}\n.leaflet-zoom-anim .leaflet-tile,\n.leaflet-pan-anim .leaflet-tile {\n  -webkit-transition: none;\n  -moz-transition: none;\n  -o-transition: none;\n  transition: none;\n}\n.leaflet-zoom-anim .leaflet-zoom-hide {\n  visibility: hidden;\n}\n/* cursors */\n.leaflet-interactive {\n  cursor: pointer;\n}\n.leaflet-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n}\n.leaflet-crosshair,\n.leaflet-crosshair .leaflet-interactive {\n  cursor: crosshair;\n}\n.leaflet-popup-pane,\n.leaflet-control {\n  cursor: auto;\n}\n.leaflet-dragging .leaflet-grab,\n.leaflet-dragging .leaflet-grab .leaflet-interactive,\n.leaflet-dragging .leaflet-marker-draggable {\n  cursor: move;\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n}\n/* visual tweaks */\n.leaflet-container {\n  background: #ddd;\n  outline: 0;\n}\n.leaflet-container a {\n  color: #0078A8;\n}\n.leaflet-container a.leaflet-active {\n  outline: 2px solid orange;\n}\n.leaflet-zoom-box {\n  border: 2px dotted #38f;\n  background: rgba(255, 255, 255, 0.5);\n}\n/* general typography */\n.leaflet-container {\n  font: 12px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n}\n/* general toolbar styles */\n.leaflet-bar {\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);\n  border-radius: 4px;\n}\n.leaflet-bar a,\n.leaflet-bar a:hover {\n  background-color: #fff;\n  border-bottom: 1px solid #ccc;\n  width: 26px;\n  height: 26px;\n  line-height: 26px;\n  display: block;\n  text-align: center;\n  text-decoration: none;\n  color: black;\n}\n.leaflet-bar a,\n.leaflet-control-layers-toggle {\n  background-position: 50% 50%;\n  background-repeat: no-repeat;\n  display: block;\n}\n.leaflet-bar a:hover {\n  background-color: #f4f4f4;\n}\n.leaflet-bar a:first-child {\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n}\n.leaflet-bar a:last-child {\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  border-bottom: none;\n}\n.leaflet-bar a.leaflet-disabled {\n  cursor: default;\n  background-color: #f4f4f4;\n  color: #bbb;\n}\n.leaflet-touch .leaflet-bar a {\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n}\n/* zoom control */\n.leaflet-control-zoom-in,\n.leaflet-control-zoom-out {\n  font: bold 18px 'Lucida Console', Monaco, monospace;\n  text-indent: 1px;\n}\n.leaflet-control-zoom-out {\n  font-size: 20px;\n}\n.leaflet-touch .leaflet-control-zoom-in {\n  font-size: 22px;\n}\n.leaflet-touch .leaflet-control-zoom-out {\n  font-size: 24px;\n}\n/* layers control */\n.leaflet-control-layers {\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);\n  background: #fff;\n  border-radius: 5px;\n}\n.leaflet-control-layers-toggle {\n  background-image: url(" + __webpack_require__(305) + ");\n  width: 36px;\n  height: 36px;\n}\n.leaflet-retina .leaflet-control-layers-toggle {\n  background-image: url(" + __webpack_require__(306) + ");\n  background-size: 26px 26px;\n}\n.leaflet-touch .leaflet-control-layers-toggle {\n  width: 44px;\n  height: 44px;\n}\n.leaflet-control-layers .leaflet-control-layers-list,\n.leaflet-control-layers-expanded .leaflet-control-layers-toggle {\n  display: none;\n}\n.leaflet-control-layers-expanded .leaflet-control-layers-list {\n  display: block;\n  position: relative;\n}\n.leaflet-control-layers-expanded {\n  padding: 6px 10px 6px 6px;\n  color: #333;\n  background: #fff;\n}\n.leaflet-control-layers-scrollbar {\n  overflow-y: scroll;\n  padding-right: 5px;\n}\n.leaflet-control-layers-selector {\n  margin-top: 2px;\n  position: relative;\n  top: 1px;\n}\n.leaflet-control-layers label {\n  display: block;\n}\n.leaflet-control-layers-separator {\n  height: 0;\n  border-top: 1px solid #ddd;\n  margin: 5px -10px 5px -6px;\n}\n/* attribution and scale controls */\n.leaflet-container .leaflet-control-attribution {\n  background: #fff;\n  background: rgba(255, 255, 255, 0.7);\n  margin: 0;\n}\n.leaflet-control-attribution,\n.leaflet-control-scale-line {\n  padding: 0 5px;\n  color: #333;\n}\n.leaflet-control-attribution a {\n  text-decoration: none;\n}\n.leaflet-control-attribution a:hover {\n  text-decoration: underline;\n}\n.leaflet-container .leaflet-control-attribution,\n.leaflet-container .leaflet-control-scale {\n  font-size: 11px;\n}\n.leaflet-left .leaflet-control-scale {\n  margin-left: 5px;\n}\n.leaflet-bottom .leaflet-control-scale {\n  margin-bottom: 5px;\n}\n.leaflet-control-scale-line {\n  border: 2px solid #777;\n  border-top: none;\n  line-height: 1.1;\n  padding: 2px 5px 1px;\n  font-size: 11px;\n  white-space: nowrap;\n  overflow: hidden;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  background: #fff;\n  background: rgba(255, 255, 255, 0.5);\n}\n.leaflet-control-scale-line:not(:first-child) {\n  border-top: 2px solid #777;\n  border-bottom: none;\n  margin-top: -2px;\n}\n.leaflet-control-scale-line:not(:first-child):not(:last-child) {\n  border-bottom: 2px solid #777;\n}\n.leaflet-touch .leaflet-control-attribution,\n.leaflet-touch .leaflet-control-layers,\n.leaflet-touch .leaflet-bar {\n  box-shadow: none;\n}\n.leaflet-touch .leaflet-control-layers,\n.leaflet-touch .leaflet-bar {\n  border: 2px solid rgba(0, 0, 0, 0.2);\n  background-clip: padding-box;\n}\n/* popup */\n.leaflet-popup {\n  position: absolute;\n  text-align: center;\n}\n.leaflet-popup-content-wrapper {\n  padding: 1px;\n  text-align: left;\n  border-radius: 12px;\n}\n.leaflet-popup-content {\n  margin: 13px 19px;\n  line-height: 1.4;\n}\n.leaflet-popup-content p {\n  margin: 18px 0;\n}\n.leaflet-popup-tip-container {\n  margin: 0 auto;\n  width: 40px;\n  height: 20px;\n  position: relative;\n  overflow: hidden;\n}\n.leaflet-popup-tip {\n  width: 17px;\n  height: 17px;\n  padding: 1px;\n  margin: -10px auto 0;\n  -webkit-transform: rotate(45deg);\n  -moz-transform: rotate(45deg);\n  -ms-transform: rotate(45deg);\n  -o-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.leaflet-popup-content-wrapper,\n.leaflet-popup-tip {\n  background: white;\n  color: #333;\n  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);\n}\n.leaflet-container a.leaflet-popup-close-button {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px 4px 0 0;\n  border: none;\n  text-align: center;\n  width: 18px;\n  height: 14px;\n  font: 16px/14px Tahoma, Verdana, sans-serif;\n  color: #c3c3c3;\n  text-decoration: none;\n  font-weight: bold;\n  background: transparent;\n}\n.leaflet-container a.leaflet-popup-close-button:hover {\n  color: #999;\n}\n.leaflet-popup-scrolled {\n  overflow: auto;\n  border-bottom: 1px solid #ddd;\n  border-top: 1px solid #ddd;\n}\n.leaflet-oldie .leaflet-popup-content-wrapper {\n  zoom: 1;\n}\n.leaflet-oldie .leaflet-popup-tip {\n  width: 24px;\n  margin: 0 auto;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)\";\n  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);\n}\n.leaflet-oldie .leaflet-popup-tip-container {\n  margin-top: -1px;\n}\n.leaflet-oldie .leaflet-control-zoom,\n.leaflet-oldie .leaflet-control-layers,\n.leaflet-oldie .leaflet-popup-content-wrapper,\n.leaflet-oldie .leaflet-popup-tip {\n  border: 1px solid #999;\n}\n/* div icon */\n.leaflet-div-icon {\n  background: #fff;\n  border: 1px solid #666;\n}\n", ""]);
+	exports.push([module.id, "/* required styles */\n.leaflet-pane,\n.leaflet-tile,\n.leaflet-marker-icon,\n.leaflet-marker-shadow,\n.leaflet-tile-container,\n.leaflet-map-pane svg,\n.leaflet-map-pane canvas,\n.leaflet-zoom-box,\n.leaflet-image-layer,\n.leaflet-layer {\n  position: absolute;\n  left: 0;\n  top: 0;\n}\n.leaflet-container {\n  overflow: hidden;\n  -ms-touch-action: none;\n  touch-action: none;\n}\n.leaflet-tile,\n.leaflet-marker-icon,\n.leaflet-marker-shadow {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  user-select: none;\n  -webkit-user-drag: none;\n}\n/* Safari renders non-retina tile on retina better with this, but Chrome is worse */\n.leaflet-safari .leaflet-tile {\n  image-rendering: -webkit-optimize-contrast;\n}\n/* hack that prevents hw layers \"stretching\" when loading new tiles */\n.leaflet-safari .leaflet-tile-container {\n  width: 1600px;\n  height: 1600px;\n  -webkit-transform-origin: 0 0;\n}\n.leaflet-marker-icon,\n.leaflet-marker-shadow {\n  display: block;\n}\n/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */\n/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */\n.leaflet-container .leaflet-overlay-pane svg,\n.leaflet-container .leaflet-marker-pane img,\n.leaflet-container .leaflet-tile-pane img,\n.leaflet-container img.leaflet-image-layer {\n  max-width: none !important;\n}\n.leaflet-tile {\n  filter: inherit;\n  visibility: hidden;\n}\n.leaflet-tile-loaded {\n  visibility: inherit;\n}\n.leaflet-zoom-box {\n  width: 0;\n  height: 0;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  z-index: 800;\n}\n/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */\n.leaflet-overlay-pane svg {\n  -moz-user-select: none;\n}\n.leaflet-pane {\n  z-index: 400;\n}\n.leaflet-tile-pane {\n  z-index: 200;\n}\n.leaflet-overlay-pane {\n  z-index: 400;\n}\n.leaflet-shadow-pane {\n  z-index: 500;\n}\n.leaflet-marker-pane {\n  z-index: 600;\n}\n.leaflet-popup-pane {\n  z-index: 700;\n}\n.leaflet-map-pane canvas {\n  z-index: 100;\n}\n.leaflet-map-pane svg {\n  z-index: 200;\n}\n.leaflet-vml-shape {\n  width: 1px;\n  height: 1px;\n}\n.lvml {\n  behavior: url(#default#VML);\n  display: inline-block;\n  position: absolute;\n}\n/* control positioning */\n.leaflet-control {\n  position: relative;\n  z-index: 800;\n  pointer-events: auto;\n}\n.leaflet-top,\n.leaflet-bottom {\n  position: absolute;\n  z-index: 1000;\n  pointer-events: none;\n}\n.leaflet-top {\n  top: 0;\n}\n.leaflet-right {\n  right: 0;\n}\n.leaflet-bottom {\n  bottom: 0;\n}\n.leaflet-left {\n  left: 0;\n}\n.leaflet-control {\n  float: left;\n  clear: both;\n}\n.leaflet-right .leaflet-control {\n  float: right;\n}\n.leaflet-top .leaflet-control {\n  margin-top: 10px;\n}\n.leaflet-bottom .leaflet-control {\n  margin-bottom: 10px;\n}\n.leaflet-left .leaflet-control {\n  margin-left: 10px;\n}\n.leaflet-right .leaflet-control {\n  margin-right: 10px;\n}\n/* zoom and fade animations */\n.leaflet-fade-anim .leaflet-tile {\n  will-change: opacity;\n}\n.leaflet-fade-anim .leaflet-popup {\n  opacity: 0;\n  -webkit-transition: opacity 0.2s linear;\n  -moz-transition: opacity 0.2s linear;\n  -o-transition: opacity 0.2s linear;\n  transition: opacity 0.2s linear;\n}\n.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {\n  opacity: 1;\n}\n.leaflet-zoom-animated {\n  -webkit-transform-origin: 0 0;\n  -ms-transform-origin: 0 0;\n  transform-origin: 0 0;\n}\n.leaflet-zoom-anim .leaflet-zoom-animated {\n  will-change: transform;\n}\n.leaflet-zoom-anim .leaflet-zoom-animated {\n  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  -o-transition: -o-transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);\n}\n.leaflet-zoom-anim .leaflet-tile,\n.leaflet-pan-anim .leaflet-tile {\n  -webkit-transition: none;\n  -moz-transition: none;\n  -o-transition: none;\n  transition: none;\n}\n.leaflet-zoom-anim .leaflet-zoom-hide {\n  visibility: hidden;\n}\n/* cursors */\n.leaflet-interactive {\n  cursor: pointer;\n}\n.leaflet-grab {\n  cursor: -webkit-grab;\n  cursor: -moz-grab;\n}\n.leaflet-crosshair,\n.leaflet-crosshair .leaflet-interactive {\n  cursor: crosshair;\n}\n.leaflet-popup-pane,\n.leaflet-control {\n  cursor: auto;\n}\n.leaflet-dragging .leaflet-grab,\n.leaflet-dragging .leaflet-grab .leaflet-interactive,\n.leaflet-dragging .leaflet-marker-draggable {\n  cursor: move;\n  cursor: -webkit-grabbing;\n  cursor: -moz-grabbing;\n}\n/* visual tweaks */\n.leaflet-container {\n  background: #ddd;\n  outline: 0;\n}\n.leaflet-container a {\n  color: #0078A8;\n}\n.leaflet-container a.leaflet-active {\n  outline: 2px solid orange;\n}\n.leaflet-zoom-box {\n  border: 2px dotted #38f;\n  background: rgba(255, 255, 255, 0.5);\n}\n/* general typography */\n.leaflet-container {\n  font: 12px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n}\n/* general toolbar styles */\n.leaflet-bar {\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);\n  border-radius: 4px;\n}\n.leaflet-bar a,\n.leaflet-bar a:hover {\n  background-color: #fff;\n  border-bottom: 1px solid #ccc;\n  width: 26px;\n  height: 26px;\n  line-height: 26px;\n  display: block;\n  text-align: center;\n  text-decoration: none;\n  color: black;\n}\n.leaflet-bar a,\n.leaflet-control-layers-toggle {\n  background-position: 50% 50%;\n  background-repeat: no-repeat;\n  display: block;\n}\n.leaflet-bar a:hover {\n  background-color: #f4f4f4;\n}\n.leaflet-bar a:first-child {\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n}\n.leaflet-bar a:last-child {\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  border-bottom: none;\n}\n.leaflet-bar a.leaflet-disabled {\n  cursor: default;\n  background-color: #f4f4f4;\n  color: #bbb;\n}\n.leaflet-touch .leaflet-bar a {\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n}\n/* zoom control */\n.leaflet-control-zoom-in,\n.leaflet-control-zoom-out {\n  font: bold 18px 'Lucida Console', Monaco, monospace;\n  text-indent: 1px;\n}\n.leaflet-control-zoom-out {\n  font-size: 20px;\n}\n.leaflet-touch .leaflet-control-zoom-in {\n  font-size: 22px;\n}\n.leaflet-touch .leaflet-control-zoom-out {\n  font-size: 24px;\n}\n/* layers control */\n.leaflet-control-layers {\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);\n  background: #fff;\n  border-radius: 5px;\n}\n.leaflet-control-layers-toggle {\n  background-image: url(" + __webpack_require__(306) + ");\n  width: 36px;\n  height: 36px;\n}\n.leaflet-retina .leaflet-control-layers-toggle {\n  background-image: url(" + __webpack_require__(307) + ");\n  background-size: 26px 26px;\n}\n.leaflet-touch .leaflet-control-layers-toggle {\n  width: 44px;\n  height: 44px;\n}\n.leaflet-control-layers .leaflet-control-layers-list,\n.leaflet-control-layers-expanded .leaflet-control-layers-toggle {\n  display: none;\n}\n.leaflet-control-layers-expanded .leaflet-control-layers-list {\n  display: block;\n  position: relative;\n}\n.leaflet-control-layers-expanded {\n  padding: 6px 10px 6px 6px;\n  color: #333;\n  background: #fff;\n}\n.leaflet-control-layers-scrollbar {\n  overflow-y: scroll;\n  padding-right: 5px;\n}\n.leaflet-control-layers-selector {\n  margin-top: 2px;\n  position: relative;\n  top: 1px;\n}\n.leaflet-control-layers label {\n  display: block;\n}\n.leaflet-control-layers-separator {\n  height: 0;\n  border-top: 1px solid #ddd;\n  margin: 5px -10px 5px -6px;\n}\n/* attribution and scale controls */\n.leaflet-container .leaflet-control-attribution {\n  background: #fff;\n  background: rgba(255, 255, 255, 0.7);\n  margin: 0;\n}\n.leaflet-control-attribution,\n.leaflet-control-scale-line {\n  padding: 0 5px;\n  color: #333;\n}\n.leaflet-control-attribution a {\n  text-decoration: none;\n}\n.leaflet-control-attribution a:hover {\n  text-decoration: underline;\n}\n.leaflet-container .leaflet-control-attribution,\n.leaflet-container .leaflet-control-scale {\n  font-size: 11px;\n}\n.leaflet-left .leaflet-control-scale {\n  margin-left: 5px;\n}\n.leaflet-bottom .leaflet-control-scale {\n  margin-bottom: 5px;\n}\n.leaflet-control-scale-line {\n  border: 2px solid #777;\n  border-top: none;\n  line-height: 1.1;\n  padding: 2px 5px 1px;\n  font-size: 11px;\n  white-space: nowrap;\n  overflow: hidden;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  background: #fff;\n  background: rgba(255, 255, 255, 0.5);\n}\n.leaflet-control-scale-line:not(:first-child) {\n  border-top: 2px solid #777;\n  border-bottom: none;\n  margin-top: -2px;\n}\n.leaflet-control-scale-line:not(:first-child):not(:last-child) {\n  border-bottom: 2px solid #777;\n}\n.leaflet-touch .leaflet-control-attribution,\n.leaflet-touch .leaflet-control-layers,\n.leaflet-touch .leaflet-bar {\n  box-shadow: none;\n}\n.leaflet-touch .leaflet-control-layers,\n.leaflet-touch .leaflet-bar {\n  border: 2px solid rgba(0, 0, 0, 0.2);\n  background-clip: padding-box;\n}\n/* popup */\n.leaflet-popup {\n  position: absolute;\n  text-align: center;\n}\n.leaflet-popup-content-wrapper {\n  padding: 1px;\n  text-align: left;\n  border-radius: 12px;\n}\n.leaflet-popup-content {\n  margin: 13px 19px;\n  line-height: 1.4;\n}\n.leaflet-popup-content p {\n  margin: 18px 0;\n}\n.leaflet-popup-tip-container {\n  margin: 0 auto;\n  width: 40px;\n  height: 20px;\n  position: relative;\n  overflow: hidden;\n}\n.leaflet-popup-tip {\n  width: 17px;\n  height: 17px;\n  padding: 1px;\n  margin: -10px auto 0;\n  -webkit-transform: rotate(45deg);\n  -moz-transform: rotate(45deg);\n  -ms-transform: rotate(45deg);\n  -o-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.leaflet-popup-content-wrapper,\n.leaflet-popup-tip {\n  background: white;\n  color: #333;\n  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);\n}\n.leaflet-container a.leaflet-popup-close-button {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px 4px 0 0;\n  border: none;\n  text-align: center;\n  width: 18px;\n  height: 14px;\n  font: 16px/14px Tahoma, Verdana, sans-serif;\n  color: #c3c3c3;\n  text-decoration: none;\n  font-weight: bold;\n  background: transparent;\n}\n.leaflet-container a.leaflet-popup-close-button:hover {\n  color: #999;\n}\n.leaflet-popup-scrolled {\n  overflow: auto;\n  border-bottom: 1px solid #ddd;\n  border-top: 1px solid #ddd;\n}\n.leaflet-oldie .leaflet-popup-content-wrapper {\n  zoom: 1;\n}\n.leaflet-oldie .leaflet-popup-tip {\n  width: 24px;\n  margin: 0 auto;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)\";\n  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);\n}\n.leaflet-oldie .leaflet-popup-tip-container {\n  margin-top: -1px;\n}\n.leaflet-oldie .leaflet-control-zoom,\n.leaflet-oldie .leaflet-control-layers,\n.leaflet-oldie .leaflet-popup-content-wrapper,\n.leaflet-oldie .leaflet-popup-tip {\n  border: 1px solid #999;\n}\n/* div icon */\n.leaflet-div-icon {\n  background: #fff;\n  border: 1px solid #666;\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports) {
 
 	/*
@@ -38094,19 +38429,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -38331,16 +38666,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(309);
+	var content = __webpack_require__(310);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(307)(content, {});
+	var update = __webpack_require__(308)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -38357,10 +38692,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(304)();
+	exports = module.exports = __webpack_require__(305)();
 	// imports
 
 
@@ -38371,16 +38706,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(311);
+	var content = __webpack_require__(312);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(307)(content, {});
+	var update = __webpack_require__(308)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -38397,10 +38732,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(304)();
+	exports = module.exports = __webpack_require__(305)();
 	// imports
 
 
@@ -38411,7 +38746,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38449,13 +38784,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(314);
+	var content = __webpack_require__(315);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(235)(content, {});
@@ -38475,7 +38810,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(234)();
@@ -38489,7 +38824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38529,7 +38864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38544,7 +38879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _superagent = __webpack_require__(317);
+	var _superagent = __webpack_require__(318);
 
 	var _superagent2 = _interopRequireDefault(_superagent);
 
@@ -38579,7 +38914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -38588,8 +38923,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var Emitter = __webpack_require__(318);
-	var reduce = __webpack_require__(319);
+	var Emitter = __webpack_require__(319);
+	var reduce = __webpack_require__(320);
 
 	/**
 	 * Root reference for iframes.
@@ -39789,7 +40124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = request;
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports) {
 
 	
@@ -39955,7 +40290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports) {
 
 	
@@ -39984,7 +40319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40005,19 +40340,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _ismobilejs = __webpack_require__(321);
+	var _ismobilejs = __webpack_require__(322);
 
 	var _ismobilejs2 = _interopRequireDefault(_ismobilejs);
 
-	var _mosaicAppCore = __webpack_require__(322);
+	var _mosaicAppCore = __webpack_require__(323);
 
 	var _mosaicDatasetFacets = __webpack_require__(10);
 
-	var _DataLoader = __webpack_require__(316);
+	var _DataLoader = __webpack_require__(317);
 
 	var _DataLoader2 = _interopRequireDefault(_DataLoader);
 
-	var _MainLabels = __webpack_require__(340);
+	var _MainLabels = __webpack_require__(341);
 
 	var _MainLabels2 = _interopRequireDefault(_MainLabels);
 
@@ -40025,7 +40360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _uiAppScreen2 = _interopRequireDefault(_uiAppScreen);
 
-	var _uiIndexingProgressListener = __webpack_require__(315);
+	var _uiIndexingProgressListener = __webpack_require__(316);
 
 	var _uiIndexingProgressListener2 = _interopRequireDefault(_uiIndexingProgressListener);
 
@@ -40222,7 +40557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -40356,7 +40691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(undefined);
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40367,23 +40702,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _libAppRouter = __webpack_require__(323);
+	var _libAppRouter = __webpack_require__(324);
 
 	var _libAppRouter2 = _interopRequireDefault(_libAppRouter);
 
-	var _libApplication = __webpack_require__(327);
+	var _libApplication = __webpack_require__(328);
 
 	var _libApplication2 = _interopRequireDefault(_libApplication);
 
-	var _libAppModule = __webpack_require__(330);
+	var _libAppModule = __webpack_require__(331);
 
 	var _libAppModule2 = _interopRequireDefault(_libAppModule);
 
-	var _libAppNavigation = __webpack_require__(331);
+	var _libAppNavigation = __webpack_require__(332);
 
 	var _libAppNavigation2 = _interopRequireDefault(_libAppNavigation);
 
-	var _libBrowserNavigation = __webpack_require__(332);
+	var _libBrowserNavigation = __webpack_require__(333);
 
 	var _libBrowserNavigation2 = _interopRequireDefault(_libBrowserNavigation);
 
@@ -40397,7 +40732,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40416,7 +40751,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _promise2 = _interopRequireDefault(_promise);
 
-	var _mosaicPathmapper = __webpack_require__(324);
+	var _mosaicPathmapper = __webpack_require__(325);
 
 	/**
 	 * This class allows to activate/deactivate/update modules associated with the
@@ -40591,7 +40926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40602,11 +40937,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _libPathMapper = __webpack_require__(325);
+	var _libPathMapper = __webpack_require__(326);
 
 	var _libPathMapper2 = _interopRequireDefault(_libPathMapper);
 
-	var _libPathFormatter = __webpack_require__(326);
+	var _libPathFormatter = __webpack_require__(327);
 
 	var _libPathFormatter2 = _interopRequireDefault(_libPathFormatter);
 
@@ -40617,7 +40952,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports) {
 
 	/**
@@ -40770,7 +41105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40837,7 +41172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40860,13 +41195,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _mosaicAdapters = __webpack_require__(12);
 
-	var _mosaicPathmapper = __webpack_require__(324);
+	var _mosaicPathmapper = __webpack_require__(325);
 
-	var _mosaicI18n = __webpack_require__(328);
+	var _mosaicI18n = __webpack_require__(329);
 
 	var _mosaicIntents = __webpack_require__(20);
 
-	var _AppRouter = __webpack_require__(323);
+	var _AppRouter = __webpack_require__(324);
 
 	var _AppRouter2 = _interopRequireDefault(_AppRouter);
 
@@ -41055,7 +41390,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41066,7 +41401,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _libI18N = __webpack_require__(329);
+	var _libI18N = __webpack_require__(330);
 
 	var _libI18N2 = _interopRequireDefault(_libI18N);
 
@@ -41076,7 +41411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -41236,7 +41571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41291,7 +41626,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41310,11 +41645,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _promise2 = _interopRequireDefault(_promise);
 
-	var _mosaicPathmapper = __webpack_require__(324);
+	var _mosaicPathmapper = __webpack_require__(325);
 
 	var _mosaicIntents = __webpack_require__(20);
 
-	var _AppRouter = __webpack_require__(323);
+	var _AppRouter = __webpack_require__(324);
 
 	var _AppRouter2 = _interopRequireDefault(_AppRouter);
 
@@ -41396,7 +41731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 332 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41415,7 +41750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _promise2 = _interopRequireDefault(_promise);
 
-	var _NavigationBar = __webpack_require__(333);
+	var _NavigationBar = __webpack_require__(334);
 
 	var _NavigationBar2 = _interopRequireDefault(_NavigationBar);
 
@@ -41505,7 +41840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41520,7 +41855,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _url = __webpack_require__(334);
+	var _url = __webpack_require__(335);
 
 	var _url2 = _interopRequireDefault(_url);
 
@@ -41629,7 +41964,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -41655,7 +41990,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var punycode = __webpack_require__(335);
+	var punycode = __webpack_require__(336);
 
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -41731,7 +42066,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  'gopher:': true,
 	  'file:': true
 	},
-	    querystring = __webpack_require__(337);
+	    querystring = __webpack_require__(338);
 
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -42315,7 +42650,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -42845,10 +43180,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			root.punycode = punycode;
 		}
 	})(undefined);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(336)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(337)(module), (function() { return this; }())))
 
 /***/ },
-/* 336 */
+/* 337 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42865,16 +43200,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 337 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	exports.decode = exports.parse = __webpack_require__(338);
-	exports.encode = exports.stringify = __webpack_require__(339);
+	exports.decode = exports.parse = __webpack_require__(339);
+	exports.encode = exports.stringify = __webpack_require__(340);
 
 /***/ },
-/* 338 */
+/* 339 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -42962,7 +43297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 339 */
+/* 340 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -43029,7 +43364,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 340 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
