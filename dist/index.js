@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("react"), require("leaflet")) : factory(root["react"], root["leaflet"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_56__, __WEBPACK_EXTERNAL_MODULE_276__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_56__, __WEBPACK_EXTERNAL_MODULE_244__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -30817,7 +30817,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            selectedItems: this.model.openItems,
 	            dataSet: this._layers,
 	            maxZoom: 18,
-	            onMoveEnd: this._onMapMove
+	            onMoveEnd: this._onMapMove,
+	            style: this.props.style
 	        });
 	    }
 
@@ -30932,23 +30933,39 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _libDataSetLeafletAdapter = __webpack_require__(243);
+	var _libAbstractDataSetLeaflet = __webpack_require__(243);
+
+	var _libAbstractDataSetLeaflet2 = _interopRequireDefault(_libAbstractDataSetLeaflet);
+
+	var _libBasicDataSetCanvasStyle = __webpack_require__(268);
+
+	var _libBasicDataSetCanvasStyle2 = _interopRequireDefault(_libBasicDataSetCanvasStyle);
+
+	var _libDataSetCanvasLeafletLayer = __webpack_require__(286);
+
+	var _libDataSetCanvasLeafletLayer2 = _interopRequireDefault(_libDataSetCanvasLeafletLayer);
+
+	var _libDataSetCanvasStyle = __webpack_require__(269);
+
+	var _libDataSetCanvasStyle2 = _interopRequireDefault(_libDataSetCanvasStyle);
+
+	var _libDataSetLeafletAdapter = __webpack_require__(287);
 
 	var _libDataSetLeafletAdapter2 = _interopRequireDefault(_libDataSetLeafletAdapter);
 
-	var _libDataSetLeafletLayer = __webpack_require__(278);
+	var _libDataSetLeafletLayer = __webpack_require__(298);
 
 	var _libDataSetLeafletLayer2 = _interopRequireDefault(_libDataSetLeafletLayer);
 
-	var _libDataSetLeafletUtils = __webpack_require__(279);
+	var _libDataSetLeafletUtils = __webpack_require__(299);
 
 	var _libDataSetLeafletUtils2 = _interopRequireDefault(_libDataSetLeafletUtils);
 
-	var _libLeafletAdapter = __webpack_require__(244);
+	var _libLeafletAdapter = __webpack_require__(288);
 
 	var _libLeafletAdapter2 = _interopRequireDefault(_libLeafletAdapter);
 
-	var _libLeafletClusterAdapter = __webpack_require__(283);
+	var _libLeafletClusterAdapter = __webpack_require__(302);
 
 	var _libLeafletClusterAdapter2 = _interopRequireDefault(_libLeafletClusterAdapter);
 
@@ -30956,7 +30973,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _libLeafletInteractionLayer2 = _interopRequireDefault(_libLeafletInteractionLayer);
 
-	var _libLeafletPopupAdapter = __webpack_require__(277);
+	var _libLeafletPopupAdapter = __webpack_require__(297);
 
 	var _libLeafletPopupAdapter2 = _interopRequireDefault(_libLeafletPopupAdapter);
 
@@ -30989,6 +31006,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _libTilesInfo2 = _interopRequireDefault(_libTilesInfo);
 
 	exports['default'] = {
+	    AbstractDataSetLeaflet: _libAbstractDataSetLeaflet2['default'],
+	    BasicDataSetCanvasStyle: _libBasicDataSetCanvasStyle2['default'],
+	    DataSetCanvasLeafletLayer: _libDataSetCanvasLeafletLayer2['default'],
+	    DataSetCanvasStyle: _libDataSetCanvasStyle2['default'],
 	    DataSetLeafletAdapter: _libDataSetLeafletAdapter2['default'],
 	    DataSetLeafletLayer: _libDataSetLeafletLayer2['default'],
 	    DataSetLeafletUtils: _libDataSetLeafletUtils2['default'],
@@ -31027,329 +31048,95 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _LeafletAdapter2 = __webpack_require__(244);
+	var _leaflet = __webpack_require__(244);
 
-	var _LeafletAdapter3 = _interopRequireDefault(_LeafletAdapter2);
+	var _leaflet2 = _interopRequireDefault(_leaflet);
 
-	var _DataSetLeafletLayer = __webpack_require__(278);
+	var _mosaicDataset = __webpack_require__(245);
 
-	var _DataSetLeafletLayer2 = _interopRequireDefault(_DataSetLeafletLayer);
+	exports['default'] = function (Parent) {
+	    return (function (_Parent) {
+	        _inherits(AbstractDataSetLeaflet, _Parent);
 
-	var _DataSetClusteredLeafletLayer = __webpack_require__(281);
+	        function AbstractDataSetLeaflet(options) {
+	            _classCallCheck(this, AbstractDataSetLeaflet);
 
-	var _DataSetClusteredLeafletLayer2 = _interopRequireDefault(_DataSetClusteredLeafletLayer);
-
-	var _DataSetCanvasLeafletLayer = __webpack_require__(284);
-
-	var _DataSetCanvasLeafletLayer2 = _interopRequireDefault(_DataSetCanvasLeafletLayer);
-
-	var DataSetLeafletAdapter = (function (_LeafletAdapter) {
-	    _inherits(DataSetLeafletAdapter, _LeafletAdapter);
-
-	    function DataSetLeafletAdapter() {
-	        _classCallCheck(this, DataSetLeafletAdapter);
-
-	        _get(Object.getPrototypeOf(DataSetLeafletAdapter.prototype), 'constructor', this).apply(this, arguments);
-	    }
-
-	    _createClass(DataSetLeafletAdapter, [{
-	        key: 'newMarker',
-	        value: function newMarker() {
-	            return null;
+	            _get(Object.getPrototypeOf(AbstractDataSetLeaflet.prototype), 'constructor', this).call(this, options);
+	            _leaflet2['default'].setOptions(this, options);
+	            this._constructorOptions = options;
+	            this.dataSet = options.dataSet;
+	            this.selectedItems = options.selectedItems;
+	            this._onDataSetUpdate = this._onDataSetUpdate.bind(this);
+	            this._onSelectionUpdate = this._onSelectionUpdate.bind(this);
+	            this._redrawLayers = this._redrawLayers.bind(this);
+	            this._updateSelection = this._updateSelection.bind(this);
 	        }
 
-	        /**
-	         * Returns a leaflet layer corresponding to the underlying item.
-	         */
-	    }, {
-	        key: 'newLeafletLayer',
-	        value: function newLeafletLayer() {
-	            var dataSet = this.dataSet;
-	            var LayerType = undefined;
-	            if (dataSet.options.canvas) {
-	                LayerType = _DataSetCanvasLeafletLayer2['default'];
-	            } else if (dataSet.options.cluster) {
-	                LayerType = _DataSetClusteredLeafletLayer2['default'];
-	            } else {
-	                LayerType = _DataSetLeafletLayer2['default'];
+	        _createClass(AbstractDataSetLeaflet, [{
+	            key: 'onAdd',
+	            value: function onAdd() {
+	                for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+	                    params[_key] = arguments[_key];
+	                }
+
+	                _get(Object.getPrototypeOf(AbstractDataSetLeaflet.prototype), 'onAdd', this).apply(this, params);
+	                this.dataSet.addListener('update', this._onDataSetUpdate);
+	                if (this.selectedItems) {
+	                    this.selectedItems.addListener('update', this._onSelectionUpdate);
+	                }
+	                this._redrawLayers({
+	                    added: this.dataSet.items,
+	                    removed: [],
+	                    updated: []
+	                });
 	            }
+	        }, {
+	            key: 'onRemove',
+	            value: function onRemove() {
+	                this.dataSet.removeListener('update', this._onDataSetUpdate);
+	                if (this.selectedItems) {
+	                    this.selectedItems.removeListener('update', this._onSelectionUpdate);
+	                }
 
-	            var options = {};
-	            for (var key in this.options) {
-	                options[key] = this.options[key];
+	                for (var _len2 = arguments.length, params = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	                    params[_key2] = arguments[_key2];
+	                }
+
+	                _get(Object.getPrototypeOf(AbstractDataSetLeaflet.prototype), 'onRemove', this).apply(this, params);
 	            }
-	            options.dataSet = dataSet;
-	            return new LayerType(options);
-	        }
-	    }, {
-	        key: 'dataSet',
-	        get: function get() {
-	            return this.item;
-	        }
-	    }]);
+	        }, {
+	            key: '_onDataSetUpdate',
+	            value: function _onDataSetUpdate(intent) {
+	                _mosaicDataset.DataSet.diff(this.dataSet, intent).then(this._redrawLayers);
+	            }
+	        }, {
+	            key: '_onSelectionUpdate',
+	            value: function _onSelectionUpdate(intent) {
+	                _mosaicDataset.DataSet.diff(this.selectedItems, intent).then(this._updateSelection);
+	            }
+	        }, {
+	            key: '_redrawLayers',
+	            value: function _redrawLayers(diff) {
+	                throw new Error('Not implemented');
+	            }
+	        }, {
+	            key: '_updateSelection',
+	            value: function _updateSelection(diff) {
+	                throw new Error('Not implemented');
+	            }
+	        }]);
 
-	    return DataSetLeafletAdapter;
-	})(_LeafletAdapter3['default']);
+	        return AbstractDataSetLeaflet;
+	    })(Parent);
+	};
 
-	exports['default'] = DataSetLeafletAdapter;
 	module.exports = exports['default'];
 
 /***/ },
 /* 244 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var _mosaicIntents = __webpack_require__(245);
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	var _mosaicDatasetGeo = __webpack_require__(268);
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	var _LeafletPopupAdapter = __webpack_require__(277);
-
-	var _LeafletPopupAdapter2 = _interopRequireDefault(_LeafletPopupAdapter);
-
-	var LeafletAdapter = (function () {
-	    function LeafletAdapter(options, item) {
-	        _classCallCheck(this, LeafletAdapter);
-
-	        this.options = options || {};
-	        this.item = item || this.options.item;
-	    }
-
-	    _createClass(LeafletAdapter, [{
-	        key: '_getPopupOffset',
-	        value: function _getPopupOffset(layer) {
-	            // Calculate the popup offset
-	            var anchor = undefined;
-	            if (layer._getPopupAnchor) {
-	                anchor = layer._getPopupAnchor();
-	            } else if (layer.options.icon) {
-	                anchor = layer.options.icon.options.popupAnchor;
-	            }
-	            if (!anchor) {
-	                anchor = [0, 0];
-	            }
-	            var offset = _leaflet2['default'].Popup.prototype.options.offset;
-	            offset = _leaflet2['default'].point(anchor).add(offset);
-	            return offset;
-	        }
-	    }, {
-	        key: '_openPopup',
-	        value: function _openPopup(layer) {
-	            var that = this;
-	            var intent = new _mosaicIntents.Intent({}, 'popup');
-	            that._closePopup(layer).then(function () {
-	                if (intent.handled) return;
-	                if (!layer._popup) {
-	                    layer._popup = new _leaflet2['default'].Popup({
-	                        autoClose: true,
-	                        closeOnClick: true,
-	                        // keepInView : true,
-	                        closeButton: true
-	                    }, layer);
-	                }
-	                var latlng = undefined;
-	                if (layer.getCenter) {
-	                    latlng = layer.getCenter();
-	                } else if (layer.getLatLng) {
-	                    latlng = layer.getLatLng();
-	                } else {
-	                    latlng = that._getMarkerCoordinates();
-	                }
-
-	                layer._popup.options.offset = that._getPopupOffset(layer);
-	                layer._popup.once('close', function () {
-	                    intent.resolve(true);
-	                });
-	                //
-	                layer._popup.setLatLng(latlng);
-	                layer._popup.update();
-
-	                var popupAdapter = that.item.getAdapter(_LeafletPopupAdapter2['default']);
-	                var popupContent = popupAdapter.renderPopupContent({
-	                    latlng: latlng
-	                });
-	                layer._popup.setContent(popupContent);
-
-	                var onClose = undefined;
-	                if (typeof layer.bindPopup) {
-	                    layer.bindPopup(layer._popup);
-	                    layer.openPopup();
-	                    onClose = function () {
-	                        layer.closePopup();
-	                    };
-	                } else {
-	                    (function () {
-	                        var map = layer._map;
-	                        onClose = function () {
-	                            map.removeLayer(layer._popup);
-	                        };
-	                        map.addLayer(layer._popup);
-	                    })();
-	                }
-	                layer._popupIntent = intent;
-	                intent.then(function () {
-	                    delete layer._popupIntent;
-	                });
-	                intent.after(onClose, onClose);
-	            });
-	            return intent;
-	        }
-	    }, {
-	        key: '_closePopup',
-	        value: function _closePopup(layer) {
-	            var promise = undefined;
-	            if (layer._popupIntent) {
-	                promise = layer._popupIntent.promise;
-	                layer._popupIntent.resolve();
-	            } else {
-	                promise = Promise.resolve();
-	            }
-	            return promise;
-	        }
-	    }, {
-	        key: 'selectLayer',
-	        value: function selectLayer(layer) {
-	            return this._openPopup(layer);
-	        }
-	    }, {
-	        key: 'deselectLayer',
-	        value: function deselectLayer(layer) {
-	            return this._closePopup(layer);
-	        }
-
-	        /**
-	         * Returns a Laflet L.LatLng object with coordinates of the marker position
-	         * for this resource.
-	         */
-	    }, {
-	        key: '_getMarkerCoordinates',
-	        value: function _getMarkerCoordinates() {
-	            var data = this.item.data;
-	            if (data.type !== 'Feature') return;
-	            if (!data.geometry || !data.geometry.type) return;
-	            var adapter = this.item.getAdapter(_mosaicDatasetGeo.GeoJsonAdapter);
-	            var center = adapter.center;
-	            return _leaflet2['default'].latLng([center[1], center[0]]);
-	        }
-
-	        /**
-	         * Returns a marker corresponding to the underlying resource.
-	         */
-	    }, {
-	        key: 'newMarker',
-	        value: function newMarker() {
-	            var latlng = this._getMarkerCoordinates();
-	            var options = {};
-	            for (var key in this.options) {
-	                options[key] = this.options[key];
-	            }
-	            var radius = 20;
-	            var icon = new MarkerIcon({
-	                // radius : radius + 'px',
-	                // iconAnchor: [radius / 2, 0],
-	                style: {
-	                    border: '2px solid gray',
-	                    backgroundColor: 'white'
-	                }
-	            });
-	            var marker = _leaflet2['default'].marker(latlng, {
-	                icon: icon,
-	                riseOnHover: true
-	            });
-	            return marker;
-	        }
-
-	        /**
-	         * Returns a leaflet layer corresponding to the underlying data item.
-	         */
-	    }, {
-	        key: 'newLeafletLayer',
-	        value: function newLeafletLayer() {
-	            var data = this.item.data;
-	            var options = {
-	                pointToLayer: (function (json) {
-	                    return this.newMarker();
-	                }).bind(this),
-	                coordsToLatLng: _leaflet2['default'].GeoJSON.coordsToLatLng
-	            };
-	            var result = _leaflet2['default'].GeoJSON.geometryToLayer(data, options);
-	            var selectedItems = this.options.selectedItems;
-	            if (result && selectedItems) {
-	                result.on('click', (function (ev) {
-	                    selectedItems.toggle(this.item);
-	                }).bind(this));
-	            }
-	            return result;
-	        }
-	    }, {
-	        key: 'deleteLeafletLayer',
-	        value: function deleteLeafletLayer(layer) {
-	            this.deselectLayer(layer);
-	        }
-	    }]);
-
-	    return LeafletAdapter;
-	})();
-
-	exports['default'] = LeafletAdapter;
-
-	var MarkerIcon = (function (_L$DivIcon) {
-	    _inherits(MarkerIcon, _L$DivIcon);
-
-	    function MarkerIcon(options) {
-	        _classCallCheck(this, MarkerIcon);
-
-	        _get(Object.getPrototypeOf(MarkerIcon.prototype), 'constructor', this).call(this, options);
-	    }
-
-	    _createClass(MarkerIcon, [{
-	        key: 'createIcon',
-	        value: function createIcon(oldIcon) {
-	            var icon = _get(Object.getPrototypeOf(MarkerIcon.prototype), 'createIcon', this).call(this, oldIcon);
-	            var radius = this.options.radius || '25px';
-	            icon.style.border = '1px solid gray';
-	            icon.style.background = 'white'; // 'transparent';
-	            icon.style.width = radius;
-	            icon.style.height = radius;
-	            icon.style.WebkitBorderRadius = radius;
-	            icon.style.MozBorderRadius = radius;
-	            icon.style.borderRadius = radius;
-	            if (this.options.style) {
-	                for (var key in this.options.style) {
-	                    icon.style[key] = this.options.style[key];
-	                }
-	            }
-
-	            return icon;
-	        }
-	    }]);
-
-	    return MarkerIcon;
-	})(_leaflet2['default'].DivIcon);
-
-	LeafletAdapter.MarkerIcon = MarkerIcon;
-	module.exports = exports['default'];
+	module.exports = __WEBPACK_EXTERNAL_MODULE_244__;
 
 /***/ },
 /* 245 */
@@ -31363,1393 +31150,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _libIntent = __webpack_require__(246);
-
-	var _libIntent2 = _interopRequireDefault(_libIntent);
-
-	var _libIntents = __webpack_require__(258);
-
-	var _libIntents2 = _interopRequireDefault(_libIntents);
-
-	var _libSingleton = __webpack_require__(259);
-
-	var _libSingleton2 = _interopRequireDefault(_libSingleton);
-
-	exports['default'] = {
-	    Intent: _libIntent2['default'],
-	    Intents: _libIntents2['default'],
-	    Singleton: _libSingleton2['default']
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _promise = __webpack_require__(247);
-
-	var _promise2 = _interopRequireDefault(_promise);
-
-	var _events = __webpack_require__(257);
-
-	var Intent = (function (_EventEmitter) {
-	    _inherits(Intent, _EventEmitter);
-
-	    function Intent(params, key) {
-	        _classCallCheck(this, Intent);
-
-	        _get(Object.getPrototypeOf(Intent.prototype), 'constructor', this).call(this);
-	        var that = this;
-	        that.params = params;
-	        if (key) {
-	            that.key = key;
-	        }
-	        that.handled = false;
-	        that._after = [];
-	        that._innerPromise = new _promise2['default'](function (resolve, reject) {
-	            that.resolve = function (result) {
-	                that.handled = true;
-	                resolve(result);
-	                return that;
-	            };
-	            that.reject = function (err) {
-	                that.handled = true;
-	                reject(err);
-	                return that;
-	            };
-	        });
-	        that.promise = that._innerPromise.then(function (res) {
-	            if (that._after.length) {
-	                return _promise2['default'].all(that._after).then(function () {
-	                    return res;
-	                }, function (err) {
-	                    throw err;
-	                });
-	            }
-	            return res;
-	        });
-	        that.finalize = that['finally'] = function (method) {
-	            return that.then(function (result) {
-	                try {
-	                    method(null, result);
-	                } catch (e) {}
-	                return result;
-	            }, function (err) {
-	                try {
-	                    method(err);
-	                } catch (e) {}
-	                throw err;
-	            });
-	        };
-	    }
-
-	    _createClass(Intent, [{
-	        key: 'then',
-	        value: function then(onResolve, onReject) {
-	            return this.promise.then(onResolve, onReject);
-	        }
-
-	        /**
-	         * The specified action will be executed just after the main promise is
-	         * resolved.
-	         */
-	    }, {
-	        key: 'after',
-	        value: function after(onResolve, onReject) {
-	            var res = this._innerPromise.then(onResolve, onReject);
-	            this._after.push(res);
-	            return res;
-	        }
-	    }]);
-
-	    return Intent;
-	})(_events.EventEmitter);
-
-	exports['default'] = Intent;
-	module.exports = exports['default'];
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	module.exports = __webpack_require__(248);
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	module.exports = __webpack_require__(249);
-	__webpack_require__(251);
-	__webpack_require__(252);
-	__webpack_require__(253);
-	__webpack_require__(254);
-	__webpack_require__(256);
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var asap = __webpack_require__(250);
-
-	function noop() {}
-
-	// States:
-	//
-	// 0 - pending
-	// 1 - fulfilled with _value
-	// 2 - rejected with _value
-	// 3 - adopted the state of another promise, _value
-	//
-	// once the state is no longer pending (0) it is immutable
-
-	// All `_` prefixed properties will be reduced to `_{random number}`
-	// at build time to obfuscate them and discourage their use.
-	// We don't use symbols or Object.defineProperty to fully hide them
-	// because the performance isn't good enough.
-
-	// to avoid using try/catch inside critical functions, we
-	// extract them to here.
-	var LAST_ERROR = null;
-	var IS_ERROR = {};
-	function getThen(obj) {
-	  try {
-	    return obj.then;
-	  } catch (ex) {
-	    LAST_ERROR = ex;
-	    return IS_ERROR;
-	  }
-	}
-
-	function tryCallOne(fn, a) {
-	  try {
-	    return fn(a);
-	  } catch (ex) {
-	    LAST_ERROR = ex;
-	    return IS_ERROR;
-	  }
-	}
-	function tryCallTwo(fn, a, b) {
-	  try {
-	    fn(a, b);
-	  } catch (ex) {
-	    LAST_ERROR = ex;
-	    return IS_ERROR;
-	  }
-	}
-
-	module.exports = Promise;
-
-	function Promise(fn) {
-	  if (typeof this !== 'object') {
-	    throw new TypeError('Promises must be constructed via new');
-	  }
-	  if (typeof fn !== 'function') {
-	    throw new TypeError('not a function');
-	  }
-	  this._45 = 0;
-	  this._81 = 0;
-	  this._65 = null;
-	  this._54 = null;
-	  if (fn === noop) return;
-	  doResolve(fn, this);
-	}
-	Promise._10 = null;
-	Promise._97 = null;
-	Promise._61 = noop;
-
-	Promise.prototype.then = function (onFulfilled, onRejected) {
-	  if (this.constructor !== Promise) {
-	    return safeThen(this, onFulfilled, onRejected);
-	  }
-	  var res = new Promise(noop);
-	  handle(this, new Handler(onFulfilled, onRejected, res));
-	  return res;
-	};
-
-	function safeThen(self, onFulfilled, onRejected) {
-	  return new self.constructor(function (resolve, reject) {
-	    var res = new Promise(noop);
-	    res.then(resolve, reject);
-	    handle(self, new Handler(onFulfilled, onRejected, res));
-	  });
-	};
-	function handle(self, deferred) {
-	  while (self._81 === 3) {
-	    self = self._65;
-	  }
-	  if (Promise._10) {
-	    Promise._10(self);
-	  }
-	  if (self._81 === 0) {
-	    if (self._45 === 0) {
-	      self._45 = 1;
-	      self._54 = deferred;
-	      return;
-	    }
-	    if (self._45 === 1) {
-	      self._45 = 2;
-	      self._54 = [self._54, deferred];
-	      return;
-	    }
-	    self._54.push(deferred);
-	    return;
-	  }
-	  handleResolved(self, deferred);
-	}
-
-	function handleResolved(self, deferred) {
-	  asap(function () {
-	    var cb = self._81 === 1 ? deferred.onFulfilled : deferred.onRejected;
-	    if (cb === null) {
-	      if (self._81 === 1) {
-	        resolve(deferred.promise, self._65);
-	      } else {
-	        reject(deferred.promise, self._65);
-	      }
-	      return;
-	    }
-	    var ret = tryCallOne(cb, self._65);
-	    if (ret === IS_ERROR) {
-	      reject(deferred.promise, LAST_ERROR);
-	    } else {
-	      resolve(deferred.promise, ret);
-	    }
-	  });
-	}
-	function resolve(self, newValue) {
-	  // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-	  if (newValue === self) {
-	    return reject(self, new TypeError('A promise cannot be resolved with itself.'));
-	  }
-	  if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
-	    var then = getThen(newValue);
-	    if (then === IS_ERROR) {
-	      return reject(self, LAST_ERROR);
-	    }
-	    if (then === self.then && newValue instanceof Promise) {
-	      self._81 = 3;
-	      self._65 = newValue;
-	      finale(self);
-	      return;
-	    } else if (typeof then === 'function') {
-	      doResolve(then.bind(newValue), self);
-	      return;
-	    }
-	  }
-	  self._81 = 1;
-	  self._65 = newValue;
-	  finale(self);
-	}
-
-	function reject(self, newValue) {
-	  self._81 = 2;
-	  self._65 = newValue;
-	  if (Promise._97) {
-	    Promise._97(self, newValue);
-	  }
-	  finale(self);
-	}
-	function finale(self) {
-	  if (self._45 === 1) {
-	    handle(self, self._54);
-	    self._54 = null;
-	  }
-	  if (self._45 === 2) {
-	    for (var i = 0; i < self._54.length; i++) {
-	      handle(self, self._54[i]);
-	    }
-	    self._54 = null;
-	  }
-	}
-
-	function Handler(onFulfilled, onRejected, promise) {
-	  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
-	  this.onRejected = typeof onRejected === 'function' ? onRejected : null;
-	  this.promise = promise;
-	}
-
-	/**
-	 * Take a potentially misbehaving resolver function and make sure
-	 * onFulfilled and onRejected are only called once.
-	 *
-	 * Makes no guarantees about asynchrony.
-	 */
-	function doResolve(fn, promise) {
-	  var done = false;
-	  var res = tryCallTwo(fn, function (value) {
-	    if (done) return;
-	    done = true;
-	    resolve(promise, value);
-	  }, function (reason) {
-	    if (done) return;
-	    done = true;
-	    reject(promise, reason);
-	  });
-	  if (!done && res === IS_ERROR) {
-	    done = true;
-	    reject(promise, LAST_ERROR);
-	  }
-	}
-
-/***/ },
-/* 250 */
-/***/ function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
-
-	// Use the fastest means possible to execute a task in its own turn, with
-	// priority over other events including IO, animation, reflow, and redraw
-	// events in browsers.
-	//
-	// An exception thrown by a task will permanently interrupt the processing of
-	// subsequent tasks. The higher level `asap` function ensures that if an
-	// exception is thrown by a task, that the task queue will continue flushing as
-	// soon as possible, but if you use `rawAsap` directly, you are responsible to
-	// either ensure that no exceptions are thrown from your task, or to manually
-	// call `rawAsap.requestFlush` if an exception is thrown.
-	module.exports = rawAsap;
-	function rawAsap(task) {
-	    if (!queue.length) {
-	        requestFlush();
-	        flushing = true;
-	    }
-	    // Equivalent to push, but avoids a function call.
-	    queue[queue.length] = task;
-	}
-
-	var queue = [];
-	// Once a flush has been requested, no further calls to `requestFlush` are
-	// necessary until the next `flush` completes.
-	var flushing = false;
-	// `requestFlush` is an implementation-specific method that attempts to kick
-	// off a `flush` event as quickly as possible. `flush` will attempt to exhaust
-	// the event queue before yielding to the browser's own event loop.
-	var requestFlush;
-	// The position of the next task to execute in the task queue. This is
-	// preserved between calls to `flush` so that it can be resumed if
-	// a task throws an exception.
-	var index = 0;
-	// If a task schedules additional tasks recursively, the task queue can grow
-	// unbounded. To prevent memory exhaustion, the task queue will periodically
-	// truncate already-completed tasks.
-	var capacity = 1024;
-
-	// The flush function processes all tasks that have been scheduled with
-	// `rawAsap` unless and until one of those tasks throws an exception.
-	// If a task throws an exception, `flush` ensures that its state will remain
-	// consistent and will resume where it left off when called again.
-	// However, `flush` does not make any arrangements to be called again if an
-	// exception is thrown.
-	function flush() {
-	    while (index < queue.length) {
-	        var currentIndex = index;
-	        // Advance the index before calling the task. This ensures that we will
-	        // begin flushing on the next task the task throws an error.
-	        index = index + 1;
-	        queue[currentIndex].call();
-	        // Prevent leaking memory for long chains of recursive calls to `asap`.
-	        // If we call `asap` within tasks scheduled by `asap`, the queue will
-	        // grow, but to avoid an O(n) walk for every task we execute, we don't
-	        // shift tasks off the queue after they have been executed.
-	        // Instead, we periodically shift 1024 tasks off the queue.
-	        if (index > capacity) {
-	            // Manually shift all values starting at the index back to the
-	            // beginning of the queue.
-	            for (var scan = 0, newLength = queue.length - index; scan < newLength; scan++) {
-	                queue[scan] = queue[scan + index];
-	            }
-	            queue.length -= index;
-	            index = 0;
-	        }
-	    }
-	    queue.length = 0;
-	    index = 0;
-	    flushing = false;
-	}
-
-	// `requestFlush` is implemented using a strategy based on data collected from
-	// every available SauceLabs Selenium web driver worker at time of writing.
-	// https://docs.google.com/spreadsheets/d/1mG-5UYGup5qxGdEMWkhP6BWCz053NUb2E1QoUTU16uA/edit#gid=783724593
-
-	// Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
-	// have WebKitMutationObserver but not un-prefixed MutationObserver.
-	// Must use `global` instead of `window` to work in both frames and web
-	// workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
-	var BrowserMutationObserver = global.MutationObserver || global.WebKitMutationObserver;
-
-	// MutationObservers are desirable because they have high priority and work
-	// reliably everywhere they are implemented.
-	// They are implemented in all modern browsers.
-	//
-	// - Android 4-4.3
-	// - Chrome 26-34
-	// - Firefox 14-29
-	// - Internet Explorer 11
-	// - iPad Safari 6-7.1
-	// - iPhone Safari 7-7.1
-	// - Safari 6-7
-	if (typeof BrowserMutationObserver === "function") {
-	    requestFlush = makeRequestCallFromMutationObserver(flush);
-
-	    // MessageChannels are desirable because they give direct access to the HTML
-	    // task queue, are implemented in Internet Explorer 10, Safari 5.0-1, and Opera
-	    // 11-12, and in web workers in many engines.
-	    // Although message channels yield to any queued rendering and IO tasks, they
-	    // would be better than imposing the 4ms delay of timers.
-	    // However, they do not work reliably in Internet Explorer or Safari.
-
-	    // Internet Explorer 10 is the only browser that has setImmediate but does
-	    // not have MutationObservers.
-	    // Although setImmediate yields to the browser's renderer, it would be
-	    // preferrable to falling back to setTimeout since it does not have
-	    // the minimum 4ms penalty.
-	    // Unfortunately there appears to be a bug in Internet Explorer 10 Mobile (and
-	    // Desktop to a lesser extent) that renders both setImmediate and
-	    // MessageChannel useless for the purposes of ASAP.
-	    // https://github.com/kriskowal/q/issues/396
-
-	    // Timers are implemented universally.
-	    // We fall back to timers in workers in most engines, and in foreground
-	    // contexts in the following browsers.
-	    // However, note that even this simple case requires nuances to operate in a
-	    // broad spectrum of browsers.
-	    //
-	    // - Firefox 3-13
-	    // - Internet Explorer 6-9
-	    // - iPad Safari 4.3
-	    // - Lynx 2.8.7
-	} else {
-	        requestFlush = makeRequestCallFromTimer(flush);
-	    }
-
-	// `requestFlush` requests that the high priority event queue be flushed as
-	// soon as possible.
-	// This is useful to prevent an error thrown in a task from stalling the event
-	// queue if the exception handled by Node.js’s
-	// `process.on("uncaughtException")` or by a domain.
-	rawAsap.requestFlush = requestFlush;
-
-	// To request a high priority event, we induce a mutation observer by toggling
-	// the text of a text node between "1" and "-1".
-	function makeRequestCallFromMutationObserver(callback) {
-	    var toggle = 1;
-	    var observer = new BrowserMutationObserver(callback);
-	    var node = document.createTextNode("");
-	    observer.observe(node, { characterData: true });
-	    return function requestCall() {
-	        toggle = -toggle;
-	        node.data = toggle;
-	    };
-	}
-
-	// The message channel technique was discovered by Malte Ubl and was the
-	// original foundation for this library.
-	// http://www.nonblocking.io/2011/06/windownexttick.html
-
-	// Safari 6.0.5 (at least) intermittently fails to create message ports on a
-	// page's first load. Thankfully, this version of Safari supports
-	// MutationObservers, so we don't need to fall back in that case.
-
-	// function makeRequestCallFromMessageChannel(callback) {
-	//     var channel = new MessageChannel();
-	//     channel.port1.onmessage = callback;
-	//     return function requestCall() {
-	//         channel.port2.postMessage(0);
-	//     };
-	// }
-
-	// For reasons explained above, we are also unable to use `setImmediate`
-	// under any circumstances.
-	// Even if we were, there is another bug in Internet Explorer 10.
-	// It is not sufficient to assign `setImmediate` to `requestFlush` because
-	// `setImmediate` must be called *by name* and therefore must be wrapped in a
-	// closure.
-	// Never forget.
-
-	// function makeRequestCallFromSetImmediate(callback) {
-	//     return function requestCall() {
-	//         setImmediate(callback);
-	//     };
-	// }
-
-	// Safari 6.0 has a problem where timers will get lost while the user is
-	// scrolling. This problem does not impact ASAP because Safari 6.0 supports
-	// mutation observers, so that implementation is used instead.
-	// However, if we ever elect to use timers in Safari, the prevalent work-around
-	// is to add a scroll event listener that calls for a flush.
-
-	// `setTimeout` does not call the passed callback if the delay is less than
-	// approximately 7 in web workers in Firefox 8 through 18, and sometimes not
-	// even then.
-
-	function makeRequestCallFromTimer(callback) {
-	    return function requestCall() {
-	        // We dispatch a timeout with a specified delay of 0 for engines that
-	        // can reliably accommodate that request. This will usually be snapped
-	        // to a 4 milisecond delay, but once we're flushing, there's no delay
-	        // between events.
-	        var timeoutHandle = setTimeout(handleTimer, 0);
-	        // However, since this timer gets frequently dropped in Firefox
-	        // workers, we enlist an interval handle that will try to fire
-	        // an event 20 times per second until it succeeds.
-	        var intervalHandle = setInterval(handleTimer, 50);
-
-	        function handleTimer() {
-	            // Whichever timer succeeds will cancel both timers and
-	            // execute the callback.
-	            clearTimeout(timeoutHandle);
-	            clearInterval(intervalHandle);
-	            callback();
-	        }
-	    };
-	}
-
-	// This is for `asap.js` only.
-	// Its name will be periodically randomized to break any code that depends on
-	// its existence.
-	rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
-
-	// ASAP was originally a nextTick shim included in Q. This was factored out
-	// into this ASAP package. It was later adapted to RSVP which made further
-	// amendments. These decisions, particularly to marginalize MessageChannel and
-	// to capture the MutationObserver implementation in a closure, were integrated
-	// back into ASAP proper.
-	// https://github.com/tildeio/rsvp.js/blob/cddf7232546a9cf858524b75cde6f9edf72620a7/lib/rsvp/asap.js
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Promise = __webpack_require__(249);
-
-	module.exports = Promise;
-	Promise.prototype.done = function (onFulfilled, onRejected) {
-	  var self = arguments.length ? this.then.apply(this, arguments) : this;
-	  self.then(null, function (err) {
-	    setTimeout(function () {
-	      throw err;
-	    }, 0);
-	  });
-	};
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Promise = __webpack_require__(249);
-
-	module.exports = Promise;
-	Promise.prototype['finally'] = function (f) {
-	  return this.then(function (value) {
-	    return Promise.resolve(f()).then(function () {
-	      return value;
-	    });
-	  }, function (err) {
-	    return Promise.resolve(f()).then(function () {
-	      throw err;
-	    });
-	  });
-	};
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	//This file contains the ES6 extensions to the core Promises/A+ API
-
-	var Promise = __webpack_require__(249);
-
-	module.exports = Promise;
-
-	/* Static Functions */
-
-	var TRUE = valuePromise(true);
-	var FALSE = valuePromise(false);
-	var NULL = valuePromise(null);
-	var UNDEFINED = valuePromise(undefined);
-	var ZERO = valuePromise(0);
-	var EMPTYSTRING = valuePromise('');
-
-	function valuePromise(value) {
-	  var p = new Promise(Promise._61);
-	  p._81 = 1;
-	  p._65 = value;
-	  return p;
-	}
-	Promise.resolve = function (value) {
-	  if (value instanceof Promise) return value;
-
-	  if (value === null) return NULL;
-	  if (value === undefined) return UNDEFINED;
-	  if (value === true) return TRUE;
-	  if (value === false) return FALSE;
-	  if (value === 0) return ZERO;
-	  if (value === '') return EMPTYSTRING;
-
-	  if (typeof value === 'object' || typeof value === 'function') {
-	    try {
-	      var then = value.then;
-	      if (typeof then === 'function') {
-	        return new Promise(then.bind(value));
-	      }
-	    } catch (ex) {
-	      return new Promise(function (resolve, reject) {
-	        reject(ex);
-	      });
-	    }
-	  }
-	  return valuePromise(value);
-	};
-
-	Promise.all = function (arr) {
-	  var args = Array.prototype.slice.call(arr);
-
-	  return new Promise(function (resolve, reject) {
-	    if (args.length === 0) return resolve([]);
-	    var remaining = args.length;
-	    function res(_x, _x2) {
-	      var _again = true;
-
-	      _function: while (_again) {
-	        var i = _x,
-	            val = _x2;
-	        _again = false;
-
-	        if (val && (typeof val === 'object' || typeof val === 'function')) {
-	          if (val instanceof Promise && val.then === Promise.prototype.then) {
-	            while (val._81 === 3) {
-	              val = val._65;
-	            }
-	            if (val._81 === 1) {
-	              _x = i;
-	              _x2 = val._65;
-	              _again = true;
-	              continue _function;
-	            }
-	            if (val._81 === 2) reject(val._65);
-	            val.then(function (val) {
-	              res(i, val);
-	            }, reject);
-	            return;
-	          } else {
-	            var then = val.then;
-	            if (typeof then === 'function') {
-	              var p = new Promise(then.bind(val));
-	              p.then(function (val) {
-	                res(i, val);
-	              }, reject);
-	              return;
-	            }
-	          }
-	        }
-	        args[i] = val;
-	        if (--remaining === 0) {
-	          resolve(args);
-	        }
-	      }
-	    }
-	    for (var i = 0; i < args.length; i++) {
-	      res(i, args[i]);
-	    }
-	  });
-	};
-
-	Promise.reject = function (value) {
-	  return new Promise(function (resolve, reject) {
-	    reject(value);
-	  });
-	};
-
-	Promise.race = function (values) {
-	  return new Promise(function (resolve, reject) {
-	    values.forEach(function (value) {
-	      Promise.resolve(value).then(resolve, reject);
-	    });
-	  });
-	};
-
-	/* Prototype Methods */
-
-	Promise.prototype['catch'] = function (onRejected) {
-	  return this.then(null, onRejected);
-	};
-
-/***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// This file contains then/promise specific extensions that are only useful
-	// for node.js interop
-
-	var Promise = __webpack_require__(249);
-	var asap = __webpack_require__(255);
-
-	module.exports = Promise;
-
-	/* Static Functions */
-
-	Promise.denodeify = function (fn, argumentCount) {
-	  if (typeof argumentCount === 'number' && argumentCount !== Infinity) {
-	    return denodeifyWithCount(fn, argumentCount);
-	  } else {
-	    return denodeifyWithoutCount(fn);
-	  }
-	};
-
-	var callbackFn = 'function (err, res) {' + 'if (err) { rj(err); } else { rs(res); }' + '}';
-	function denodeifyWithCount(fn, argumentCount) {
-	  var args = [];
-	  for (var i = 0; i < argumentCount; i++) {
-	    args.push('a' + i);
-	  }
-	  var body = ['return function (' + args.join(',') + ') {', 'var self = this;', 'return new Promise(function (rs, rj) {', 'var res = fn.call(', ['self'].concat(args).concat([callbackFn]).join(','), ');', 'if (res &&', '(typeof res === "object" || typeof res === "function") &&', 'typeof res.then === "function"', ') {rs(res);}', '});', '};'].join('');
-	  return Function(['Promise', 'fn'], body)(Promise, fn);
-	}
-	function denodeifyWithoutCount(fn) {
-	  var fnLength = Math.max(fn.length - 1, 3);
-	  var args = [];
-	  for (var i = 0; i < fnLength; i++) {
-	    args.push('a' + i);
-	  }
-	  var body = ['return function (' + args.join(',') + ') {', 'var self = this;', 'var args;', 'var argLength = arguments.length;', 'if (arguments.length > ' + fnLength + ') {', 'args = new Array(arguments.length + 1);', 'for (var i = 0; i < arguments.length; i++) {', 'args[i] = arguments[i];', '}', '}', 'return new Promise(function (rs, rj) {', 'var cb = ' + callbackFn + ';', 'var res;', 'switch (argLength) {', args.concat(['extra']).map(function (_, index) {
-	    return 'case ' + index + ':' + 'res = fn.call(' + ['self'].concat(args.slice(0, index)).concat('cb').join(',') + ');' + 'break;';
-	  }).join(''), 'default:', 'args[argLength] = cb;', 'res = fn.apply(self, args);', '}', 'if (res &&', '(typeof res === "object" || typeof res === "function") &&', 'typeof res.then === "function"', ') {rs(res);}', '});', '};'].join('');
-
-	  return Function(['Promise', 'fn'], body)(Promise, fn);
-	}
-
-	Promise.nodeify = function (fn) {
-	  return function () {
-	    var args = Array.prototype.slice.call(arguments);
-	    var callback = typeof args[args.length - 1] === 'function' ? args.pop() : null;
-	    var ctx = this;
-	    try {
-	      return fn.apply(this, arguments).nodeify(callback, ctx);
-	    } catch (ex) {
-	      if (callback === null || typeof callback == 'undefined') {
-	        return new Promise(function (resolve, reject) {
-	          reject(ex);
-	        });
-	      } else {
-	        asap(function () {
-	          callback.call(ctx, ex);
-	        });
-	      }
-	    }
-	  };
-	};
-
-	Promise.prototype.nodeify = function (callback, ctx) {
-	  if (typeof callback != 'function') return this;
-
-	  this.then(function (value) {
-	    asap(function () {
-	      callback.call(ctx, null, value);
-	    });
-	  }, function (err) {
-	    asap(function () {
-	      callback.call(ctx, err);
-	    });
-	  });
-	};
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	// rawAsap provides everything we need except exception management.
-	var rawAsap = __webpack_require__(250);
-	// RawTasks are recycled to reduce GC churn.
-	var freeTasks = [];
-	// We queue errors to ensure they are thrown in right order (FIFO).
-	// Array-as-queue is good enough here, since we are just dealing with exceptions.
-	var pendingErrors = [];
-	var requestErrorThrow = rawAsap.makeRequestCallFromTimer(throwFirstError);
-
-	function throwFirstError() {
-	    if (pendingErrors.length) {
-	        throw pendingErrors.shift();
-	    }
-	}
-
-	/**
-	 * Calls a task as soon as possible after returning, in its own event, with priority
-	 * over other events like animation, reflow, and repaint. An error thrown from an
-	 * event will not interrupt, nor even substantially slow down the processing of
-	 * other events, but will be rather postponed to a lower priority event.
-	 * @param {{call}} task A callable object, typically a function that takes no
-	 * arguments.
-	 */
-	module.exports = asap;
-	function asap(task) {
-	    var rawTask;
-	    if (freeTasks.length) {
-	        rawTask = freeTasks.pop();
-	    } else {
-	        rawTask = new RawTask();
-	    }
-	    rawTask.task = task;
-	    rawAsap(rawTask);
-	}
-
-	// We wrap tasks with recyclable task objects.  A task object implements
-	// `call`, just like a function.
-	function RawTask() {
-	    this.task = null;
-	}
-
-	// The sole purpose of wrapping the task is to catch the exception and recycle
-	// the task object after its single use.
-	RawTask.prototype.call = function () {
-	    try {
-	        this.task.call();
-	    } catch (error) {
-	        if (asap.onerror) {
-	            // This hook exists purely for testing purposes.
-	            // Its name will be periodically randomized to break any code that
-	            // depends on its existence.
-	            asap.onerror(error);
-	        } else {
-	            // In a web browser, exceptions are not fatal. However, to avoid
-	            // slowing down the queue of pending tasks, we rethrow the error in a
-	            // lower priority turn.
-	            pendingErrors.push(error);
-	            requestErrorThrow();
-	        }
-	    } finally {
-	        this.task = null;
-	        freeTasks[freeTasks.length] = this;
-	    }
-	};
-
-/***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Promise = __webpack_require__(249);
-
-	module.exports = Promise;
-	Promise.enableSynchronous = function () {
-	  Promise.prototype.isPending = function () {
-	    return this.getState() == 0;
-	  };
-
-	  Promise.prototype.isFulfilled = function () {
-	    return this.getState() == 1;
-	  };
-
-	  Promise.prototype.isRejected = function () {
-	    return this.getState() == 2;
-	  };
-
-	  Promise.prototype.getValue = function () {
-	    if (this._81 === 3) {
-	      return this._65.getValue();
-	    }
-
-	    if (!this.isFulfilled()) {
-	      throw new Error('Cannot get a value of an unfulfilled promise.');
-	    }
-
-	    return this._65;
-	  };
-
-	  Promise.prototype.getReason = function () {
-	    if (this._81 === 3) {
-	      return this._65.getReason();
-	    }
-
-	    if (!this.isRejected()) {
-	      throw new Error('Cannot get a rejection reason of a non-rejected promise.');
-	    }
-
-	    return this._65;
-	  };
-
-	  Promise.prototype.getState = function () {
-	    if (this._81 === 3) {
-	      return this._65.getState();
-	    }
-	    if (this._81 === -1 || this._81 === -2) {
-	      return 0;
-	    }
-
-	    return this._81;
-	  };
-	};
-
-	Promise.disableSynchronous = function () {
-	  Promise.prototype.isPending = undefined;
-	  Promise.prototype.isFulfilled = undefined;
-	  Promise.prototype.isRejected = undefined;
-	  Promise.prototype.getValue = undefined;
-	  Promise.prototype.getReason = undefined;
-	  Promise.prototype.getState = undefined;
-	};
-
-/***/ },
-/* 257 */
-/***/ function(module, exports) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	'use strict';
-
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	module.exports = EventEmitter;
-
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
-
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
-
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
-
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function (n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n)) throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-
-	EventEmitter.prototype.emit = function (type) {
-	  var er, handler, len, args, i, listeners;
-
-	  if (!this._events) this._events = {};
-
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error || isObject(this._events.error) && !this._events.error.length) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      }
-	      throw TypeError('Uncaught, unspecified "error" event.');
-	    }
-	  }
-
-	  handler = this._events[type];
-
-	  if (isUndefined(handler)) return false;
-
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++) listeners[i].apply(this, args);
-	  }
-
-	  return true;
-	};
-
-	EventEmitter.prototype.addListener = function (type, listener) {
-	  var m;
-
-	  if (!isFunction(listener)) throw TypeError('listener must be a function');
-
-	  if (!this._events) this._events = {};
-
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener) this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
-
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter.defaultMaxListeners;
-	    }
-
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-
-	  return this;
-	};
-
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-	EventEmitter.prototype.once = function (type, listener) {
-	  if (!isFunction(listener)) throw TypeError('listener must be a function');
-
-	  var fired = false;
-
-	  function g() {
-	    this.removeListener(type, g);
-
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-
-	  g.listener = listener;
-	  this.on(type, g);
-
-	  return this;
-	};
-
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function (type, listener) {
-	  var list, position, length, i;
-
-	  if (!isFunction(listener)) throw TypeError('listener must be a function');
-
-	  if (!this._events || !this._events[type]) return this;
-
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-
-	  if (list === listener || isFunction(list.listener) && list.listener === listener) {
-	    delete this._events[type];
-	    if (this._events.removeListener) this.emit('removeListener', type, listener);
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener || list[i].listener && list[i].listener === listener) {
-	        position = i;
-	        break;
-	      }
-	    }
-
-	    if (position < 0) return this;
-
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-
-	    if (this._events.removeListener) this.emit('removeListener', type, listener);
-	  }
-
-	  return this;
-	};
-
-	EventEmitter.prototype.removeAllListeners = function (type) {
-	  var key, listeners;
-
-	  if (!this._events) return this;
-
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0) this._events = {};else if (this._events[type]) delete this._events[type];
-	    return this;
-	  }
-
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-
-	  listeners = this._events[type];
-
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else if (listeners) {
-	    // LIFO order
-	    while (listeners.length) this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-
-	  return this;
-	};
-
-	EventEmitter.prototype.listeners = function (type) {
-	  var ret;
-	  if (!this._events || !this._events[type]) ret = [];else if (isFunction(this._events[type])) ret = [this._events[type]];else ret = this._events[type].slice();
-	  return ret;
-	};
-
-	EventEmitter.prototype.listenerCount = function (type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-
-	    if (isFunction(evlistener)) return 1;else if (evlistener) return evlistener.length;
-	  }
-	  return 0;
-	};
-
-	EventEmitter.listenerCount = function (emitter, type) {
-	  return emitter.listenerCount(type);
-	};
-
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _events = __webpack_require__(257);
-
-	var _Intent = __webpack_require__(246);
-
-	var _Intent2 = _interopRequireDefault(_Intent);
-
-	function Intents(obj) {
-	    obj = obj || this;
-	    _events.EventEmitter.apply(obj);
-	}
-	extend(Intents.prototype, {
-	    intent: function intent(key, params) {
-	        var intent = this._newIntent(key, params);
-	        return this.fireIntent(key, intent);
-	    },
-	    action: function action(key, params, _action) {
-	        if (_action === undefined) {
-	            _action = params;
-	            params = undefined;
-	        }
-	        var intent = this._newIntent(key, params);
-	        return this.runAction(key, intent, _action);
-	    },
-	    fireIntent: function fireIntent(key, intent) {
-	        try {
-	            this.emit(key, intent);
-	        } catch (err) {
-	            intent.reject(err);
-	        }
-	        return intent;
-	    },
-	    runAction: function runAction(key, intent, action) {
-	        try {
-	            var that = this;
-	            intent = that.fireIntent(key, intent);
-	            if (!intent.handled) {
-	                var result = action.call(that, intent);
-	                if (result !== undefined && !intent.handled) {
-	                    intent.resolve(result);
-	                }
-	            }
-	        } catch (err) {
-	            intent.reject(err);
-	        }
-	        return intent;
-	    },
-	    _newIntent: function _newIntent(key, params) {
-	        return new _Intent2['default'](params, key);
-	    }
-	}, _events.EventEmitter.prototype);
-
-	Intents.addTo = function (Type) {
-	    extend(Type.prototype, Intents.prototype);
-	};
-
-	function extend(to) {
-	    for (var i = 1; i < arguments.length; i++) {
-	        var from = arguments[i];
-	        for (var key in from) {
-	            if (!to[key] && Object.prototype.hasOwnProperty.call(from, key)) {
-	                to[key] = from[key];
-	            }
-	        }
-	    }
-	}
-
-	exports['default'] = Intents;
-	module.exports = exports['default'];
-
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _promise = __webpack_require__(247);
-
-	var _promise2 = _interopRequireDefault(_promise);
-
-	exports['default'] = {
-	    singletonPromise: function singletonPromise(method) {
-	        function runAction(params) {
-	            params = params || {};
-	            for (var key in params) {
-	                runAction.params[key] = params[key];
-	            }
-	            if (!runAction.promise) {
-	                runAction.promise = _promise2['default'].resolve().then(function (result) {
-	                    delete runAction.promise;
-	                    runAction.params = {};
-	                    return method.call(that, params);
-	                });
-	            }
-	            return runAction.promise;
-	        }
-	        runAction.params = {};
-	        runAction.promise;
-	        return runAction;
-	    },
-	    singletonAction: function singletonAction(that, actionName, action) {
-	        function runAction(params) {
-	            params = params || {};
-	            for (var key in params) {
-	                runAction.params[key] = params[key];
-	            }
-	            if (!runAction.intent) {
-	                runAction.intent = that.action(actionName, runAction.params, function (n) {
-	                    function clear() {
-	                        if (n === runAction.intent) {
-	                            runAction.params = {};
-	                            delete runAction.intent;
-	                        }
-	                    }
-	                    n.after(clear, clear);
-	                    return action.call(that, n);
-	                });
-	            }
-	            return runAction.intent;
-	        }
-	        runAction.params = {};
-	        return runAction;
-	    }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _libData = __webpack_require__(261);
+	var _libData = __webpack_require__(246);
 
 	var _libData2 = _interopRequireDefault(_libData);
 
-	var _libDataSet = __webpack_require__(263);
+	var _libDataSet = __webpack_require__(248);
 
 	var _libDataSet2 = _interopRequireDefault(_libDataSet);
 
@@ -32785,7 +31190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 261 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32802,7 +31207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _mosaicAdapters = __webpack_require__(262);
+	var _mosaicAdapters = __webpack_require__(247);
 
 	var idCounter = 0;
 	/**
@@ -32980,7 +31385,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 262 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33016,7 +31421,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 263 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33036,11 +31441,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _mosaicIntents = __webpack_require__(245);
+	var _mosaicIntents = __webpack_require__(249);
 
-	var _mosaicAdapters = __webpack_require__(262);
+	var _mosaicAdapters = __webpack_require__(247);
 
-	var _Data2 = __webpack_require__(261);
+	var _Data2 = __webpack_require__(246);
 
 	var _Data3 = _interopRequireDefault(_Data2);
 
@@ -33598,6 +32003,1388 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _libIntent = __webpack_require__(250);
+
+	var _libIntent2 = _interopRequireDefault(_libIntent);
+
+	var _libIntents = __webpack_require__(262);
+
+	var _libIntents2 = _interopRequireDefault(_libIntents);
+
+	var _libSingleton = __webpack_require__(263);
+
+	var _libSingleton2 = _interopRequireDefault(_libSingleton);
+
+	exports['default'] = {
+	    Intent: _libIntent2['default'],
+	    Intents: _libIntents2['default'],
+	    Singleton: _libSingleton2['default']
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _promise = __webpack_require__(251);
+
+	var _promise2 = _interopRequireDefault(_promise);
+
+	var _events = __webpack_require__(261);
+
+	var Intent = (function (_EventEmitter) {
+	    _inherits(Intent, _EventEmitter);
+
+	    function Intent(params, key) {
+	        _classCallCheck(this, Intent);
+
+	        _get(Object.getPrototypeOf(Intent.prototype), 'constructor', this).call(this);
+	        var that = this;
+	        that.params = params;
+	        if (key) {
+	            that.key = key;
+	        }
+	        that.handled = false;
+	        that._after = [];
+	        that._innerPromise = new _promise2['default'](function (resolve, reject) {
+	            that.resolve = function (result) {
+	                that.handled = true;
+	                resolve(result);
+	                return that;
+	            };
+	            that.reject = function (err) {
+	                that.handled = true;
+	                reject(err);
+	                return that;
+	            };
+	        });
+	        that.promise = that._innerPromise.then(function (res) {
+	            if (that._after.length) {
+	                return _promise2['default'].all(that._after).then(function () {
+	                    return res;
+	                }, function (err) {
+	                    throw err;
+	                });
+	            }
+	            return res;
+	        });
+	        that.finalize = that['finally'] = function (method) {
+	            return that.then(function (result) {
+	                try {
+	                    method(null, result);
+	                } catch (e) {}
+	                return result;
+	            }, function (err) {
+	                try {
+	                    method(err);
+	                } catch (e) {}
+	                throw err;
+	            });
+	        };
+	    }
+
+	    _createClass(Intent, [{
+	        key: 'then',
+	        value: function then(onResolve, onReject) {
+	            return this.promise.then(onResolve, onReject);
+	        }
+
+	        /**
+	         * The specified action will be executed just after the main promise is
+	         * resolved.
+	         */
+	    }, {
+	        key: 'after',
+	        value: function after(onResolve, onReject) {
+	            var res = this._innerPromise.then(onResolve, onReject);
+	            this._after.push(res);
+	            return res;
+	        }
+	    }]);
+
+	    return Intent;
+	})(_events.EventEmitter);
+
+	exports['default'] = Intent;
+	module.exports = exports['default'];
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(252);
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(253);
+	__webpack_require__(255);
+	__webpack_require__(256);
+	__webpack_require__(257);
+	__webpack_require__(258);
+	__webpack_require__(260);
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var asap = __webpack_require__(254);
+
+	function noop() {}
+
+	// States:
+	//
+	// 0 - pending
+	// 1 - fulfilled with _value
+	// 2 - rejected with _value
+	// 3 - adopted the state of another promise, _value
+	//
+	// once the state is no longer pending (0) it is immutable
+
+	// All `_` prefixed properties will be reduced to `_{random number}`
+	// at build time to obfuscate them and discourage their use.
+	// We don't use symbols or Object.defineProperty to fully hide them
+	// because the performance isn't good enough.
+
+	// to avoid using try/catch inside critical functions, we
+	// extract them to here.
+	var LAST_ERROR = null;
+	var IS_ERROR = {};
+	function getThen(obj) {
+	  try {
+	    return obj.then;
+	  } catch (ex) {
+	    LAST_ERROR = ex;
+	    return IS_ERROR;
+	  }
+	}
+
+	function tryCallOne(fn, a) {
+	  try {
+	    return fn(a);
+	  } catch (ex) {
+	    LAST_ERROR = ex;
+	    return IS_ERROR;
+	  }
+	}
+	function tryCallTwo(fn, a, b) {
+	  try {
+	    fn(a, b);
+	  } catch (ex) {
+	    LAST_ERROR = ex;
+	    return IS_ERROR;
+	  }
+	}
+
+	module.exports = Promise;
+
+	function Promise(fn) {
+	  if (typeof this !== 'object') {
+	    throw new TypeError('Promises must be constructed via new');
+	  }
+	  if (typeof fn !== 'function') {
+	    throw new TypeError('not a function');
+	  }
+	  this._45 = 0;
+	  this._81 = 0;
+	  this._65 = null;
+	  this._54 = null;
+	  if (fn === noop) return;
+	  doResolve(fn, this);
+	}
+	Promise._10 = null;
+	Promise._97 = null;
+	Promise._61 = noop;
+
+	Promise.prototype.then = function (onFulfilled, onRejected) {
+	  if (this.constructor !== Promise) {
+	    return safeThen(this, onFulfilled, onRejected);
+	  }
+	  var res = new Promise(noop);
+	  handle(this, new Handler(onFulfilled, onRejected, res));
+	  return res;
+	};
+
+	function safeThen(self, onFulfilled, onRejected) {
+	  return new self.constructor(function (resolve, reject) {
+	    var res = new Promise(noop);
+	    res.then(resolve, reject);
+	    handle(self, new Handler(onFulfilled, onRejected, res));
+	  });
+	};
+	function handle(self, deferred) {
+	  while (self._81 === 3) {
+	    self = self._65;
+	  }
+	  if (Promise._10) {
+	    Promise._10(self);
+	  }
+	  if (self._81 === 0) {
+	    if (self._45 === 0) {
+	      self._45 = 1;
+	      self._54 = deferred;
+	      return;
+	    }
+	    if (self._45 === 1) {
+	      self._45 = 2;
+	      self._54 = [self._54, deferred];
+	      return;
+	    }
+	    self._54.push(deferred);
+	    return;
+	  }
+	  handleResolved(self, deferred);
+	}
+
+	function handleResolved(self, deferred) {
+	  asap(function () {
+	    var cb = self._81 === 1 ? deferred.onFulfilled : deferred.onRejected;
+	    if (cb === null) {
+	      if (self._81 === 1) {
+	        resolve(deferred.promise, self._65);
+	      } else {
+	        reject(deferred.promise, self._65);
+	      }
+	      return;
+	    }
+	    var ret = tryCallOne(cb, self._65);
+	    if (ret === IS_ERROR) {
+	      reject(deferred.promise, LAST_ERROR);
+	    } else {
+	      resolve(deferred.promise, ret);
+	    }
+	  });
+	}
+	function resolve(self, newValue) {
+	  // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+	  if (newValue === self) {
+	    return reject(self, new TypeError('A promise cannot be resolved with itself.'));
+	  }
+	  if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+	    var then = getThen(newValue);
+	    if (then === IS_ERROR) {
+	      return reject(self, LAST_ERROR);
+	    }
+	    if (then === self.then && newValue instanceof Promise) {
+	      self._81 = 3;
+	      self._65 = newValue;
+	      finale(self);
+	      return;
+	    } else if (typeof then === 'function') {
+	      doResolve(then.bind(newValue), self);
+	      return;
+	    }
+	  }
+	  self._81 = 1;
+	  self._65 = newValue;
+	  finale(self);
+	}
+
+	function reject(self, newValue) {
+	  self._81 = 2;
+	  self._65 = newValue;
+	  if (Promise._97) {
+	    Promise._97(self, newValue);
+	  }
+	  finale(self);
+	}
+	function finale(self) {
+	  if (self._45 === 1) {
+	    handle(self, self._54);
+	    self._54 = null;
+	  }
+	  if (self._45 === 2) {
+	    for (var i = 0; i < self._54.length; i++) {
+	      handle(self, self._54[i]);
+	    }
+	    self._54 = null;
+	  }
+	}
+
+	function Handler(onFulfilled, onRejected, promise) {
+	  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+	  this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+	  this.promise = promise;
+	}
+
+	/**
+	 * Take a potentially misbehaving resolver function and make sure
+	 * onFulfilled and onRejected are only called once.
+	 *
+	 * Makes no guarantees about asynchrony.
+	 */
+	function doResolve(fn, promise) {
+	  var done = false;
+	  var res = tryCallTwo(fn, function (value) {
+	    if (done) return;
+	    done = true;
+	    resolve(promise, value);
+	  }, function (reason) {
+	    if (done) return;
+	    done = true;
+	    reject(promise, reason);
+	  });
+	  if (!done && res === IS_ERROR) {
+	    done = true;
+	    reject(promise, LAST_ERROR);
+	  }
+	}
+
+/***/ },
+/* 254 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
+
+	// Use the fastest means possible to execute a task in its own turn, with
+	// priority over other events including IO, animation, reflow, and redraw
+	// events in browsers.
+	//
+	// An exception thrown by a task will permanently interrupt the processing of
+	// subsequent tasks. The higher level `asap` function ensures that if an
+	// exception is thrown by a task, that the task queue will continue flushing as
+	// soon as possible, but if you use `rawAsap` directly, you are responsible to
+	// either ensure that no exceptions are thrown from your task, or to manually
+	// call `rawAsap.requestFlush` if an exception is thrown.
+	module.exports = rawAsap;
+	function rawAsap(task) {
+	    if (!queue.length) {
+	        requestFlush();
+	        flushing = true;
+	    }
+	    // Equivalent to push, but avoids a function call.
+	    queue[queue.length] = task;
+	}
+
+	var queue = [];
+	// Once a flush has been requested, no further calls to `requestFlush` are
+	// necessary until the next `flush` completes.
+	var flushing = false;
+	// `requestFlush` is an implementation-specific method that attempts to kick
+	// off a `flush` event as quickly as possible. `flush` will attempt to exhaust
+	// the event queue before yielding to the browser's own event loop.
+	var requestFlush;
+	// The position of the next task to execute in the task queue. This is
+	// preserved between calls to `flush` so that it can be resumed if
+	// a task throws an exception.
+	var index = 0;
+	// If a task schedules additional tasks recursively, the task queue can grow
+	// unbounded. To prevent memory exhaustion, the task queue will periodically
+	// truncate already-completed tasks.
+	var capacity = 1024;
+
+	// The flush function processes all tasks that have been scheduled with
+	// `rawAsap` unless and until one of those tasks throws an exception.
+	// If a task throws an exception, `flush` ensures that its state will remain
+	// consistent and will resume where it left off when called again.
+	// However, `flush` does not make any arrangements to be called again if an
+	// exception is thrown.
+	function flush() {
+	    while (index < queue.length) {
+	        var currentIndex = index;
+	        // Advance the index before calling the task. This ensures that we will
+	        // begin flushing on the next task the task throws an error.
+	        index = index + 1;
+	        queue[currentIndex].call();
+	        // Prevent leaking memory for long chains of recursive calls to `asap`.
+	        // If we call `asap` within tasks scheduled by `asap`, the queue will
+	        // grow, but to avoid an O(n) walk for every task we execute, we don't
+	        // shift tasks off the queue after they have been executed.
+	        // Instead, we periodically shift 1024 tasks off the queue.
+	        if (index > capacity) {
+	            // Manually shift all values starting at the index back to the
+	            // beginning of the queue.
+	            for (var scan = 0, newLength = queue.length - index; scan < newLength; scan++) {
+	                queue[scan] = queue[scan + index];
+	            }
+	            queue.length -= index;
+	            index = 0;
+	        }
+	    }
+	    queue.length = 0;
+	    index = 0;
+	    flushing = false;
+	}
+
+	// `requestFlush` is implemented using a strategy based on data collected from
+	// every available SauceLabs Selenium web driver worker at time of writing.
+	// https://docs.google.com/spreadsheets/d/1mG-5UYGup5qxGdEMWkhP6BWCz053NUb2E1QoUTU16uA/edit#gid=783724593
+
+	// Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
+	// have WebKitMutationObserver but not un-prefixed MutationObserver.
+	// Must use `global` instead of `window` to work in both frames and web
+	// workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
+	var BrowserMutationObserver = global.MutationObserver || global.WebKitMutationObserver;
+
+	// MutationObservers are desirable because they have high priority and work
+	// reliably everywhere they are implemented.
+	// They are implemented in all modern browsers.
+	//
+	// - Android 4-4.3
+	// - Chrome 26-34
+	// - Firefox 14-29
+	// - Internet Explorer 11
+	// - iPad Safari 6-7.1
+	// - iPhone Safari 7-7.1
+	// - Safari 6-7
+	if (typeof BrowserMutationObserver === "function") {
+	    requestFlush = makeRequestCallFromMutationObserver(flush);
+
+	    // MessageChannels are desirable because they give direct access to the HTML
+	    // task queue, are implemented in Internet Explorer 10, Safari 5.0-1, and Opera
+	    // 11-12, and in web workers in many engines.
+	    // Although message channels yield to any queued rendering and IO tasks, they
+	    // would be better than imposing the 4ms delay of timers.
+	    // However, they do not work reliably in Internet Explorer or Safari.
+
+	    // Internet Explorer 10 is the only browser that has setImmediate but does
+	    // not have MutationObservers.
+	    // Although setImmediate yields to the browser's renderer, it would be
+	    // preferrable to falling back to setTimeout since it does not have
+	    // the minimum 4ms penalty.
+	    // Unfortunately there appears to be a bug in Internet Explorer 10 Mobile (and
+	    // Desktop to a lesser extent) that renders both setImmediate and
+	    // MessageChannel useless for the purposes of ASAP.
+	    // https://github.com/kriskowal/q/issues/396
+
+	    // Timers are implemented universally.
+	    // We fall back to timers in workers in most engines, and in foreground
+	    // contexts in the following browsers.
+	    // However, note that even this simple case requires nuances to operate in a
+	    // broad spectrum of browsers.
+	    //
+	    // - Firefox 3-13
+	    // - Internet Explorer 6-9
+	    // - iPad Safari 4.3
+	    // - Lynx 2.8.7
+	} else {
+	        requestFlush = makeRequestCallFromTimer(flush);
+	    }
+
+	// `requestFlush` requests that the high priority event queue be flushed as
+	// soon as possible.
+	// This is useful to prevent an error thrown in a task from stalling the event
+	// queue if the exception handled by Node.js’s
+	// `process.on("uncaughtException")` or by a domain.
+	rawAsap.requestFlush = requestFlush;
+
+	// To request a high priority event, we induce a mutation observer by toggling
+	// the text of a text node between "1" and "-1".
+	function makeRequestCallFromMutationObserver(callback) {
+	    var toggle = 1;
+	    var observer = new BrowserMutationObserver(callback);
+	    var node = document.createTextNode("");
+	    observer.observe(node, { characterData: true });
+	    return function requestCall() {
+	        toggle = -toggle;
+	        node.data = toggle;
+	    };
+	}
+
+	// The message channel technique was discovered by Malte Ubl and was the
+	// original foundation for this library.
+	// http://www.nonblocking.io/2011/06/windownexttick.html
+
+	// Safari 6.0.5 (at least) intermittently fails to create message ports on a
+	// page's first load. Thankfully, this version of Safari supports
+	// MutationObservers, so we don't need to fall back in that case.
+
+	// function makeRequestCallFromMessageChannel(callback) {
+	//     var channel = new MessageChannel();
+	//     channel.port1.onmessage = callback;
+	//     return function requestCall() {
+	//         channel.port2.postMessage(0);
+	//     };
+	// }
+
+	// For reasons explained above, we are also unable to use `setImmediate`
+	// under any circumstances.
+	// Even if we were, there is another bug in Internet Explorer 10.
+	// It is not sufficient to assign `setImmediate` to `requestFlush` because
+	// `setImmediate` must be called *by name* and therefore must be wrapped in a
+	// closure.
+	// Never forget.
+
+	// function makeRequestCallFromSetImmediate(callback) {
+	//     return function requestCall() {
+	//         setImmediate(callback);
+	//     };
+	// }
+
+	// Safari 6.0 has a problem where timers will get lost while the user is
+	// scrolling. This problem does not impact ASAP because Safari 6.0 supports
+	// mutation observers, so that implementation is used instead.
+	// However, if we ever elect to use timers in Safari, the prevalent work-around
+	// is to add a scroll event listener that calls for a flush.
+
+	// `setTimeout` does not call the passed callback if the delay is less than
+	// approximately 7 in web workers in Firefox 8 through 18, and sometimes not
+	// even then.
+
+	function makeRequestCallFromTimer(callback) {
+	    return function requestCall() {
+	        // We dispatch a timeout with a specified delay of 0 for engines that
+	        // can reliably accommodate that request. This will usually be snapped
+	        // to a 4 milisecond delay, but once we're flushing, there's no delay
+	        // between events.
+	        var timeoutHandle = setTimeout(handleTimer, 0);
+	        // However, since this timer gets frequently dropped in Firefox
+	        // workers, we enlist an interval handle that will try to fire
+	        // an event 20 times per second until it succeeds.
+	        var intervalHandle = setInterval(handleTimer, 50);
+
+	        function handleTimer() {
+	            // Whichever timer succeeds will cancel both timers and
+	            // execute the callback.
+	            clearTimeout(timeoutHandle);
+	            clearInterval(intervalHandle);
+	            callback();
+	        }
+	    };
+	}
+
+	// This is for `asap.js` only.
+	// Its name will be periodically randomized to break any code that depends on
+	// its existence.
+	rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
+
+	// ASAP was originally a nextTick shim included in Q. This was factored out
+	// into this ASAP package. It was later adapted to RSVP which made further
+	// amendments. These decisions, particularly to marginalize MessageChannel and
+	// to capture the MutationObserver implementation in a closure, were integrated
+	// back into ASAP proper.
+	// https://github.com/tildeio/rsvp.js/blob/cddf7232546a9cf858524b75cde6f9edf72620a7/lib/rsvp/asap.js
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Promise = __webpack_require__(253);
+
+	module.exports = Promise;
+	Promise.prototype.done = function (onFulfilled, onRejected) {
+	  var self = arguments.length ? this.then.apply(this, arguments) : this;
+	  self.then(null, function (err) {
+	    setTimeout(function () {
+	      throw err;
+	    }, 0);
+	  });
+	};
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Promise = __webpack_require__(253);
+
+	module.exports = Promise;
+	Promise.prototype['finally'] = function (f) {
+	  return this.then(function (value) {
+	    return Promise.resolve(f()).then(function () {
+	      return value;
+	    });
+	  }, function (err) {
+	    return Promise.resolve(f()).then(function () {
+	      throw err;
+	    });
+	  });
+	};
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//This file contains the ES6 extensions to the core Promises/A+ API
+
+	var Promise = __webpack_require__(253);
+
+	module.exports = Promise;
+
+	/* Static Functions */
+
+	var TRUE = valuePromise(true);
+	var FALSE = valuePromise(false);
+	var NULL = valuePromise(null);
+	var UNDEFINED = valuePromise(undefined);
+	var ZERO = valuePromise(0);
+	var EMPTYSTRING = valuePromise('');
+
+	function valuePromise(value) {
+	  var p = new Promise(Promise._61);
+	  p._81 = 1;
+	  p._65 = value;
+	  return p;
+	}
+	Promise.resolve = function (value) {
+	  if (value instanceof Promise) return value;
+
+	  if (value === null) return NULL;
+	  if (value === undefined) return UNDEFINED;
+	  if (value === true) return TRUE;
+	  if (value === false) return FALSE;
+	  if (value === 0) return ZERO;
+	  if (value === '') return EMPTYSTRING;
+
+	  if (typeof value === 'object' || typeof value === 'function') {
+	    try {
+	      var then = value.then;
+	      if (typeof then === 'function') {
+	        return new Promise(then.bind(value));
+	      }
+	    } catch (ex) {
+	      return new Promise(function (resolve, reject) {
+	        reject(ex);
+	      });
+	    }
+	  }
+	  return valuePromise(value);
+	};
+
+	Promise.all = function (arr) {
+	  var args = Array.prototype.slice.call(arr);
+
+	  return new Promise(function (resolve, reject) {
+	    if (args.length === 0) return resolve([]);
+	    var remaining = args.length;
+	    function res(_x, _x2) {
+	      var _again = true;
+
+	      _function: while (_again) {
+	        var i = _x,
+	            val = _x2;
+	        _again = false;
+
+	        if (val && (typeof val === 'object' || typeof val === 'function')) {
+	          if (val instanceof Promise && val.then === Promise.prototype.then) {
+	            while (val._81 === 3) {
+	              val = val._65;
+	            }
+	            if (val._81 === 1) {
+	              _x = i;
+	              _x2 = val._65;
+	              _again = true;
+	              continue _function;
+	            }
+	            if (val._81 === 2) reject(val._65);
+	            val.then(function (val) {
+	              res(i, val);
+	            }, reject);
+	            return;
+	          } else {
+	            var then = val.then;
+	            if (typeof then === 'function') {
+	              var p = new Promise(then.bind(val));
+	              p.then(function (val) {
+	                res(i, val);
+	              }, reject);
+	              return;
+	            }
+	          }
+	        }
+	        args[i] = val;
+	        if (--remaining === 0) {
+	          resolve(args);
+	        }
+	      }
+	    }
+	    for (var i = 0; i < args.length; i++) {
+	      res(i, args[i]);
+	    }
+	  });
+	};
+
+	Promise.reject = function (value) {
+	  return new Promise(function (resolve, reject) {
+	    reject(value);
+	  });
+	};
+
+	Promise.race = function (values) {
+	  return new Promise(function (resolve, reject) {
+	    values.forEach(function (value) {
+	      Promise.resolve(value).then(resolve, reject);
+	    });
+	  });
+	};
+
+	/* Prototype Methods */
+
+	Promise.prototype['catch'] = function (onRejected) {
+	  return this.then(null, onRejected);
+	};
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// This file contains then/promise specific extensions that are only useful
+	// for node.js interop
+
+	var Promise = __webpack_require__(253);
+	var asap = __webpack_require__(259);
+
+	module.exports = Promise;
+
+	/* Static Functions */
+
+	Promise.denodeify = function (fn, argumentCount) {
+	  if (typeof argumentCount === 'number' && argumentCount !== Infinity) {
+	    return denodeifyWithCount(fn, argumentCount);
+	  } else {
+	    return denodeifyWithoutCount(fn);
+	  }
+	};
+
+	var callbackFn = 'function (err, res) {' + 'if (err) { rj(err); } else { rs(res); }' + '}';
+	function denodeifyWithCount(fn, argumentCount) {
+	  var args = [];
+	  for (var i = 0; i < argumentCount; i++) {
+	    args.push('a' + i);
+	  }
+	  var body = ['return function (' + args.join(',') + ') {', 'var self = this;', 'return new Promise(function (rs, rj) {', 'var res = fn.call(', ['self'].concat(args).concat([callbackFn]).join(','), ');', 'if (res &&', '(typeof res === "object" || typeof res === "function") &&', 'typeof res.then === "function"', ') {rs(res);}', '});', '};'].join('');
+	  return Function(['Promise', 'fn'], body)(Promise, fn);
+	}
+	function denodeifyWithoutCount(fn) {
+	  var fnLength = Math.max(fn.length - 1, 3);
+	  var args = [];
+	  for (var i = 0; i < fnLength; i++) {
+	    args.push('a' + i);
+	  }
+	  var body = ['return function (' + args.join(',') + ') {', 'var self = this;', 'var args;', 'var argLength = arguments.length;', 'if (arguments.length > ' + fnLength + ') {', 'args = new Array(arguments.length + 1);', 'for (var i = 0; i < arguments.length; i++) {', 'args[i] = arguments[i];', '}', '}', 'return new Promise(function (rs, rj) {', 'var cb = ' + callbackFn + ';', 'var res;', 'switch (argLength) {', args.concat(['extra']).map(function (_, index) {
+	    return 'case ' + index + ':' + 'res = fn.call(' + ['self'].concat(args.slice(0, index)).concat('cb').join(',') + ');' + 'break;';
+	  }).join(''), 'default:', 'args[argLength] = cb;', 'res = fn.apply(self, args);', '}', 'if (res &&', '(typeof res === "object" || typeof res === "function") &&', 'typeof res.then === "function"', ') {rs(res);}', '});', '};'].join('');
+
+	  return Function(['Promise', 'fn'], body)(Promise, fn);
+	}
+
+	Promise.nodeify = function (fn) {
+	  return function () {
+	    var args = Array.prototype.slice.call(arguments);
+	    var callback = typeof args[args.length - 1] === 'function' ? args.pop() : null;
+	    var ctx = this;
+	    try {
+	      return fn.apply(this, arguments).nodeify(callback, ctx);
+	    } catch (ex) {
+	      if (callback === null || typeof callback == 'undefined') {
+	        return new Promise(function (resolve, reject) {
+	          reject(ex);
+	        });
+	      } else {
+	        asap(function () {
+	          callback.call(ctx, ex);
+	        });
+	      }
+	    }
+	  };
+	};
+
+	Promise.prototype.nodeify = function (callback, ctx) {
+	  if (typeof callback != 'function') return this;
+
+	  this.then(function (value) {
+	    asap(function () {
+	      callback.call(ctx, null, value);
+	    });
+	  }, function (err) {
+	    asap(function () {
+	      callback.call(ctx, err);
+	    });
+	  });
+	};
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	// rawAsap provides everything we need except exception management.
+	var rawAsap = __webpack_require__(254);
+	// RawTasks are recycled to reduce GC churn.
+	var freeTasks = [];
+	// We queue errors to ensure they are thrown in right order (FIFO).
+	// Array-as-queue is good enough here, since we are just dealing with exceptions.
+	var pendingErrors = [];
+	var requestErrorThrow = rawAsap.makeRequestCallFromTimer(throwFirstError);
+
+	function throwFirstError() {
+	    if (pendingErrors.length) {
+	        throw pendingErrors.shift();
+	    }
+	}
+
+	/**
+	 * Calls a task as soon as possible after returning, in its own event, with priority
+	 * over other events like animation, reflow, and repaint. An error thrown from an
+	 * event will not interrupt, nor even substantially slow down the processing of
+	 * other events, but will be rather postponed to a lower priority event.
+	 * @param {{call}} task A callable object, typically a function that takes no
+	 * arguments.
+	 */
+	module.exports = asap;
+	function asap(task) {
+	    var rawTask;
+	    if (freeTasks.length) {
+	        rawTask = freeTasks.pop();
+	    } else {
+	        rawTask = new RawTask();
+	    }
+	    rawTask.task = task;
+	    rawAsap(rawTask);
+	}
+
+	// We wrap tasks with recyclable task objects.  A task object implements
+	// `call`, just like a function.
+	function RawTask() {
+	    this.task = null;
+	}
+
+	// The sole purpose of wrapping the task is to catch the exception and recycle
+	// the task object after its single use.
+	RawTask.prototype.call = function () {
+	    try {
+	        this.task.call();
+	    } catch (error) {
+	        if (asap.onerror) {
+	            // This hook exists purely for testing purposes.
+	            // Its name will be periodically randomized to break any code that
+	            // depends on its existence.
+	            asap.onerror(error);
+	        } else {
+	            // In a web browser, exceptions are not fatal. However, to avoid
+	            // slowing down the queue of pending tasks, we rethrow the error in a
+	            // lower priority turn.
+	            pendingErrors.push(error);
+	            requestErrorThrow();
+	        }
+	    } finally {
+	        this.task = null;
+	        freeTasks[freeTasks.length] = this;
+	    }
+	};
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Promise = __webpack_require__(253);
+
+	module.exports = Promise;
+	Promise.enableSynchronous = function () {
+	  Promise.prototype.isPending = function () {
+	    return this.getState() == 0;
+	  };
+
+	  Promise.prototype.isFulfilled = function () {
+	    return this.getState() == 1;
+	  };
+
+	  Promise.prototype.isRejected = function () {
+	    return this.getState() == 2;
+	  };
+
+	  Promise.prototype.getValue = function () {
+	    if (this._81 === 3) {
+	      return this._65.getValue();
+	    }
+
+	    if (!this.isFulfilled()) {
+	      throw new Error('Cannot get a value of an unfulfilled promise.');
+	    }
+
+	    return this._65;
+	  };
+
+	  Promise.prototype.getReason = function () {
+	    if (this._81 === 3) {
+	      return this._65.getReason();
+	    }
+
+	    if (!this.isRejected()) {
+	      throw new Error('Cannot get a rejection reason of a non-rejected promise.');
+	    }
+
+	    return this._65;
+	  };
+
+	  Promise.prototype.getState = function () {
+	    if (this._81 === 3) {
+	      return this._65.getState();
+	    }
+	    if (this._81 === -1 || this._81 === -2) {
+	      return 0;
+	    }
+
+	    return this._81;
+	  };
+	};
+
+	Promise.disableSynchronous = function () {
+	  Promise.prototype.isPending = undefined;
+	  Promise.prototype.isFulfilled = undefined;
+	  Promise.prototype.isRejected = undefined;
+	  Promise.prototype.getValue = undefined;
+	  Promise.prototype.getReason = undefined;
+	  Promise.prototype.getState = undefined;
+	};
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	'use strict';
+
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function (n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n)) throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+
+	EventEmitter.prototype.emit = function (type) {
+	  var er, handler, len, args, i, listeners;
+
+	  if (!this._events) this._events = {};
+
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error || isObject(this._events.error) && !this._events.error.length) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      }
+	      throw TypeError('Uncaught, unspecified "error" event.');
+	    }
+	  }
+
+	  handler = this._events[type];
+
+	  if (isUndefined(handler)) return false;
+
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++) listeners[i].apply(this, args);
+	  }
+
+	  return true;
+	};
+
+	EventEmitter.prototype.addListener = function (type, listener) {
+	  var m;
+
+	  if (!isFunction(listener)) throw TypeError('listener must be a function');
+
+	  if (!this._events) this._events = {};
+
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener) this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
+
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+	EventEmitter.prototype.once = function (type, listener) {
+	  if (!isFunction(listener)) throw TypeError('listener must be a function');
+
+	  var fired = false;
+
+	  function g() {
+	    this.removeListener(type, g);
+
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+
+	  g.listener = listener;
+	  this.on(type, g);
+
+	  return this;
+	};
+
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function (type, listener) {
+	  var list, position, length, i;
+
+	  if (!isFunction(listener)) throw TypeError('listener must be a function');
+
+	  if (!this._events || !this._events[type]) return this;
+
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+
+	  if (list === listener || isFunction(list.listener) && list.listener === listener) {
+	    delete this._events[type];
+	    if (this._events.removeListener) this.emit('removeListener', type, listener);
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener || list[i].listener && list[i].listener === listener) {
+	        position = i;
+	        break;
+	      }
+	    }
+
+	    if (position < 0) return this;
+
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+
+	    if (this._events.removeListener) this.emit('removeListener', type, listener);
+	  }
+
+	  return this;
+	};
+
+	EventEmitter.prototype.removeAllListeners = function (type) {
+	  var key, listeners;
+
+	  if (!this._events) return this;
+
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0) this._events = {};else if (this._events[type]) delete this._events[type];
+	    return this;
+	  }
+
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+
+	  listeners = this._events[type];
+
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length) this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+
+	  return this;
+	};
+
+	EventEmitter.prototype.listeners = function (type) {
+	  var ret;
+	  if (!this._events || !this._events[type]) ret = [];else if (isFunction(this._events[type])) ret = [this._events[type]];else ret = this._events[type].slice();
+	  return ret;
+	};
+
+	EventEmitter.prototype.listenerCount = function (type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+
+	    if (isFunction(evlistener)) return 1;else if (evlistener) return evlistener.length;
+	  }
+	  return 0;
+	};
+
+	EventEmitter.listenerCount = function (emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _events = __webpack_require__(261);
+
+	var _Intent = __webpack_require__(250);
+
+	var _Intent2 = _interopRequireDefault(_Intent);
+
+	function Intents(obj) {
+	    obj = obj || this;
+	    _events.EventEmitter.apply(obj);
+	}
+	extend(Intents.prototype, {
+	    intent: function intent(key, params) {
+	        var intent = this._newIntent(key, params);
+	        return this.fireIntent(key, intent);
+	    },
+	    action: function action(key, params, _action) {
+	        if (_action === undefined) {
+	            _action = params;
+	            params = undefined;
+	        }
+	        var intent = this._newIntent(key, params);
+	        return this.runAction(key, intent, _action);
+	    },
+	    fireIntent: function fireIntent(key, intent) {
+	        try {
+	            this.emit(key, intent);
+	        } catch (err) {
+	            intent.reject(err);
+	        }
+	        return intent;
+	    },
+	    runAction: function runAction(key, intent, action) {
+	        try {
+	            var that = this;
+	            intent = that.fireIntent(key, intent);
+	            if (!intent.handled) {
+	                var result = action.call(that, intent);
+	                if (result !== undefined && !intent.handled) {
+	                    intent.resolve(result);
+	                }
+	            }
+	        } catch (err) {
+	            intent.reject(err);
+	        }
+	        return intent;
+	    },
+	    _newIntent: function _newIntent(key, params) {
+	        return new _Intent2['default'](params, key);
+	    }
+	}, _events.EventEmitter.prototype);
+
+	Intents.addTo = function (Type) {
+	    extend(Type.prototype, Intents.prototype);
+	};
+
+	function extend(to) {
+	    for (var i = 1; i < arguments.length; i++) {
+	        var from = arguments[i];
+	        for (var key in from) {
+	            if (!to[key] && Object.prototype.hasOwnProperty.call(from, key)) {
+	                to[key] = from[key];
+	            }
+	        }
+	    }
+	}
+
+	exports['default'] = Intents;
+	module.exports = exports['default'];
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _promise = __webpack_require__(251);
+
+	var _promise2 = _interopRequireDefault(_promise);
+
+	exports['default'] = {
+	    singletonPromise: function singletonPromise(method) {
+	        function runAction(params) {
+	            params = params || {};
+	            for (var key in params) {
+	                runAction.params[key] = params[key];
+	            }
+	            if (!runAction.promise) {
+	                runAction.promise = _promise2['default'].resolve().then(function (result) {
+	                    delete runAction.promise;
+	                    runAction.params = {};
+	                    return method.call(that, params);
+	                });
+	            }
+	            return runAction.promise;
+	        }
+	        runAction.params = {};
+	        runAction.promise;
+	        return runAction;
+	    },
+	    singletonAction: function singletonAction(that, actionName, action) {
+	        function runAction(params) {
+	            params = params || {};
+	            for (var key in params) {
+	                runAction.params[key] = params[key];
+	            }
+	            if (!runAction.intent) {
+	                runAction.intent = that.action(actionName, runAction.params, function (n) {
+	                    function clear() {
+	                        if (n === runAction.intent) {
+	                            runAction.params = {};
+	                            delete runAction.intent;
+	                        }
+	                    }
+	                    n.after(clear, clear);
+	                    return action.call(that, n);
+	                });
+	            }
+	            return runAction.intent;
+	        }
+	        runAction.params = {};
+	        return runAction;
+	    }
+	};
+	module.exports = exports['default'];
+
+/***/ },
 /* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -33617,7 +33404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _DataSet2 = __webpack_require__(263);
+	var _DataSet2 = __webpack_require__(248);
 
 	var _DataSet3 = _interopRequireDefault(_DataSet2);
 
@@ -33713,7 +33500,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _DataSet = __webpack_require__(263);
+	var _DataSet = __webpack_require__(248);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
@@ -33909,7 +33696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _DataSet = __webpack_require__(263);
+	var _DataSet = __webpack_require__(248);
 
 	var _DataSet2 = _interopRequireDefault(_DataSet);
 
@@ -34032,25 +33819,89 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _libGeoJsonAdapter = __webpack_require__(269);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _libGeoJsonAdapter2 = _interopRequireDefault(_libGeoJsonAdapter);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _libGeoJsonGenerator = __webpack_require__(275);
+	var _DataSetCanvasStyle2 = __webpack_require__(269);
 
-	var _libGeoJsonGenerator2 = _interopRequireDefault(_libGeoJsonGenerator);
+	var _DataSetCanvasStyle3 = _interopRequireDefault(_DataSetCanvasStyle2);
 
-	var _libGeoJsonUtils = __webpack_require__(270);
+	var BasicDataSetCanvasStyle = (function (_DataSetCanvasStyle) {
+	    _inherits(BasicDataSetCanvasStyle, _DataSetCanvasStyle);
 
-	var _libGeoJsonUtils2 = _interopRequireDefault(_libGeoJsonUtils);
+	    function BasicDataSetCanvasStyle(options) {
+	        _classCallCheck(this, BasicDataSetCanvasStyle);
 
-	exports['default'] = {
-	    GeoJsonAdapter: _libGeoJsonAdapter2['default'],
-	    GeoJsonGenerator: _libGeoJsonGenerator2['default'],
-	    GeoJsonUtils: _libGeoJsonUtils2['default']
-	};
+	        _get(Object.getPrototypeOf(BasicDataSetCanvasStyle.prototype), 'constructor', this).call(this, options);
+	    }
+
+	    _createClass(BasicDataSetCanvasStyle, [{
+	        key: 'getMarkerStyle',
+	        value: function getMarkerStyle(resource, params) {
+	            var type = resource.getTypeKey();
+	            // get color for this type
+	            if (!type) return;
+	            var zoom = params.tilePoint.z;
+	            var markers = this._markers = this._markers || {};
+	            var marker = markers[zoom];
+	            if (!marker) {
+	                var size = this.getMarkerSize(zoom);
+	                var r = Math.min(size.x / 4, size.y / 4);
+	                var lineWidth = Math.min(size.x, size.y) / 10;
+	                lineWidth = Math.min(2, lineWidth);
+	                var canvas = document.createElement('canvas');
+	                canvas.width = size.x;
+	                canvas.height = size.y;
+	                var context = canvas.getContext('2d');
+	                context.beginPath();
+	                context.fillStyle = 'yellow'; // FIXME:
+	                context.lineWidth = lineWidth;
+	                context.strokeStyle = 'black'; // FIXME:
+	                L.DataLayer.ImageUtils.drawMarker(context, lineWidth, lineWidth, canvas.width - 2 * lineWidth, canvas.height - 2 * lineWidth, r);
+	                context.fill();
+	                context.stroke();
+	                marker = canvas;
+	                markers[zoom] = marker;
+	            }
+	            return {
+	                image: marker,
+	                anchor: [marker.width / 2, marker.height]
+	            };
+	        }
+	    }, {
+	        key: 'getLineStyle',
+	        value: function getLineStyle(resource, params) {
+	            params = params || {};
+	            return {
+	                lineColor: this.options.lineColor || params.lineColor || 'red',
+	                lineOpacity: 0.9,
+	                lineWidth: 3
+	            };
+	        }
+	    }, {
+	        key: 'getPolygonStyle',
+	        value: function getPolygonStyle(resource, params) {
+	            return {
+	                fillOpacity: 0.5,
+	                fillColor: 'blue',
+	                lineOpacity: 0.9,
+	                lineColor: 'red',
+	                lineWidth: 3
+	            };
+	        }
+	    }]);
+
+	    return BasicDataSetCanvasStyle;
+	})(_DataSetCanvasStyle3['default']);
+
+	exports['default'] = BasicDataSetCanvasStyle;
 	module.exports = exports['default'];
 
 /***/ },
@@ -34065,1826 +33916,89 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _GeoJsonUtils = __webpack_require__(270);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	/**
-	 * This adapters treats all data set as GeoJson objects and provides some
-	 * utility methods.
-	 */
+	var _leaflet = __webpack_require__(244);
 
-	var _GeoJsonUtils2 = _interopRequireDefault(_GeoJsonUtils);
+	var _leaflet2 = _interopRequireDefault(_leaflet);
 
-	var GeoJsonAdapter = (function () {
+	__webpack_require__(270);
 
-	    /**
-	     * The main constructor initializing the internal data field.
-	     */
+	var DataSetCanvasStyle = (function (_L$DataLayer$GeometryRendererStyle) {
+	    _inherits(DataSetCanvasStyle, _L$DataLayer$GeometryRendererStyle);
 
-	    function GeoJsonAdapter(options, item) {
-	        _classCallCheck(this, GeoJsonAdapter);
+	    function DataSetCanvasStyle() {
+	        _classCallCheck(this, DataSetCanvasStyle);
 
-	        options = options || {};
-	        this.item = item || options.item;
+	        _get(Object.getPrototypeOf(DataSetCanvasStyle.prototype), 'constructor', this).apply(this, arguments);
 	    }
 
-	    /** getter/setter methods for the "item" property */
-
-	    _createClass(GeoJsonAdapter, [{
-	        key: 'setData',
-	        value: function setData(data) {
-	            var item = this.item;
-	            if (item.setData) {
-	                return item.setData(data);
-	            } else {
-	                return item.data = data;
-	            }
-	        }
-
-	        /** Returns a bounding box around the underlying item. */
-	    }, {
-	        key: 'item',
-	        get: function get() {
-	            return this._item || {};
-	        },
-	        set: function set(item) {
-	            this._item = item || {};
-	        }
-
-	        /** Returns the data object associated with the underlying item */
-	    }, {
-	        key: 'data',
-	        get: function get() {
-	            return this.item.data;
-	        },
-	        set: function set(data) {
-	            this.setData(data);
+	    _createClass(DataSetCanvasStyle, [{
+	        key: 'getMarkerSize',
+	        value: function getMarkerSize(zoom) {
+	            var baseZoom = this.options.baseZoom || 10;
+	            var baseWidth = this.options.baseWidth || 32;
+	            var baseHeight = this.options.baseHeight || 32;
+	            var minWidth = this.options.minWidth || 8;
+	            var minHeight = this.options.minHeight || 8;
+	            var maxWidth = this.options.maxWidth || 48;
+	            var maxHeight = this.options.maxHeight || 48;
+	            var k = Math.pow(2, zoom - baseZoom);
+	            return {
+	                x: Math.min(maxWidth, Math.max(minWidth, Math.round(baseWidth * k))),
+	                y: Math.min(maxHeight, Math.max(minHeight, Math.round(baseHeight * k)))
+	            };
 	        }
 	    }, {
-	        key: 'boundingBox',
-	        get: function get() {
-	            return _GeoJsonUtils2['default'].getBoundingBox(this.item);
-	        }
-
-	        /** Returns the central point for this item. */
-	    }, {
-	        key: 'centerPoint',
-	        get: function get() {
-	            return _GeoJsonUtils2['default'].getCenter(this.item);
-	        }
-
-	        /** Returns the coordinates of the center for this item. */
-	    }, {
-	        key: 'center',
-	        get: function get() {
-	            var center = this.centerPoint;
-	            return center.geometry.coordinates;
+	        key: 'getTilePad',
+	        value: function getTilePad(zoom) {
+	            var markerSize = this.getMarkerSize(zoom);
+	            var tileSize = this.options.tieSize || 256;
+	            var deltaX = markerSize.x ? tileSize / markerSize.x : 1;
+	            var deltaY = markerSize.y ? tileSize / markerSize.y : 1;
+	            return [deltaX, deltaY, deltaX, deltaY];
 	        }
 	    }]);
 
-	    return GeoJsonAdapter;
-	})();
+	    return DataSetCanvasStyle;
+	})(_leaflet2['default'].DataLayer.GeometryRendererStyle);
 
-	exports['default'] = GeoJsonAdapter;
+	exports['default'] = DataSetCanvasStyle;
 	module.exports = exports['default'];
 
 /***/ },
 /* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	var L = __webpack_require__(244);
+	L.DataLayer = __webpack_require__(271);
+	L.DataLayer.CanvasContext = __webpack_require__(272);
+	L.DataLayer.CanvasIndexingContext = __webpack_require__(276);
+	L.DataLayer.GeometryRenderer = __webpack_require__(279);
+	L.DataLayer.GeometryRendererStyle = __webpack_require__(280);
+	L.DataLayer.ImageGridIndex = __webpack_require__(277);
+	L.DataLayer.ImageUtils = __webpack_require__(281);
+	L.DataLayer.DataProvider = __webpack_require__(282);
+	L.DataLayer.forEachCoordinate = __webpack_require__(284);
+	L.DataLayer.GridIndex = __webpack_require__(278);
+	L.DataLayer.IDataProvider = __webpack_require__(285);
+	module.exports = L.DataLayer;
 
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var _turfExtent = __webpack_require__(271);
-
-	var _turfExtent2 = _interopRequireDefault(_turfExtent);
-
-	var _turfCenter = __webpack_require__(273);
-
-	/**
-	 * This adapters treats all Data instances as GeoJson objects and provides some
-	 * utility methods.
-	 */
-
-	var _turfCenter2 = _interopRequireDefault(_turfCenter);
-
-	var GeoJsonUtils = (function () {
-	    function GeoJsonUtils() {
-	        _classCallCheck(this, GeoJsonUtils);
-	    }
-
-	    _createClass(GeoJsonUtils, null, [{
-	        key: 'getCenter',
-
-	        /**
-	         * Returns the central point for the specified GeoJSON object.
-	         */
-	        value: function getCenter(item) {
-	            var result;
-	            var data = item.data;
-	            if (data && data.geometry) {
-	                result = (0, _turfCenter2['default'])(data.geometry);
-	            }
-	            return result;
-	        }
-
-	        /**
-	         * Returns a bounding box around the underlying data object.
-	         */
-	    }, {
-	        key: 'getBoundingBox',
-	        value: function getBoundingBox(item) {
-	            var bbox;
-	            item.visit({
-	                before: function before(r) {
-	                    var data = r.data;
-	                    if (!data.geometry) return;
-	                    var box = (0, _turfExtent2['default'])(data.geometry);
-	                    if (bbox) {
-	                        box = [Math.min(bbox[0], box[0]), Math.min(bbox[1], box[1]), Math.max(bbox[2], box[2]), Math.max(bbox[3], box[3])];
-	                    }
-	                    bbox = box;
-	                }
-	            });
-	            return bbox;
-	        }
-
-	        /**
-	         * Returns <code>true</code> if the specified bounding box is empty.
-	         * 
-	         * @see http://gis.stackexchange.com/questions/8650/how-to-measure-the-accuracy-of-latitude-and-longitude/8674#8674
-	         */
-	    }, {
-	        key: 'isEmptyBox',
-	        value: function isEmptyBox(box, precision) {
-	            if (!box) return true;
-	            var first = this.round(box[0], precision);
-	            var second = this.round(box[1], precision);
-	            var third = this.round(box[2], precision);
-	            var fourth = this.round(box[3], precision);
-	            return first === third && second === fourth;
-	        }
-
-	        /**
-	         * @see http://gis.stackexchange.com/questions/8650/how-to-measure-the-accuracy-of-latitude-and-longitude/8674#8674
-	         */
-	    }, {
-	        key: 'round',
-	        value: function round(val, precision) {
-	            precision = precision || 6;
-	            return (+val).toFixed(precision);
-	        }
-	    }]);
-
-	    return GeoJsonUtils;
-	})();
-
-	exports['default'] = GeoJsonUtils;
-	module.exports = exports['default'];
 
 /***/ },
 /* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var each = __webpack_require__(272).coordEach;
-
-	/**
-	 * Takes any {@link GeoJSON} object, calculates the extent of all input features, and returns a bounding box.
-	 *
-	 * @module turf/extent
-	 * @category measurement
-	 * @param {GeoJSON} input any valid GeoJSON Object
-	 * @return {Array<number>} the bounding box of `input` given
-	 * as an array in WSEN order (west, south, east, north)
-	 * @example
-	 * var input = {
-	 *   "type": "FeatureCollection",
-	 *   "features": [
-	 *     {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [114.175329, 22.2524]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [114.170007, 22.267969]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [114.200649, 22.274641]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [114.186744, 22.265745]
-	 *       }
-	 *     }
-	 *   ]
-	 * };
-	 *
-	 * var bbox = turf.extent(input);
-	 *
-	 * var bboxPolygon = turf.bboxPolygon(bbox);
-	 *
-	 * var resultFeatures = input.features.concat(bboxPolygon);
-	 * var result = {
-	 *   "type": "FeatureCollection",
-	 *   "features": resultFeatures
-	 * };
-	 *
-	 * //=result
-	 */
-	module.exports = function (layer) {
-	  var extent = [Infinity, Infinity, -Infinity, -Infinity];
-	  each(layer, function (coord) {
-	    if (extent[0] > coord[0]) extent[0] = coord[0];
-	    if (extent[1] > coord[1]) extent[1] = coord[1];
-	    if (extent[2] < coord[0]) extent[2] = coord[0];
-	    if (extent[3] < coord[1]) extent[3] = coord[1];
-	  });
-	  return extent;
-	};
-
-/***/ },
-/* 272 */
-/***/ function(module, exports) {
-
-	/**
-	 * Lazily iterate over coordinates in any GeoJSON object, similar to
-	 * Array.forEach.
-	 *
-	 * @param {Object} layer any GeoJSON object
-	 * @param {Function} callback a method that takes (value)
-	 * @param {boolean=} excludeWrapCoord whether or not to include
-	 * the final coordinate of LinearRings that wraps the ring in its iteration.
-	 * @example
-	 * var point = { type: 'Point', coordinates: [0, 0] };
-	 * coordEach(point, function(coords) {
-	 *   // coords is equal to [0, 0]
-	 * });
-	 */
-	'use strict';
-
-	function coordEach(layer, callback, excludeWrapCoord) {
-	  var i,
-	      j,
-	      k,
-	      g,
-	      geometry,
-	      stopG,
-	      coords,
-	      geometryMaybeCollection,
-	      wrapShrink = 0,
-	      isGeometryCollection,
-	      isFeatureCollection = layer.type === 'FeatureCollection',
-	      isFeature = layer.type === 'Feature',
-	      stop = isFeatureCollection ? layer.features.length : 1;
-
-	  // This logic may look a little weird. The reason why it is that way
-	  // is because it's trying to be fast. GeoJSON supports multiple kinds
-	  // of objects at its root: FeatureCollection, Features, Geometries.
-	  // This function has the responsibility of handling all of them, and that
-	  // means that some of the `for` loops you see below actually just don't apply
-	  // to certain inputs. For instance, if you give this just a
-	  // Point geometry, then both loops are short-circuited and all we do
-	  // is gradually rename the input until it's called 'geometry'.
-	  //
-	  // This also aims to allocate as few resources as possible: just a
-	  // few numbers and booleans, rather than any temporary arrays as would
-	  // be required with the normalization approach.
-	  for (i = 0; i < stop; i++) {
-
-	    geometryMaybeCollection = isFeatureCollection ? layer.features[i].geometry : isFeature ? layer.geometry : layer;
-	    isGeometryCollection = geometryMaybeCollection.type === 'GeometryCollection';
-	    stopG = isGeometryCollection ? geometryMaybeCollection.geometries.length : 1;
-
-	    for (g = 0; g < stopG; g++) {
-
-	      geometry = isGeometryCollection ? geometryMaybeCollection.geometries[g] : geometryMaybeCollection;
-	      coords = geometry.coordinates;
-
-	      wrapShrink = excludeWrapCoord && (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') ? 1 : 0;
-
-	      if (geometry.type === 'Point') {
-	        callback(coords);
-	      } else if (geometry.type === 'LineString' || geometry.type === 'MultiPoint') {
-	        for (j = 0; j < coords.length; j++) callback(coords[j]);
-	      } else if (geometry.type === 'Polygon' || geometry.type === 'MultiLineString') {
-	        for (j = 0; j < coords.length; j++) for (k = 0; k < coords[j].length - wrapShrink; k++) callback(coords[j][k]);
-	      } else if (geometry.type === 'MultiPolygon') {
-	        for (j = 0; j < coords.length; j++) for (k = 0; k < coords[j].length; k++) for (l = 0; l < coords[j][k].length - wrapShrink; l++) callback(coords[j][k][l]);
-	      } else {
-	        throw new Error('Unknown Geometry Type');
-	      }
-	    }
-	  }
-	}
-	module.exports.coordEach = coordEach;
-
-	/**
-	 * Lazily reduce coordinates in any GeoJSON object into a single value,
-	 * similar to how Array.reduce works. However, in this case we lazily run
-	 * the reduction, so an array of all coordinates is unnecessary.
-	 *
-	 * @param {Object} layer any GeoJSON object
-	 * @param {Function} callback a method that takes (memo, value) and returns
-	 * a new memo
-	 * @param {boolean=} excludeWrapCoord whether or not to include
-	 * the final coordinate of LinearRings that wraps the ring in its iteration.
-	 * @param {*} memo the starting value of memo: can be any type.
-	 */
-	function coordReduce(layer, callback, memo, excludeWrapCoord) {
-	  coordEach(layer, function (coord) {
-	    memo = callback(memo, coord);
-	  }, excludeWrapCoord);
-	  return memo;
-	}
-	module.exports.coordReduce = coordReduce;
-
-	/**
-	 * Lazily iterate over property objects in any GeoJSON object, similar to
-	 * Array.forEach.
-	 *
-	 * @param {Object} layer any GeoJSON object
-	 * @param {Function} callback a method that takes (value)
-	 * @example
-	 * var point = { type: 'Feature', geometry: null, properties: { foo: 1 } };
-	 * propEach(point, function(props) {
-	 *   // props is equal to { foo: 1}
-	 * });
-	 */
-	function propEach(layer, callback) {
-	  var i;
-	  switch (layer.type) {
-	    case 'FeatureCollection':
-	      features = layer.features;
-	      for (i = 0; i < layer.features.length; i++) {
-	        callback(layer.features[i].properties);
-	      }
-	      break;
-	    case 'Feature':
-	      callback(layer.properties);
-	      break;
-	  }
-	}
-	module.exports.propEach = propEach;
-
-	/**
-	 * Lazily reduce properties in any GeoJSON object into a single value,
-	 * similar to how Array.reduce works. However, in this case we lazily run
-	 * the reduction, so an array of all properties is unnecessary.
-	 *
-	 * @param {Object} layer any GeoJSON object
-	 * @param {Function} callback a method that takes (memo, coord) and returns
-	 * a new memo
-	 * @param {*} memo the starting value of memo: can be any type.
-	 */
-	function propReduce(layer, callback, memo) {
-	  propEach(layer, function (prop) {
-	    memo = callback(memo, prop);
-	  });
-	  return memo;
-	}
-	module.exports.propReduce = propReduce;
-
-/***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var extent = __webpack_require__(271),
-	    point = __webpack_require__(274);
-
-	/**
-	 * Takes a {@link FeatureCollection} of any type and returns the absolute center point of all features.
-	 *
-	 * @module turf/center
-	 * @category measurement
-	 * @param {FeatureCollection} features a FeatureCollection of any type
-	 * @return {Point} a Point feature at the
-	 * absolute center point of all input features
-	 * @example
-	 * var features = {
-	 *   "type": "FeatureCollection",
-	 *   "features": [
-	 *     {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.522259, 35.4691]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.502754, 35.463455]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.508269, 35.463245]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.516809, 35.465779]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.515372, 35.467072]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.509363, 35.463053]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.511123, 35.466601]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.518547, 35.469327]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.519706, 35.469659]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.517839, 35.466998]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.508678, 35.464942]
-	 *       }
-	 *     }, {
-	 *       "type": "Feature",
-	 *       "properties": {},
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [-97.514914, 35.463453]
-	 *       }
-	 *     }
-	 *   ]
-	 * };
-	 *
-	 * var centerPt = turf.center(features);
-	 * centerPt.properties['marker-size'] = 'large';
-	 * centerPt.properties['marker-color'] = '#000';
-	 *
-	 * var resultFeatures = features.features.concat(centerPt);
-	 * var result = {
-	 *   "type": "FeatureCollection",
-	 *   "features": resultFeatures
-	 * };
-	 *
-	 * //=result
-	 */
-
-	module.exports = function (layer, done) {
-	  var ext = extent(layer);
-	  var x = (ext[0] + ext[2]) / 2;
-	  var y = (ext[1] + ext[3]) / 2;
-	  return point([x, y]);
-	};
-
-/***/ },
-/* 274 */
-/***/ function(module, exports) {
-
-	/**
-	 * Takes coordinates and properties (optional) and returns a new {@link Point} feature.
-	 *
-	 * @module turf/point
-	 * @category helper
-	 * @param {number} longitude position west to east in decimal degrees
-	 * @param {number} latitude position south to north in decimal degrees
-	 * @param {Object} properties an Object that is used as the {@link Feature}'s
-	 * properties
-	 * @return {Point} a Point feature
-	 * @example
-	 * var pt1 = turf.point([-75.343, 39.984]);
-	 *
-	 * //=pt1
-	 */
-	'use strict';
-
-	var isArray = Array.isArray || function (arg) {
-	  return Object.prototype.toString.call(arg) === '[object Array]';
-	};
-	module.exports = function (coordinates, properties) {
-	  if (!isArray(coordinates)) throw new Error('Coordinates must be an array');
-	  if (coordinates.length < 2) throw new Error('Coordinates must be at least 2 numbers long');
-	  return {
-	    type: "Feature",
-	    geometry: {
-	      type: "Point",
-	      coordinates: coordinates
-	    },
-	    properties: properties || {}
-	  };
-	};
-
-/***/ },
-/* 275 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var GeoJsonGenerator = (function () {
-	    function GeoJsonGenerator(options) {
-	        _classCallCheck(this, GeoJsonGenerator);
-
-	        options = options || {};
-	        this.bbox = options.bbox || [-180, 90, 180, -90];
-	        this.precision = options.precision || 6;
-	    }
-
-	    _createClass(GeoJsonGenerator, [{
-	        key: 'round',
-	        value: function round(val, precision) {
-	            precision = precision || this.precision;
-	            return +(+val).toFixed(precision);
-	        }
-	    }, {
-	        key: 'random',
-	        value: function random(from, to) {
-	            return this.round(from + Math.random() * (to - from));
-	        }
-	    }, {
-	        key: 'randomLng',
-	        value: function randomLng() {
-	            return this.random(this.bbox[0], this.bbox[2]);
-	        }
-	    }, {
-	        key: 'randomLat',
-	        value: function randomLat() {
-	            return this.random(this.bbox[1], this.bbox[3]);
-	        }
-	    }, {
-	        key: 'randomLngLat',
-	        value: function randomLngLat() {
-	            return [this.randomLng(), this.randomLat()];
-	        }
-	    }, {
-	        key: 'randomPoint',
-	        value: function randomPoint() {
-	            return {
-	                type: 'Feature',
-	                geometry: {
-	                    type: 'Point',
-	                    coordinates: this.randomLngLat()
-	                }
-	            };
-	        }
-	    }, {
-	        key: 'randomPoints',
-	        value: function randomPoints(number) {
-	            var result = [];
-	            for (var i = 0; i < number; i++) {
-	                result.push(this.randomPoint());
-	            }
-	            return result;
-	        }
-	    }]);
-
-	    return GeoJsonGenerator;
-	})();
-
-	exports['default'] = GeoJsonGenerator;
-	module.exports = exports['default'];
-
-/***/ },
-/* 276 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_276__;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var LeafletPopupAdapter = (function () {
-	    function LeafletPopupAdapter(options, item) {
-	        _classCallCheck(this, LeafletPopupAdapter);
-
-	        this.options = options || {};
-	        this.item = item || this.options.item;
-	    }
-
-	    _createClass(LeafletPopupAdapter, [{
-	        key: 'renderPopupContent',
-	        value: function renderPopupContent() {
-	            return this.item.get('properties.description');
-	        }
-	    }]);
-
-	    return LeafletPopupAdapter;
-	})();
-
-	exports['default'] = LeafletPopupAdapter;
-	module.exports = exports['default'];
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	var _LeafletAdapter = __webpack_require__(244);
-
-	var _LeafletAdapter2 = _interopRequireDefault(_LeafletAdapter);
-
-	var _DataSetLeafletUtils = __webpack_require__(279);
-
-	var _DataSetLeafletUtils2 = _interopRequireDefault(_DataSetLeafletUtils);
-
-	var _AbstractDataSetLeaflet2 = __webpack_require__(280);
-
-	var _AbstractDataSetLeaflet3 = _interopRequireDefault(_AbstractDataSetLeaflet2);
-
-	var DataSetLeafletLayer = (function (_AbstractDataSetLeaflet) {
-	    _inherits(DataSetLeafletLayer, _AbstractDataSetLeaflet);
-
-	    function DataSetLeafletLayer(options) {
-	        _classCallCheck(this, DataSetLeafletLayer);
-
-	        _get(Object.getPrototypeOf(DataSetLeafletLayer.prototype), 'constructor', this).call(this, options);
-	        this._constructorOptions = options;
-	        this._layersIndex = {};
-	    }
-
-	    _createClass(DataSetLeafletLayer, [{
-	        key: '_updateSelection',
-	        value: function _updateSelection(diff) {
-	            var that = this;
-	            diff.added.forEach(function (item) {
-	                var layer = that._layersIndex[item.id];
-	                if (!layer) return;
-	                var adapter = that._getLeafletAdapter(item);
-	                function remove() {
-	                    that.selectedItems.removeItem(item);
-	                }
-	                adapter.selectLayer(layer).then(remove, remove);
-	            });
-
-	            diff.removed.forEach(function (item) {
-	                var layer = that._layersIndex[item.id];
-	                if (!layer) return;
-	                var adapter = that._getLeafletAdapter(item);
-	                adapter.deselectLayer(layer);
-	            });
-	        }
-	    }, {
-	        key: '_redrawLayers',
-	        value: function _redrawLayers(diff) {
-	            var that = this;
-	            diff.added.forEach(function (item) {
-	                var adapter = that._getLeafletAdapter(item);
-	                if (!adapter) return;
-	                var layer = adapter.newLeafletLayer();
-	                if (!layer) return;
-	                that._layersIndex[item.id] = layer;
-	                that.addLayer(layer);
-	            });
-	            diff.removed.forEach(function (item) {
-	                var layer = that._layersIndex[item.id];
-	                if (!layer) return;
-	                delete that._layersIndex[item.id];
-	                var adapter = that._getLeafletAdapter(item);
-	                adapter.deleteLeafletLayer(layer);
-	                that.removeLayer(layer);
-	            });
-	            if (!this.options.noFocus) {
-	                _DataSetLeafletUtils2['default'].fitToBoundsDeferred({
-	                    dataSet: this.dataSet,
-	                    map: this._map,
-	                    bbox: this.options.bbox
-	                });
-	            }
-	        }
-	    }, {
-	        key: '_getLeafletAdapter',
-	        value: function _getLeafletAdapter(item) {
-	            return item.getAdapter(_LeafletAdapter2['default'], this._constructorOptions);
-	        }
-	    }]);
-
-	    return DataSetLeafletLayer;
-	})((0, _AbstractDataSetLeaflet3['default'])(_leaflet2['default'].FeatureGroup));
-
-	exports['default'] = DataSetLeafletLayer;
-	module.exports = exports['default'];
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	var _mosaicDatasetGeo = __webpack_require__(268);
-
-	exports['default'] = {
-	    fitToBoundsDeferred: function fitToBoundsDeferred(options) {
-	        var that = this;
-	        setTimeout(function () {
-	            that.fitToBounds(options);
-	        }, options.timeout || 150);
-	    },
-	    fitToBounds: function fitToBounds(options) {
-	        function getBounds(bbox) {
-	            if (!bbox) return;
-	            return _leaflet2['default'].latLngBounds([bbox[1], bbox[0]], [bbox[3], bbox[2]]);
-	        }
-	        var maxBounds = getBounds(options.bbox);
-	        var adapter = options.dataSet.getAdapter(_mosaicDatasetGeo.GeoJsonAdapter);
-	        var bbox = getBounds(adapter.boundingBox);
-	        if (!bbox) {
-	            var center = adapter.centerPoint;
-	            if (center) {
-	                var latlng = _leaflet2['default'].latLng(center[1], center[0]);
-	                options.map.panTo(latlng);
-	            }
-	        } else {
-	            if (maxBounds) {
-	                bbox = maxBounds.intersect(bbox);
-	            }
-	            options.map.fitBounds(bbox);
-	        }
-	    }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	exports['default'] = function (Parent) {
-	    return (function (_Parent) {
-	        _inherits(AbstractDataSetLeaflet, _Parent);
-
-	        function AbstractDataSetLeaflet(options) {
-	            _classCallCheck(this, AbstractDataSetLeaflet);
-
-	            _get(Object.getPrototypeOf(AbstractDataSetLeaflet.prototype), 'constructor', this).call(this, options);
-	            _leaflet2['default'].setOptions(this, options);
-	            this._constructorOptions = options;
-	            this.dataSet = options.dataSet;
-	            this.selectedItems = options.selectedItems;
-	            this._onDataSetUpdate = this._onDataSetUpdate.bind(this);
-	            this._onSelectionUpdate = this._onSelectionUpdate.bind(this);
-	            this._redrawLayers = this._redrawLayers.bind(this);
-	            this._updateSelection = this._updateSelection.bind(this);
-	        }
-
-	        _createClass(AbstractDataSetLeaflet, [{
-	            key: 'onAdd',
-	            value: function onAdd() {
-	                for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
-	                    params[_key] = arguments[_key];
-	                }
-
-	                _get(Object.getPrototypeOf(AbstractDataSetLeaflet.prototype), 'onAdd', this).apply(this, params);
-	                this.dataSet.addListener('update', this._onDataSetUpdate);
-	                if (this.selectedItems) {
-	                    this.selectedItems.addListener('update', this._onSelectionUpdate);
-	                }
-	                this._redrawLayers({
-	                    added: this.dataSet.items,
-	                    removed: [],
-	                    updated: []
-	                });
-	            }
-	        }, {
-	            key: 'onRemove',
-	            value: function onRemove() {
-	                this.dataSet.removeListener('update', this._onDataSetUpdate);
-	                if (this.selectedItems) {
-	                    this.selectedItems.removeListener('update', this._onSelectionUpdate);
-	                }
-
-	                for (var _len2 = arguments.length, params = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	                    params[_key2] = arguments[_key2];
-	                }
-
-	                _get(Object.getPrototypeOf(AbstractDataSetLeaflet.prototype), 'onRemove', this).apply(this, params);
-	            }
-	        }, {
-	            key: '_onDataSetUpdate',
-	            value: function _onDataSetUpdate(intent) {
-	                _mosaicDataset.DataSet.diff(this.dataSet, intent).then(this._redrawLayers);
-	            }
-	        }, {
-	            key: '_onSelectionUpdate',
-	            value: function _onSelectionUpdate(intent) {
-	                _mosaicDataset.DataSet.diff(this.selectedItems, intent).then(this._updateSelection);
-	            }
-	        }, {
-	            key: '_redrawLayers',
-	            value: function _redrawLayers(diff) {
-	                throw new Error('Not implemented');
-	            }
-	        }, {
-	            key: '_updateSelection',
-	            value: function _updateSelection(diff) {
-	                throw new Error('Not implemented');
-	            }
-	        }]);
-
-	        return AbstractDataSetLeaflet;
-	    })(Parent);
-	};
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	__webpack_require__(282);
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	var _mosaicDatasetGeo = __webpack_require__(268);
-
-	var _LeafletAdapter = __webpack_require__(244);
-
-	var _LeafletAdapter2 = _interopRequireDefault(_LeafletAdapter);
-
-	var _LeafletClusterAdapter = __webpack_require__(283);
-
-	var _LeafletClusterAdapter2 = _interopRequireDefault(_LeafletClusterAdapter);
-
-	var _DataSetLeafletUtils = __webpack_require__(279);
-
-	var _DataSetLeafletUtils2 = _interopRequireDefault(_DataSetLeafletUtils);
-
-	var _AbstractDataSetLeaflet2 = __webpack_require__(280);
-
-	var _AbstractDataSetLeaflet3 = _interopRequireDefault(_AbstractDataSetLeaflet2);
-
-	var DataSetClusteredLeafletLayer = (function (_AbstractDataSetLeaflet) {
-	    _inherits(DataSetClusteredLeafletLayer, _AbstractDataSetLeaflet);
-
-	    function DataSetClusteredLeafletLayer(options) {
-	        _classCallCheck(this, DataSetClusteredLeafletLayer);
-
-	        var that = undefined;
-	        options.iconCreateFunction = function (cluster) {
-	            var icon = that._newClusterIcon(cluster);
-	            return icon;
-	        };
-	        _get(Object.getPrototypeOf(DataSetClusteredLeafletLayer.prototype), 'constructor', this).call(this, options);
-	        options.removeOutsideVisibleBounds = true;
-	        that = this;
-	        this._constructorOptions = options || {};
-	        this._layersIndex = {};
-	        this.options.polygonOptions = that._getClusterPolygonOptions();
-	    }
-
-	    _createClass(DataSetClusteredLeafletLayer, [{
-	        key: '_updateSelection',
-	        value: function _updateSelection(diff) {
-	            var that = this;
-	            if (diff.added.length) {
-	                (function () {
-	                    var item = diff.added[0];
-	                    var layer = that._layersIndex[item.id];
-	                    var adapter = that._getLeafletAdapter(item);
-	                    if (adapter && layer) {
-	                        that.zoomToShowLayer(layer, function () {
-	                            setTimeout(function () {
-	                                var latlng = layer.getLatLng();
-	                                that._map.panTo(latlng);
-	                                function remove() {
-	                                    that.selectedItems.removeItem(item);
-	                                }
-	                                adapter.selectLayer(layer).then(remove, remove);
-	                            }, 50);
-	                        });
-	                    }
-	                })();
-	            }
-	            diff.removed.forEach(function (item) {
-	                var layer = that._layersIndex[item.id];
-	                if (!layer) return;
-	                var adapter = that._getLeafletAdapter(item);
-	                adapter.deselectLayer(layer);
-	            });
-	        }
-	    }, {
-	        key: '_redrawLayers',
-	        value: function _redrawLayers(diff) {
-	            var that = this;
-	            var toAdd = [];
-	            var toRemove = [];
-	            diff.added.forEach(function (item) {
-	                var adapter = that._getLeafletAdapter(item);
-	                if (!adapter) return;
-	                var layer = adapter.newLeafletLayer();
-	                if (!layer) return;
-	                that._layersIndex[item.id] = layer;
-	                toAdd.push(layer);
-	            });
-	            diff.removed.forEach(function (item) {
-	                var layer = that._layersIndex[item.id];
-	                if (!layer) return;
-	                delete that._layersIndex[item.id];
-	                var adapter = that._getLeafletAdapter(item);
-	                that.removeLayer(layer);
-	                adapter.deleteLeafletLayer(layer);
-	            });
-	            that.addLayers(toAdd);
-	            if (!this.options.noFocus) {
-	                _DataSetLeafletUtils2['default'].fitToBoundsDeferred({
-	                    dataSet: this.dataSet,
-	                    map: this._map,
-	                    bbox: this.options.bbox
-	                });
-	            }
-	        }
-	    }, {
-	        key: '_getLeafletAdapter',
-	        value: function _getLeafletAdapter(item) {
-	            return item.getAdapter(_LeafletAdapter2['default'], this._constructorOptions);
-	        }
-	    }, {
-	        key: '_getClusterAdapter',
-	        value: function _getClusterAdapter() {
-	            if (!this._clusterAdapter) {
-	                this._clusterAdapter = this.dataSet.getAdapter(_LeafletClusterAdapter2['default'], this._constructorOptions);
-	            }
-	            return this._clusterAdapter;
-	        }
-	    }, {
-	        key: '_newClusterIcon',
-	        value: function _newClusterIcon(cluster) {
-	            var clusterAdapter = this._getClusterAdapter();
-	            return clusterAdapter.newClusterIcon(cluster, this);
-	        }
-	    }, {
-	        key: '_getClusterPolygonOptions',
-	        value: function _getClusterPolygonOptions() {
-	            var clusterAdapter = this._getClusterAdapter();
-	            return clusterAdapter.getClusterPolygonOptions(this);
-	        }
-	    }]);
-
-	    return DataSetClusteredLeafletLayer;
-	})((0, _AbstractDataSetLeaflet3['default'])(_leaflet2['default'].MarkerClusterGroup));
-
-	exports['default'] = DataSetClusteredLeafletLayer;
-	module.exports = exports['default'];
-
-/***/ },
-/* 282 */
-/***/ function(module, exports) {
-
-	/*
-	 Leaflet.markercluster, Provides Beautiful Animated Marker Clustering functionality for Leaflet, a JS library for interactive maps.
-	 https://github.com/Leaflet/Leaflet.markercluster
-	 (c) 2012-2013, Dave Leaver, smartrak
-	*/
-	"use strict";
-
-	!(function (e, t, i) {
-	  L.MarkerClusterGroup = L.FeatureGroup.extend({ options: { maxClusterRadius: 80, iconCreateFunction: null, spiderfyOnMaxZoom: !0, showCoverageOnHover: !0, zoomToBoundsOnClick: !0, singleMarkerMode: !1, disableClusteringAtZoom: null, removeOutsideVisibleBounds: !0, animate: !0, animateAddingMarkers: !1, spiderfyDistanceMultiplier: 1, spiderLegPolylineOptions: { weight: 1.5, color: "#222", opacity: .5 }, chunkedLoading: !1, chunkInterval: 200, chunkDelay: 50, chunkProgress: null, polygonOptions: {} }, initialize: function initialize(e) {
-	      L.Util.setOptions(this, e), this.options.iconCreateFunction || (this.options.iconCreateFunction = this._defaultIconCreateFunction), this._featureGroup = L.featureGroup(), this._featureGroup.addEventParent(this), this._nonPointGroup = L.featureGroup(), this._nonPointGroup.addEventParent(this), this._inZoomAnimation = 0, this._needsClustering = [], this._needsRemoving = [], this._currentShownBounds = null, this._queue = [];var t = L.DomUtil.TRANSITION && this.options.animate;L.extend(this, t ? this._withAnimation : this._noAnimation), this._markerCluster = t ? L.MarkerCluster : L.MarkerClusterNonAnimated;
-	    }, addLayer: function addLayer(e) {
-	      if (e instanceof L.LayerGroup) {
-	        var t = [];for (var i in e._layers) t.push(e._layers[i]);return this.addLayers(t);
-	      }if (!e.getLatLng) return this._nonPointGroup.addLayer(e), this;if (!this._map) return this._needsClustering.push(e), this;if (this.hasLayer(e)) return this;this._unspiderfy && this._unspiderfy(), this._addLayer(e, this._maxZoom), this._topClusterLevel._recalculateBounds();var n = e,
-	          s = this._map.getZoom();if (e.__parent) for (; n.__parent._zoom >= s;) n = n.__parent;return this._currentShownBounds.contains(n.getLatLng()) && (this.options.animateAddingMarkers ? this._animationAddLayer(e, n) : this._animationAddLayerNonAnimated(e, n)), this;
-	    }, removeLayer: function removeLayer(e) {
-	      if (e instanceof L.LayerGroup) {
-	        var t = [];for (var i in e._layers) t.push(e._layers[i]);return this.removeLayers(t);
-	      }return e.getLatLng ? this._map ? e.__parent ? (this._unspiderfy && (this._unspiderfy(), this._unspiderfyLayer(e)), this._removeLayer(e, !0), this._topClusterLevel._recalculateBounds(), e.off("move", this._childMarkerMoved, this), this._featureGroup.hasLayer(e) && (this._featureGroup.removeLayer(e), e.clusterShow && e.clusterShow()), this) : this : (!this._arraySplice(this._needsClustering, e) && this.hasLayer(e) && this._needsRemoving.push(e), this) : (this._nonPointGroup.removeLayer(e), this);
-	    }, addLayers: function addLayers(e) {
-	      var t,
-	          i,
-	          n,
-	          s,
-	          r = this._featureGroup,
-	          o = this._nonPointGroup,
-	          a = this.options.chunkedLoading,
-	          h = this.options.chunkInterval,
-	          u = this.options.chunkProgress;if (this._map) {
-	        var l = 0,
-	            _ = new Date().getTime(),
-	            d = L.bind(function () {
-	          for (var t = new Date().getTime(); l < e.length; l++) {
-	            if (a && 0 === l % 200) {
-	              var i = new Date().getTime() - t;if (i > h) break;
-	            }if ((s = e[l], s.getLatLng)) {
-	              if (!this.hasLayer(s) && (this._addLayer(s, this._maxZoom), s.__parent && 2 === s.__parent.getChildCount())) {
-	                var n = s.__parent.getAllChildMarkers(),
-	                    c = n[0] === s ? n[1] : n[0];r.removeLayer(c);
-	              }
-	            } else o.addLayer(s);
-	          }u && u(l, e.length, new Date().getTime() - _), l === e.length ? (this._topClusterLevel._recalculateBounds(), this._featureGroup.eachLayer(function (e) {
-	            e instanceof L.MarkerCluster && e._iconNeedsUpdate && e._updateIcon();
-	          }), this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds)) : setTimeout(d, this.options.chunkDelay);
-	        }, this);d();
-	      } else {
-	        for (t = [], i = 0, n = e.length; n > i; i++) s = e[i], s.getLatLng ? this.hasLayer(s) || t.push(s) : o.addLayer(s);this._needsClustering = this._needsClustering.concat(t);
-	      }return this;
-	    }, removeLayers: function removeLayers(e) {
-	      var t,
-	          i,
-	          n,
-	          s = this._featureGroup,
-	          r = this._nonPointGroup;if (!this._map) {
-	        for (t = 0, i = e.length; i > t; t++) n = e[t], this._arraySplice(this._needsClustering, n), r.removeLayer(n), this.hasLayer(n) && this._needsRemoving.push(n);return this;
-	      }if (this._unspiderfy) for (this._unspiderfy(), t = 0, i = e.length; i > t; t++) n = e[t], this._unspiderfyLayer(n);for (t = 0, i = e.length; i > t; t++) n = e[t], n.__parent ? (this._removeLayer(n, !0, !0), s.hasLayer(n) && (s.removeLayer(n), n.clusterShow && n.clusterShow())) : r.removeLayer(n);return this._topClusterLevel._recalculateBounds(), this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds), s.eachLayer(function (e) {
-	        e instanceof L.MarkerCluster && e._updateIcon();
-	      }), this;
-	    }, clearLayers: function clearLayers() {
-	      return this._map || (this._needsClustering = [], delete this._gridClusters, delete this._gridUnclustered), this._noanimationUnspiderfy && this._noanimationUnspiderfy(), this._featureGroup.clearLayers(), this._nonPointGroup.clearLayers(), this.eachLayer(function (e) {
-	        e.off("move", this._childMarkerMoved, this), delete e.__parent;
-	      }), this._map && this._generateInitialClusters(), this;
-	    }, getBounds: function getBounds() {
-	      var e = new L.LatLngBounds();this._topClusterLevel && e.extend(this._topClusterLevel._bounds);for (var t = this._needsClustering.length - 1; t >= 0; t--) e.extend(this._needsClustering[t].getLatLng());return e.extend(this._nonPointGroup.getBounds()), e;
-	    }, eachLayer: function eachLayer(e, t) {
-	      var i,
-	          n = this._needsClustering.slice(),
-	          s = this._needsRemoving;for (this._topClusterLevel && this._topClusterLevel.getAllChildMarkers(n), i = n.length - 1; i >= 0; i--) -1 === s.indexOf(n[i]) && e.call(t, n[i]);this._nonPointGroup.eachLayer(e, t);
-	    }, getLayers: function getLayers() {
-	      var e = [];return this.eachLayer(function (t) {
-	        e.push(t);
-	      }), e;
-	    }, getLayer: function getLayer(e) {
-	      var t = null;return e = parseInt(e, 10), this.eachLayer(function (i) {
-	        L.stamp(i) === e && (t = i);
-	      }), t;
-	    }, hasLayer: function hasLayer(e) {
-	      if (!e) return !1;var t,
-	          i = this._needsClustering;for (t = i.length - 1; t >= 0; t--) if (i[t] === e) return !0;for (i = this._needsRemoving, t = i.length - 1; t >= 0; t--) if (i[t] === e) return !1;return !(!e.__parent || e.__parent._group !== this) || this._nonPointGroup.hasLayer(e);
-	    }, zoomToShowLayer: function zoomToShowLayer(e, t) {
-	      "function" != typeof t && (t = function () {});var i = function i() {
-	        !e._icon && !e.__parent._icon || this._inZoomAnimation || (this._map.off("moveend", i, this), this.off("animationend", i, this), e._icon ? t() : e.__parent._icon && (this.once("spiderfied", t, this), e.__parent.spiderfy()));
-	      };if (e._icon && this._map.getBounds().contains(e.getLatLng())) t();else if (e.__parent._zoom < this._map.getZoom()) this._map.on("moveend", i, this), this._map.panTo(e.getLatLng());else {
-	        var _n = function n() {
-	          this._map.off("movestart", _n, this), _n = null;
-	        };this._map.on("movestart", _n, this), this._map.on("moveend", i, this), this.on("animationend", i, this), e.__parent.zoomToBounds(), _n && i.call(this);
-	      }
-	    }, onAdd: function onAdd(e) {
-	      this._map = e;var t, i, n;if (!isFinite(this._map.getMaxZoom())) throw "Map has no maxZoom specified";for (this._featureGroup.addTo(e), this._nonPointGroup.addTo(e), this._gridClusters || this._generateInitialClusters(), this._maxLat = e.options.crs.projection.MAX_LATITUDE, t = 0, i = this._needsRemoving.length; i > t; t++) n = this._needsRemoving[t], this._removeLayer(n, !0);this._needsRemoving = [], this._zoom = this._map.getZoom(), this._currentShownBounds = this._getExpandedVisibleBounds(), this._map.on("zoomend", this._zoomEnd, this), this._map.on("moveend", this._moveEnd, this), this._spiderfierOnAdd && this._spiderfierOnAdd(), this._bindEvents(), i = this._needsClustering, this._needsClustering = [], this.addLayers(i);
-	    }, onRemove: function onRemove(e) {
-	      e.off("zoomend", this._zoomEnd, this), e.off("moveend", this._moveEnd, this), this._unbindEvents(), this._map._mapPane.className = this._map._mapPane.className.replace(" leaflet-cluster-anim", ""), this._spiderfierOnRemove && this._spiderfierOnRemove(), delete this._maxLat, this._hideCoverage(), this._featureGroup.remove(), this._nonPointGroup.remove(), this._featureGroup.clearLayers(), this._map = null;
-	    }, getVisibleParent: function getVisibleParent(e) {
-	      for (var t = e; t && !t._icon;) t = t.__parent;return t || null;
-	    }, _arraySplice: function _arraySplice(e, t) {
-	      for (var i = e.length - 1; i >= 0; i--) if (e[i] === t) return e.splice(i, 1), !0;
-	    }, _removeFromGridUnclustered: function _removeFromGridUnclustered(e, t) {
-	      for (var i = this._map, n = this._gridUnclustered; t >= 0 && n[t].removeObject(e, i.project(e.getLatLng(), t)); t--);
-	    }, _childMarkerMoved: function _childMarkerMoved(e) {
-	      this._ignoreMove || (e.target._latlng = e.oldLatLng, this.removeLayer(e.target), e.target._latlng = e.latlng, this.addLayer(e.target));
-	    }, _removeLayer: function _removeLayer(e, t, i) {
-	      var n = this._gridClusters,
-	          s = this._gridUnclustered,
-	          r = this._featureGroup,
-	          o = this._map;t && this._removeFromGridUnclustered(e, this._maxZoom);var a,
-	          h = e.__parent,
-	          u = h._markers;for (this._arraySplice(u, e); h && (h._childCount--, h._boundsNeedUpdate = !0, !(h._zoom < 0));) t && h._childCount <= 1 ? (a = h._markers[0] === e ? h._markers[1] : h._markers[0], n[h._zoom].removeObject(h, o.project(h._cLatLng, h._zoom)), s[h._zoom].addObject(a, o.project(a.getLatLng(), h._zoom)), this._arraySplice(h.__parent._childClusters, h), h.__parent._markers.push(a), a.__parent = h.__parent, h._icon && (r.removeLayer(h), i || r.addLayer(a))) : i && h._icon || h._updateIcon(), h = h.__parent;delete e.__parent;
-	    }, _isOrIsParent: function _isOrIsParent(e, t) {
-	      for (; t;) {
-	        if (e === t) return !0;t = t.parentNode;
-	      }return !1;
-	    }, fire: function fire(e, t, i) {
-	      if (t && t.layer instanceof L.MarkerCluster) {
-	        if (t.originalEvent && this._isOrIsParent(t.layer._icon, t.originalEvent.relatedTarget)) return;e = "cluster" + e;
-	      }L.FeatureGroup.prototype.fire.call(this, e, t, i);
-	    }, listens: function listens(e, t) {
-	      return L.FeatureGroup.prototype.listens.call(this, e, t) || L.FeatureGroup.prototype.listens.call(this, "cluster" + e, t);
-	    }, _defaultIconCreateFunction: function _defaultIconCreateFunction(e) {
-	      var t = e.getChildCount(),
-	          i = " marker-cluster-";return i += 10 > t ? "small" : 100 > t ? "medium" : "large", new L.DivIcon({ html: "<div><span>" + t + "</span></div>", className: "marker-cluster" + i, iconSize: new L.Point(40, 40) });
-	    }, _bindEvents: function _bindEvents() {
-	      var e = this._map,
-	          t = this.options.spiderfyOnMaxZoom,
-	          i = this.options.showCoverageOnHover,
-	          n = this.options.zoomToBoundsOnClick;(t || n) && this.on("clusterclick", this._zoomOrSpiderfy, this), i && (this.on("clustermouseover", this._showCoverage, this), this.on("clustermouseout", this._hideCoverage, this), e.on("zoomend", this._hideCoverage, this));
-	    }, _zoomOrSpiderfy: function _zoomOrSpiderfy(e) {
-	      for (var t = e.layer, i = t; 1 === i._childClusters.length;) i = i._childClusters[0];i._zoom === this._maxZoom && i._childCount === t._childCount ? this.options.spiderfyOnMaxZoom && t.spiderfy() : this.options.zoomToBoundsOnClick && t.zoomToBounds(), e.originalEvent && 13 === e.originalEvent.keyCode && this._map._container.focus();
-	    }, _showCoverage: function _showCoverage(e) {
-	      var t = this._map;this._inZoomAnimation || (this._shownPolygon && t.removeLayer(this._shownPolygon), e.layer.getChildCount() > 2 && e.layer !== this._spiderfied && (this._shownPolygon = new L.Polygon(e.layer.getConvexHull(), this.options.polygonOptions), t.addLayer(this._shownPolygon)));
-	    }, _hideCoverage: function _hideCoverage() {
-	      this._shownPolygon && (this._map.removeLayer(this._shownPolygon), this._shownPolygon = null);
-	    }, _unbindEvents: function _unbindEvents() {
-	      var e = this.options.spiderfyOnMaxZoom,
-	          t = this.options.showCoverageOnHover,
-	          i = this.options.zoomToBoundsOnClick,
-	          n = this._map;(e || i) && this.off("clusterclick", this._zoomOrSpiderfy, this), t && (this.off("clustermouseover", this._showCoverage, this), this.off("clustermouseout", this._hideCoverage, this), n.off("zoomend", this._hideCoverage, this));
-	    }, _zoomEnd: function _zoomEnd() {
-	      this._map && (this._mergeSplitClusters(), this._zoom = Math.round(this._map._zoom), this._currentShownBounds = this._getExpandedVisibleBounds());
-	    }, _moveEnd: function _moveEnd() {
-	      if (!this._inZoomAnimation) {
-	        var e = this._getExpandedVisibleBounds();this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, this._zoom, e), this._topClusterLevel._recursivelyAddChildrenToMap(null, Math.round(this._map._zoom), e), this._currentShownBounds = e;
-	      }
-	    }, _generateInitialClusters: function _generateInitialClusters() {
-	      var e = this._map.getMaxZoom(),
-	          t = this.options.maxClusterRadius,
-	          i = t;"function" != typeof t && (i = function () {
-	        return t;
-	      }), this.options.disableClusteringAtZoom && (e = this.options.disableClusteringAtZoom - 1), this._maxZoom = e, this._gridClusters = {}, this._gridUnclustered = {};for (var n = e; n >= 0; n--) this._gridClusters[n] = new L.DistanceGrid(i(n)), this._gridUnclustered[n] = new L.DistanceGrid(i(n));this._topClusterLevel = new this._markerCluster(this, -1);
-	    }, _addLayer: function _addLayer(e, t) {
-	      var i,
-	          n,
-	          s = this._gridClusters,
-	          r = this._gridUnclustered;for (this.options.singleMarkerMode && this._overrideMarkerIcon(e), e.on("move", this._childMarkerMoved, this); t >= 0; t--) {
-	        i = this._map.project(e.getLatLng(), t);var o = s[t].getNearObject(i);if (o) return o._addChild(e), e.__parent = o, void 0;if (o = r[t].getNearObject(i)) {
-	          var a = o.__parent;a && this._removeLayer(o, !1);var h = new this._markerCluster(this, t, o, e);s[t].addObject(h, this._map.project(h._cLatLng, t)), o.__parent = h, e.__parent = h;var u = h;for (n = t - 1; n > a._zoom; n--) u = new this._markerCluster(this, n, u), s[n].addObject(u, this._map.project(o.getLatLng(), n));return a._addChild(u), this._removeFromGridUnclustered(o, t), void 0;
-	        }r[t].addObject(e, i);
-	      }this._topClusterLevel._addChild(e), e.__parent = this._topClusterLevel;
-	    }, _enqueue: function _enqueue(e) {
-	      this._queue.push(e), this._queueTimeout || (this._queueTimeout = setTimeout(L.bind(this._processQueue, this), 300));
-	    }, _processQueue: function _processQueue() {
-	      for (var e = 0; e < this._queue.length; e++) this._queue[e].call(this);this._queue.length = 0, clearTimeout(this._queueTimeout), this._queueTimeout = null;
-	    }, _mergeSplitClusters: function _mergeSplitClusters() {
-	      var e = Math.round(this._map._zoom);this._processQueue(), this._zoom < e && this._currentShownBounds.contains(this._getExpandedVisibleBounds()) ? (this._animationStart(), this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, this._zoom, this._getExpandedVisibleBounds()), this._animationZoomIn(this._zoom, e)) : this._zoom > e ? (this._animationStart(), this._animationZoomOut(this._zoom, e)) : this._moveEnd();
-	    }, _getExpandedVisibleBounds: function _getExpandedVisibleBounds() {
-	      return this.options.removeOutsideVisibleBounds ? L.Browser.mobile ? this._checkBoundsMaxLat(this._map.getBounds()) : this._checkBoundsMaxLat(this._map.getBounds().pad(1)) : this._mapBoundsInfinite;
-	    }, _checkBoundsMaxLat: function _checkBoundsMaxLat(e) {
-	      var t = this._maxLat;return t !== i && (e.getNorth() >= t && (e._northEast.lat = 1 / 0), e.getSouth() <= -t && (e._southWest.lat = -1 / 0)), e;
-	    }, _animationAddLayerNonAnimated: function _animationAddLayerNonAnimated(e, t) {
-	      if (t === e) this._featureGroup.addLayer(e);else if (2 === t._childCount) {
-	        t._addToMap();var i = t.getAllChildMarkers();this._featureGroup.removeLayer(i[0]), this._featureGroup.removeLayer(i[1]);
-	      } else t._updateIcon();
-	    }, _overrideMarkerIcon: function _overrideMarkerIcon(e) {
-	      var t = e.options.icon = this.options.iconCreateFunction({ getChildCount: function getChildCount() {
-	          return 1;
-	        }, getAllChildMarkers: function getAllChildMarkers() {
-	          return [e];
-	        } });return t;
-	    } }), L.MarkerClusterGroup.include({ _mapBoundsInfinite: new L.LatLngBounds(new L.LatLng(-1 / 0, -1 / 0), new L.LatLng(1 / 0, 1 / 0)) }), L.MarkerClusterGroup.include({ _noAnimation: { _animationStart: function _animationStart() {}, _animationZoomIn: function _animationZoomIn(e, t) {
-	        this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, e), this._topClusterLevel._recursivelyAddChildrenToMap(null, t, this._getExpandedVisibleBounds()), this.fire("animationend");
-	      }, _animationZoomOut: function _animationZoomOut(e, t) {
-	        this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, e), this._topClusterLevel._recursivelyAddChildrenToMap(null, t, this._getExpandedVisibleBounds()), this.fire("animationend");
-	      }, _animationAddLayer: function _animationAddLayer(e, t) {
-	        this._animationAddLayerNonAnimated(e, t);
-	      } }, _withAnimation: { _animationStart: function _animationStart() {
-	        this._map._mapPane.className += " leaflet-cluster-anim", this._inZoomAnimation++;
-	      }, _animationZoomIn: function _animationZoomIn(e, t) {
-	        var i,
-	            n = this._getExpandedVisibleBounds(),
-	            s = this._featureGroup;this._ignoreMove = !0, this._topClusterLevel._recursively(n, e, 0, function (r) {
-	          var o,
-	              a = r._latlng,
-	              h = r._markers;for (n.contains(a) || (a = null), r._isSingleParent() && e + 1 === t ? (s.removeLayer(r), r._recursivelyAddChildrenToMap(null, t, n)) : (r.clusterHide(), r._recursivelyAddChildrenToMap(a, t, n)), i = h.length - 1; i >= 0; i--) o = h[i], n.contains(o._latlng) || s.removeLayer(o);
-	        }), this._forceLayout(), this._topClusterLevel._recursivelyBecomeVisible(n, t), s.eachLayer(function (e) {
-	          e instanceof L.MarkerCluster || !e._icon || e.clusterShow();
-	        }), this._topClusterLevel._recursively(n, e, t, function (e) {
-	          e._recursivelyRestoreChildPositions(t);
-	        }), this._ignoreMove = !1, this._enqueue(function () {
-	          this._topClusterLevel._recursively(n, e, 0, function (e) {
-	            s.removeLayer(e), e.clusterShow();
-	          }), this._animationEnd();
-	        });
-	      }, _animationZoomOut: function _animationZoomOut(e, t) {
-	        this._animationZoomOutSingle(this._topClusterLevel, e - 1, t), this._topClusterLevel._recursivelyAddChildrenToMap(null, t, this._getExpandedVisibleBounds()), this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, e, this._getExpandedVisibleBounds());
-	      }, _animationAddLayer: function _animationAddLayer(e, t) {
-	        var i = this,
-	            n = this._featureGroup;n.addLayer(e), t !== e && (t._childCount > 2 ? (t._updateIcon(), this._forceLayout(), this._animationStart(), e._setPos(this._map.latLngToLayerPoint(t.getLatLng())), e.clusterHide(), this._enqueue(function () {
-	          n.removeLayer(e), e.clusterShow(), i._animationEnd();
-	        })) : (this._forceLayout(), i._animationStart(), i._animationZoomOutSingle(t, this._map.getMaxZoom(), this._map.getZoom())));
-	      } }, _animationZoomOutSingle: function _animationZoomOutSingle(e, t, i) {
-	      var n = this._getExpandedVisibleBounds();e._recursivelyAnimateChildrenInAndAddSelfToMap(n, t + 1, i);var s = this;this._forceLayout(), e._recursivelyBecomeVisible(n, i), this._enqueue(function () {
-	        if (1 === e._childCount) {
-	          var r = e._markers[0];this._ignoreMove = !0, r.setLatLng(r.getLatLng()), this._ignoreMove = !1, r.clusterShow && r.clusterShow();
-	        } else e._recursively(n, i, 0, function (e) {
-	          e._recursivelyRemoveChildrenFromMap(n, t + 1);
-	        });s._animationEnd();
-	      });
-	    }, _animationEnd: function _animationEnd() {
-	      this._map && (this._map._mapPane.className = this._map._mapPane.className.replace(" leaflet-cluster-anim", "")), this._inZoomAnimation--, this.fire("animationend");
-	    }, _forceLayout: function _forceLayout() {
-	      L.Util.falseFn(t.body.offsetWidth);
-	    } }), L.markerClusterGroup = function (e) {
-	    return new L.MarkerClusterGroup(e);
-	  }, L.MarkerCluster = L.Marker.extend({ initialize: function initialize(e, t, i, n) {
-	      L.Marker.prototype.initialize.call(this, i ? i._cLatLng || i.getLatLng() : new L.LatLng(0, 0), { icon: this }), this._group = e, this._zoom = t, this._markers = [], this._childClusters = [], this._childCount = 0, this._iconNeedsUpdate = !0, this._boundsNeedUpdate = !0, this._bounds = new L.LatLngBounds(), i && this._addChild(i), n && this._addChild(n);
-	    }, getAllChildMarkers: function getAllChildMarkers(e) {
-	      e = e || [];for (var t = this._childClusters.length - 1; t >= 0; t--) this._childClusters[t].getAllChildMarkers(e);for (var i = this._markers.length - 1; i >= 0; i--) e.push(this._markers[i]);return e;
-	    }, getChildCount: function getChildCount() {
-	      return this._childCount;
-	    }, zoomToBounds: function zoomToBounds() {
-	      for (var e, t = this._childClusters.slice(), i = this._group._map, n = i.getBoundsZoom(this._bounds), s = this._zoom + 1, r = i.getZoom(); t.length > 0 && n > s;) {
-	        s++;var o = [];for (e = 0; e < t.length; e++) o = o.concat(t[e]._childClusters);t = o;
-	      }n > s ? this._group._map.setView(this._latlng, s) : r >= n ? this._group._map.setView(this._latlng, r + 1) : this._group._map.fitBounds(this._bounds);
-	    }, getBounds: function getBounds() {
-	      var e = new L.LatLngBounds();return e.extend(this._bounds), e;
-	    }, _updateIcon: function _updateIcon() {
-	      this._iconNeedsUpdate = !0, this._icon && this.setIcon(this);
-	    }, createIcon: function createIcon() {
-	      return this._iconNeedsUpdate && (this._iconObj = this._group.options.iconCreateFunction(this), this._iconNeedsUpdate = !1), this._iconObj.createIcon();
-	    }, createShadow: function createShadow() {
-	      return this._iconObj.createShadow();
-	    }, _addChild: function _addChild(e, t) {
-	      this._iconNeedsUpdate = !0, this._boundsNeedUpdate = !0, this._setClusterCenter(e), e instanceof L.MarkerCluster ? (t || (this._childClusters.push(e), e.__parent = this), this._childCount += e._childCount) : (t || this._markers.push(e), this._childCount++), this.__parent && this.__parent._addChild(e, !0);
-	    }, _setClusterCenter: function _setClusterCenter(e) {
-	      this._cLatLng || (this._cLatLng = e._cLatLng || e._latlng);
-	    }, _resetBounds: function _resetBounds() {
-	      var e = this._bounds;e._southWest && (e._southWest.lat = 1 / 0, e._southWest.lng = 1 / 0), e._northEast && (e._northEast.lat = -1 / 0, e._northEast.lng = -1 / 0);
-	    }, _recalculateBounds: function _recalculateBounds() {
-	      var e,
-	          t,
-	          i,
-	          n,
-	          s = this._markers,
-	          r = this._childClusters,
-	          o = 0,
-	          a = 0,
-	          h = this._childCount;if (0 !== h) {
-	        for (this._resetBounds(), e = 0; e < s.length; e++) i = s[e]._latlng, this._bounds.extend(i), o += i.lat, a += i.lng;for (e = 0; e < r.length; e++) t = r[e], t._boundsNeedUpdate && t._recalculateBounds(), this._bounds.extend(t._bounds), i = t._wLatLng, n = t._childCount, o += i.lat * n, a += i.lng * n;this._latlng = this._wLatLng = new L.LatLng(o / h, a / h), this._boundsNeedUpdate = !1;
-	      }
-	    }, _addToMap: function _addToMap(e) {
-	      e && (this._backupLatlng = this._latlng, this.setLatLng(e)), this._group._featureGroup.addLayer(this);
-	    }, _recursivelyAnimateChildrenIn: function _recursivelyAnimateChildrenIn(e, t, i) {
-	      this._recursively(e, 0, i - 1, function (e) {
-	        var i,
-	            n,
-	            s = e._markers;for (i = s.length - 1; i >= 0; i--) n = s[i], n._icon && (n._setPos(t), n.clusterHide());
-	      }, function (e) {
-	        var i,
-	            n,
-	            s = e._childClusters;for (i = s.length - 1; i >= 0; i--) n = s[i], n._icon && (n._setPos(t), n.clusterHide());
-	      });
-	    }, _recursivelyAnimateChildrenInAndAddSelfToMap: function _recursivelyAnimateChildrenInAndAddSelfToMap(e, t, i) {
-	      this._recursively(e, i, 0, function (n) {
-	        n._recursivelyAnimateChildrenIn(e, n._group._map.latLngToLayerPoint(n.getLatLng()).round(), t), n._isSingleParent() && t - 1 === i ? (n.clusterShow(), n._recursivelyRemoveChildrenFromMap(e, t)) : n.clusterHide(), n._addToMap();
-	      });
-	    }, _recursivelyBecomeVisible: function _recursivelyBecomeVisible(e, t) {
-	      this._recursively(e, 0, t, null, function (e) {
-	        e.clusterShow();
-	      });
-	    }, _recursivelyAddChildrenToMap: function _recursivelyAddChildrenToMap(e, t, i) {
-	      this._recursively(i, -1, t, function (n) {
-	        if (t !== n._zoom) for (var s = n._markers.length - 1; s >= 0; s--) {
-	          var r = n._markers[s];i.contains(r._latlng) && (e && (r._backupLatlng = r.getLatLng(), r.setLatLng(e), r.clusterHide && r.clusterHide()), n._group._featureGroup.addLayer(r));
-	        }
-	      }, function (t) {
-	        t._addToMap(e);
-	      });
-	    }, _recursivelyRestoreChildPositions: function _recursivelyRestoreChildPositions(e) {
-	      for (var t = this._markers.length - 1; t >= 0; t--) {
-	        var i = this._markers[t];i._backupLatlng && (i.setLatLng(i._backupLatlng), delete i._backupLatlng);
-	      }if (e - 1 === this._zoom) for (var n = this._childClusters.length - 1; n >= 0; n--) this._childClusters[n]._restorePosition();else for (var s = this._childClusters.length - 1; s >= 0; s--) this._childClusters[s]._recursivelyRestoreChildPositions(e);
-	    }, _restorePosition: function _restorePosition() {
-	      this._backupLatlng && (this.setLatLng(this._backupLatlng), delete this._backupLatlng);
-	    }, _recursivelyRemoveChildrenFromMap: function _recursivelyRemoveChildrenFromMap(e, t, i) {
-	      var n, s;this._recursively(e, -1, t - 1, function (e) {
-	        for (s = e._markers.length - 1; s >= 0; s--) n = e._markers[s], i && i.contains(n._latlng) || (e._group._featureGroup.removeLayer(n), n.clusterShow && n.clusterShow());
-	      }, function (e) {
-	        for (s = e._childClusters.length - 1; s >= 0; s--) n = e._childClusters[s], i && i.contains(n._latlng) || (e._group._featureGroup.removeLayer(n), n.clusterShow && n.clusterShow());
-	      });
-	    }, _recursively: function _recursively(e, t, i, n, s) {
-	      var r,
-	          o,
-	          a = this._childClusters,
-	          h = this._zoom;if (t > h) for (r = a.length - 1; r >= 0; r--) o = a[r], e.intersects(o._bounds) && o._recursively(e, t, i, n, s);else if ((n && n(this), s && this._zoom === i && s(this), i > h)) for (r = a.length - 1; r >= 0; r--) o = a[r], e.intersects(o._bounds) && o._recursively(e, t, i, n, s);
-	    }, _isSingleParent: function _isSingleParent() {
-	      return this._childClusters.length > 0 && this._childClusters[0]._childCount === this._childCount;
-	    } }), L.Marker.include({ clusterHide: function clusterHide() {
-	      return this.options.opacityWhenUnclustered = this.options.opacity || 1, this.setOpacity(0);
-	    }, clusterShow: function clusterShow() {
-	      var e = this.setOpacity(this.options.opacity || this.options.opacityWhenUnclustered);return delete this.options.opacityWhenUnclustered, e;
-	    } }), L.DistanceGrid = function (e) {
-	    this._cellSize = e, this._sqCellSize = e * e, this._grid = {}, this._objectPoint = {};
-	  }, L.DistanceGrid.prototype = { addObject: function addObject(e, t) {
-	      var i = this._getCoord(t.x),
-	          n = this._getCoord(t.y),
-	          s = this._grid,
-	          r = s[n] = s[n] || {},
-	          o = r[i] = r[i] || [],
-	          a = L.Util.stamp(e);this._objectPoint[a] = t, o.push(e);
-	    }, updateObject: function updateObject(e, t) {
-	      this.removeObject(e), this.addObject(e, t);
-	    }, removeObject: function removeObject(e, t) {
-	      var i,
-	          n,
-	          s = this._getCoord(t.x),
-	          r = this._getCoord(t.y),
-	          o = this._grid,
-	          a = o[r] = o[r] || {},
-	          h = a[s] = a[s] || [];for (delete this._objectPoint[L.Util.stamp(e)], i = 0, n = h.length; n > i; i++) if (h[i] === e) return h.splice(i, 1), 1 === n && delete a[s], !0;
-	    }, eachObject: function eachObject(e, t) {
-	      var i,
-	          n,
-	          s,
-	          r,
-	          o,
-	          a,
-	          h,
-	          u = this._grid;for (i in u) {
-	        o = u[i];for (n in o) for (a = o[n], s = 0, r = a.length; r > s; s++) h = e.call(t, a[s]), h && (s--, r--);
-	      }
-	    }, getNearObject: function getNearObject(e) {
-	      var t,
-	          i,
-	          n,
-	          s,
-	          r,
-	          o,
-	          a,
-	          h,
-	          u = this._getCoord(e.x),
-	          l = this._getCoord(e.y),
-	          _ = this._objectPoint,
-	          d = this._sqCellSize,
-	          c = null;for (t = l - 1; l + 1 >= t; t++) if (s = this._grid[t]) for (i = u - 1; u + 1 >= i; i++) if (r = s[i]) for (n = 0, o = r.length; o > n; n++) a = r[n], h = this._sqDist(_[L.Util.stamp(a)], e), d > h && (d = h, c = a);return c;
-	    }, _getCoord: function _getCoord(e) {
-	      return Math.floor(e / this._cellSize);
-	    }, _sqDist: function _sqDist(e, t) {
-	      var i = t.x - e.x,
-	          n = t.y - e.y;return i * i + n * n;
-	    } }, (function () {
-	    L.QuickHull = { getDistant: function getDistant(e, t) {
-	        var i = t[1].lat - t[0].lat,
-	            n = t[0].lng - t[1].lng;return n * (e.lat - t[0].lat) + i * (e.lng - t[0].lng);
-	      }, findMostDistantPointFromBaseLine: function findMostDistantPointFromBaseLine(e, t) {
-	        var i,
-	            n,
-	            s,
-	            r = 0,
-	            o = null,
-	            a = [];for (i = t.length - 1; i >= 0; i--) n = t[i], s = this.getDistant(n, e), s > 0 && (a.push(n), s > r && (r = s, o = n));return { maxPoint: o, newPoints: a };
-	      }, buildConvexHull: function buildConvexHull(e, t) {
-	        var i = [],
-	            n = this.findMostDistantPointFromBaseLine(e, t);return n.maxPoint ? (i = i.concat(this.buildConvexHull([e[0], n.maxPoint], n.newPoints)), i = i.concat(this.buildConvexHull([n.maxPoint, e[1]], n.newPoints))) : [e[0]];
-	      }, getConvexHull: function getConvexHull(e) {
-	        var t,
-	            i = !1,
-	            n = !1,
-	            s = !1,
-	            r = !1,
-	            o = null,
-	            a = null,
-	            h = null,
-	            u = null,
-	            l = null,
-	            _ = null;for (t = e.length - 1; t >= 0; t--) {
-	          var d = e[t];(i === !1 || d.lat > i) && (o = d, i = d.lat), (n === !1 || d.lat < n) && (a = d, n = d.lat), (s === !1 || d.lng > s) && (h = d, s = d.lng), (r === !1 || d.lng < r) && (u = d, r = d.lng);
-	        }n !== i ? (_ = a, l = o) : (_ = u, l = h);var c = [].concat(this.buildConvexHull([_, l], e), this.buildConvexHull([l, _], e));return c;
-	      } };
-	  })(), L.MarkerCluster.include({ getConvexHull: function getConvexHull() {
-	      var e,
-	          t,
-	          i = this.getAllChildMarkers(),
-	          n = [];for (t = i.length - 1; t >= 0; t--) e = i[t].getLatLng(), n.push(e);return L.QuickHull.getConvexHull(n);
-	    } }), L.MarkerCluster.include({ _2PI: 2 * Math.PI, _circleFootSeparation: 25, _circleStartAngle: Math.PI / 6, _spiralFootSeparation: 28, _spiralLengthStart: 11, _spiralLengthFactor: 5, _circleSpiralSwitchover: 9, spiderfy: function spiderfy() {
-	      if (this._group._spiderfied !== this && !this._group._inZoomAnimation) {
-	        var e,
-	            t = this.getAllChildMarkers(),
-	            i = this._group,
-	            n = i._map,
-	            s = n.latLngToLayerPoint(this._latlng);this._group._unspiderfy(), this._group._spiderfied = this, t.length >= this._circleSpiralSwitchover ? e = this._generatePointsSpiral(t.length, s) : (s.y += 10, e = this._generatePointsCircle(t.length, s)), this._animationSpiderfy(t, e);
-	      }
-	    }, unspiderfy: function unspiderfy(e) {
-	      this._group._inZoomAnimation || (this._animationUnspiderfy(e), this._group._spiderfied = null);
-	    }, _generatePointsCircle: function _generatePointsCircle(e, t) {
-	      var i,
-	          n,
-	          s = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + e),
-	          r = s / this._2PI,
-	          o = this._2PI / e,
-	          a = [];for (a.length = e, i = e - 1; i >= 0; i--) n = this._circleStartAngle + i * o, a[i] = new L.Point(t.x + r * Math.cos(n), t.y + r * Math.sin(n))._round();return a;
-	    }, _generatePointsSpiral: function _generatePointsSpiral(e, t) {
-	      var i,
-	          n = this._group.options.spiderfyDistanceMultiplier,
-	          s = n * this._spiralLengthStart,
-	          r = n * this._spiralFootSeparation,
-	          o = n * this._spiralLengthFactor * this._2PI,
-	          a = 0,
-	          h = [];for (h.length = e, i = e - 1; i >= 0; i--) a += r / s + 5e-4 * i, h[i] = new L.Point(t.x + s * Math.cos(a), t.y + s * Math.sin(a))._round(), s += o / a;return h;
-	    }, _noanimationUnspiderfy: function _noanimationUnspiderfy() {
-	      var e,
-	          t,
-	          i = this._group,
-	          n = i._map,
-	          s = i._featureGroup,
-	          r = this.getAllChildMarkers();for (i._ignoreMove = !0, this.setOpacity(1), t = r.length - 1; t >= 0; t--) e = r[t], s.removeLayer(e), e._preSpiderfyLatlng && (e.setLatLng(e._preSpiderfyLatlng), delete e._preSpiderfyLatlng), e.setZIndexOffset && e.setZIndexOffset(0), e._spiderLeg && (n.removeLayer(e._spiderLeg), delete e._spiderLeg);i.fire("unspiderfied", { cluster: this, markers: r }), i._ignoreMove = !1, i._spiderfied = null;
-	    } }), L.MarkerClusterNonAnimated = L.MarkerCluster.extend({ _animationSpiderfy: function _animationSpiderfy(e, t) {
-	      var i,
-	          n,
-	          s,
-	          r,
-	          o = this._group,
-	          a = o._map,
-	          h = o._featureGroup,
-	          u = this._group.options.spiderLegPolylineOptions;for (o._ignoreMove = !0, i = 0; i < e.length; i++) r = a.layerPointToLatLng(t[i]), n = e[i], s = new L.Polyline([this._latlng, r], u), a.addLayer(s), n._spiderLeg = s, n._preSpiderfyLatlng = n._latlng, n.setLatLng(r), n.setZIndexOffset && n.setZIndexOffset(1e6), h.addLayer(n);this.setOpacity(.3), o._ignoreMove = !1, o.fire("spiderfied", { cluster: this, markers: e });
-	    }, _animationUnspiderfy: function _animationUnspiderfy() {
-	      this._noanimationUnspiderfy();
-	    } }), L.MarkerCluster.include({ _animationSpiderfy: function _animationSpiderfy(e, t) {
-	      var n,
-	          s,
-	          r,
-	          o,
-	          a,
-	          h,
-	          u = this,
-	          l = this._group,
-	          _ = l._map,
-	          d = l._featureGroup,
-	          c = this._latlng,
-	          p = _.latLngToLayerPoint(c),
-	          f = L.Path.SVG,
-	          m = L.extend({}, this._group.options.spiderLegPolylineOptions),
-	          g = m.opacity;for (g === i && (g = L.MarkerClusterGroup.prototype.options.spiderLegPolylineOptions.opacity), f ? (m.opacity = 0, m.className = (m.className || "") + " leaflet-cluster-spider-leg") : m.opacity = g, l._ignoreMove = !0, n = 0; n < e.length; n++) s = e[n], h = _.layerPointToLatLng(t[n]), r = new L.Polyline([c, h], m), _.addLayer(r), s._spiderLeg = r, f && (o = r._path, a = o.getTotalLength() + .1, o.style.strokeDasharray = a, o.style.strokeDashoffset = a), s.setZIndexOffset && s.setZIndexOffset(1e6), s.clusterHide && s.clusterHide(), d.addLayer(s), s._setPos && s._setPos(p);for (l._forceLayout(), l._animationStart(), n = e.length - 1; n >= 0; n--) h = _.layerPointToLatLng(t[n]), s = e[n], s._preSpiderfyLatlng = s._latlng, s.setLatLng(h), s.clusterShow && s.clusterShow(), f && (r = s._spiderLeg, o = r._path, o.style.strokeDashoffset = 0, r.setStyle({ opacity: g }));this.setOpacity(.3), l._ignoreMove = !1, setTimeout(function () {
-	        l._animationEnd(), l.fire("spiderfied", { cluster: u, markers: e });
-	      }, 200);
-	    }, _animationUnspiderfy: function _animationUnspiderfy(e) {
-	      var t,
-	          i,
-	          n,
-	          s,
-	          r,
-	          o,
-	          a = this,
-	          h = this._group,
-	          u = h._map,
-	          l = h._featureGroup,
-	          _ = e ? u._latLngToNewLayerPoint(this._latlng, e.zoom, e.center) : u.latLngToLayerPoint(this._latlng),
-	          d = this.getAllChildMarkers(),
-	          c = L.Path.SVG;for (h._ignoreMove = !0, h._animationStart(), this.setOpacity(1), i = d.length - 1; i >= 0; i--) t = d[i], t._preSpiderfyLatlng && (t.setLatLng(t._preSpiderfyLatlng), delete t._preSpiderfyLatlng, o = !0, t._setPos && (t._setPos(_), o = !1), t.clusterHide && (t.clusterHide(), o = !1), o && l.removeLayer(t), c && (n = t._spiderLeg, s = n._path, r = s.getTotalLength() + .1, s.style.strokeDashoffset = r, n.setStyle({ opacity: 0 })));h._ignoreMove = !1, setTimeout(function () {
-	        var e = 0;for (i = d.length - 1; i >= 0; i--) t = d[i], t._spiderLeg && e++;for (i = d.length - 1; i >= 0; i--) t = d[i], t._spiderLeg && (t.clusterShow && t.clusterShow(), t.setZIndexOffset && t.setZIndexOffset(0), e > 1 && l.removeLayer(t), u.removeLayer(t._spiderLeg), delete t._spiderLeg);h._animationEnd(), h.fire("unspiderfied", { cluster: a, markers: d });
-	      }, 200);
-	    } }), L.MarkerClusterGroup.include({ _spiderfied: null, _spiderfierOnAdd: function _spiderfierOnAdd() {
-	      this._map.on("click", this._unspiderfyWrapper, this), this._map.options.zoomAnimation && this._map.on("zoomstart", this._unspiderfyZoomStart, this), this._map.on("zoomend", this._noanimationUnspiderfy, this), L.Browser.touch || this._map.getRenderer(this);
-	    }, _spiderfierOnRemove: function _spiderfierOnRemove() {
-	      this._map.off("click", this._unspiderfyWrapper, this), this._map.off("zoomstart", this._unspiderfyZoomStart, this), this._map.off("zoomanim", this._unspiderfyZoomAnim, this), this._map.off("zoomend", this._noanimationUnspiderfy, this), this._noanimationUnspiderfy();
-	    }, _unspiderfyZoomStart: function _unspiderfyZoomStart() {
-	      this._map && this._map.on("zoomanim", this._unspiderfyZoomAnim, this);
-	    }, _unspiderfyZoomAnim: function _unspiderfyZoomAnim(e) {
-	      L.DomUtil.hasClass(this._map._mapPane, "leaflet-touching") || (this._map.off("zoomanim", this._unspiderfyZoomAnim, this), this._unspiderfy(e));
-	    }, _unspiderfyWrapper: function _unspiderfyWrapper() {
-	      this._unspiderfy();
-	    }, _unspiderfy: function _unspiderfy(e) {
-	      this._spiderfied && this._spiderfied.unspiderfy(e);
-	    }, _noanimationUnspiderfy: function _noanimationUnspiderfy() {
-	      this._spiderfied && this._spiderfied._noanimationUnspiderfy();
-	    }, _unspiderfyLayer: function _unspiderfyLayer(e) {
-	      e._spiderLeg && (this._featureGroup.removeLayer(e), e.clusterShow && e.clusterShow(), e.setZIndexOffset && e.setZIndexOffset(0), this._map.removeLayer(e._spiderLeg), delete e._spiderLeg);
-	    } }), L.MarkerClusterGroup.include({ refreshClusters: function refreshClusters(e) {
-	      return e ? e instanceof L.MarkerClusterGroup ? e = e._topClusterLevel.getAllChildMarkers() : e instanceof L.LayerGroup ? e = e._layers : e instanceof L.MarkerCluster ? e = e.getAllChildMarkers() : e instanceof L.Marker && (e = [e]) : e = this._topClusterLevel.getAllChildMarkers(), this._flagParentsIconsNeedUpdate(e), this._refreshClustersIcons(), this.options.singleMarkerMode && this._refreshSingleMarkerModeMarkers(e), this;
-	    }, _flagParentsIconsNeedUpdate: function _flagParentsIconsNeedUpdate(e) {
-	      var t, i;for (t in e) for (i = e[t].__parent; i;) i._iconNeedsUpdate = !0, i = i.__parent;
-	    }, _refreshClustersIcons: function _refreshClustersIcons() {
-	      this._featureGroup.eachLayer(function (e) {
-	        e instanceof L.MarkerCluster && e._iconNeedsUpdate && e._updateIcon();
-	      });
-	    }, _refreshSingleMarkerModeMarkers: function _refreshSingleMarkerModeMarkers(e) {
-	      var t, i;for (t in e) i = e[t], this.hasLayer(i) && i.setIcon(this._overrideMarkerIcon(i));
-	    } }), L.Marker.include({ refreshIconOptions: function refreshIconOptions(e, t) {
-	      var i = this.options.icon;return L.setOptions(i, e), this.setIcon(i), t && this.__parent && this.__parent._group.refreshClusters(this), this;
-	    } });
-	})(window, document);
-
-/***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	var LeafletClusterAdapter = (function () {
-	    function LeafletClusterAdapter(options, dataSet) {
-	        _classCallCheck(this, LeafletClusterAdapter);
-
-	        this.options = options || {};
-	        this.dataSet = dataSet;
-	    }
-
-	    _createClass(LeafletClusterAdapter, [{
-	        key: 'newClusterIcon',
-	        value: function newClusterIcon(cluster) {
-	            var childCount = cluster.getChildCount();
-
-	            var c = ' marker-cluster-';
-	            if (childCount < 10) {
-	                c += 'small';
-	            } else if (childCount < 100) {
-	                c += 'medium';
-	            } else {
-	                c += 'large';
-	            }
-
-	            return new _leaflet2['default'].DivIcon({
-	                html: '<div><span>' + childCount + '</span></div>',
-	                className: 'marker-cluster' + c,
-	                iconSize: new _leaflet2['default'].Point(40, 40)
-	            });
-	        }
-	    }, {
-	        key: 'getClusterPolygonOptions',
-	        value: function getClusterPolygonOptions() {
-	            return {
-	                stroke: true,
-	                color: 'white',
-	                weight: 1,
-	                opacity: 1,
-	                fill: true,
-	                fillColor: 'white',
-	                fillOpacity: 0.3
-	            };
-	        }
-	    }]);
-
-	    return LeafletClusterAdapter;
-	})();
-
-	exports['default'] = LeafletClusterAdapter;
-	module.exports = exports['default'];
-
-/***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _leaflet = __webpack_require__(276);
-
-	var _leaflet2 = _interopRequireDefault(_leaflet);
-
-	var _mosaicDataset = __webpack_require__(260);
-
-	__webpack_require__(285);
-
-	// import { } from 'mosaic-ui-map;
-
-	var _AbstractDataSetLeaflet2 = __webpack_require__(280);
-
-	var _AbstractDataSetLeaflet3 = _interopRequireDefault(_AbstractDataSetLeaflet2);
-
-	// import DataSetCanvasStyle from './DataSetCanvasStyle';
-
-	var _BasicDataSetCanvasStyle = __webpack_require__(301);
-
-	var _BasicDataSetCanvasStyle2 = _interopRequireDefault(_BasicDataSetCanvasStyle);
-
-	var DataSetCanvasLeafletLayer = (function (_AbstractDataSetLeaflet) {
-	    _inherits(DataSetCanvasLeafletLayer, _AbstractDataSetLeaflet);
-
-	    function DataSetCanvasLeafletLayer(options) {
-	        _classCallCheck(this, DataSetCanvasLeafletLayer);
-
-	        _get(Object.getPrototypeOf(DataSetCanvasLeafletLayer.prototype), 'constructor', this).call(this, options);
-	        this._provider = new _leaflet2['default'].DataLayer.DataProvider({
-	            getGeometry: function getGeometry(r) {
-	                return r.data.geometry;
-	            }
-	        });
-	        this._imageIndex = {};
-	        this._rebuildDataLayer();
-	    }
-
-	    _createClass(DataSetCanvasLeafletLayer, [{
-	        key: '_removeDataLayer',
-	        value: function _removeDataLayer() {
-	            if (this._dataLayer) {
-	                this.removeLayer(this._dataLayer);
-	                delete this._dataLayer;
-	            }
-	        }
-	    }, {
-	        key: '_rebuildDataLayer',
-	        value: function _rebuildDataLayer() {
-	            var that = this;
-	            that._removeDataLayer();
-	            var style = this.options.style || this.dataSet.getAdapter(_BasicDataSetCanvasStyle2['default']);
-	            that._dataLayer = new _leaflet2['default'].DataLayer({
-	                provider: that._provider,
-	                style: style,
-	                imageIndex: function imageIndex(image, params) {
-	                    // var properties = options.getProperties(params.data);
-	                    return that._imageIndex;
-	                },
-	                tilePad: function tilePad(params) {
-	                    return style.getTilePad(params.tilePoint.z);
-	                }
-	            });
-	            that.addLayer(that._dataLayer);
-	        }
-	    }, {
-	        key: '_redrawLayers',
-	        value: function _redrawLayers(diff) {
-	            var list = [].concat(diff.added).concat(diff.updated);
-	            this._provider.setData(list);
-	            this._rebuildDataLayer();
-	        }
-	    }, {
-	        key: '_updateSelection',
-	        value: function _updateSelection(diff) {
-	            // TODO: cleans up deselect diff.removed markers
-	            // TODO: re-draw select diff.added markers
-	        }
-	    }]);
-
-	    return DataSetCanvasLeafletLayer;
-	})((0, _AbstractDataSetLeaflet3['default'])(_leaflet2['default'].FeatureGroup));
-
-	exports['default'] = DataSetCanvasLeafletLayer;
-	module.exports = exports['default'];
-
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var L = __webpack_require__(276);
-	L.DataLayer = __webpack_require__(286);
-	L.DataLayer.CanvasContext = __webpack_require__(287);
-	L.DataLayer.CanvasIndexingContext = __webpack_require__(291);
-	L.DataLayer.GeometryRenderer = __webpack_require__(294);
-	L.DataLayer.GeometryRendererStyle = __webpack_require__(295);
-	L.DataLayer.ImageGridIndex = __webpack_require__(292);
-	L.DataLayer.ImageUtils = __webpack_require__(296);
-	L.DataLayer.DataProvider = __webpack_require__(297);
-	L.DataLayer.forEachCoordinate = __webpack_require__(299);
-	L.DataLayer.GridIndex = __webpack_require__(293);
-	L.DataLayer.IDataProvider = __webpack_require__(300);
-	module.exports = L.DataLayer;
-
-
-/***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var L = __webpack_require__(276);
-	var CanvasContext = __webpack_require__(287);
-	var CanvasIndexingContext = __webpack_require__(291);
-	var GeometryRenderer = __webpack_require__(294);
+	var L = __webpack_require__(244);
+	var CanvasContext = __webpack_require__(272);
+	var CanvasIndexingContext = __webpack_require__(276);
+	var GeometryRenderer = __webpack_require__(279);
 
 	/**
 	 * This layer draws data on canvas tiles.
@@ -35914,97 +34028,144 @@ return /******/ (function(modules) { // webpackBootstrap
 	        ParentLayer.prototype.onRemove.apply(this, arguments);
 	    },
 
-	    createTile : function(tilePoint, done) {
+	    _scheduleTileRedraw : function(tile, tilePoint) {
+	        return this._redrawTile(tile, tilePoint);
+
+	        var list = this._redrawQueue = this._redrawQueue || [];
+	        if (this._redrawTimeoutId === undefined) {
+	            this._redrawTimeoutId = setTimeout(function() {
+	                delete this._redrawTimeoutId;
+	                while (this._redrawQueue && this._redrawQueue.length) {
+	                    var slot = this._redrawQueue.shift();
+	                    this._redrawTile(slot.tile, slot.tilePoint);
+	                }
+
+	            }.bind(this), 20);
+	        }
+	        this._redrawQueue.push({
+	            tile : tile,
+	            tilePoint : tilePoint
+	        });
+	    },
+
+	    _redrawTile : function(tile, tilePoint) {
 	        var tileSize = this.getTileSize();
 	        var canvas = this._newCanvas(tileSize.x, tileSize.y);
-	        canvas._redrawing = L.Util.requestAnimFrame(function() {
+	        tile.appendChild(canvas);
 
-	            var bounds = this._tileCoordsToBounds(tilePoint);
-	            var bbox = [ bounds.getWest(), bounds.getSouth(), bounds.getEast(),
-	                    bounds.getNorth() ];
-	            var origin = [ bbox[0], bbox[3] ];
-	            var pad = this._getTilePad(tilePoint);
-	            var deltaLeft = Math.abs(bbox[0] - bbox[2]) * pad[0];
-	            var deltaBottom = Math.abs(bbox[1] - bbox[3]) * pad[1];
-	            var deltaRight = Math.abs(bbox[0] - bbox[2]) * pad[2];
-	            var deltaTop = Math.abs(bbox[1] - bbox[3]) * pad[3];
-	            bbox = [ bbox[0] - deltaLeft, bbox[1] - deltaBottom,
-	                    bbox[2] + deltaRight, bbox[3] + deltaTop ];
+	        var tileId = this._tileId = (this._tileId || 0) + 1;
+	        // console.log(tileId + ') START... ');
+	        // canvas._redrawing = L.Util.requestAnimFrame(function() {
 
-	            var size = Math.min(tileSize.x, tileSize.y);
-	            var scale = GeometryRenderer.calculateScale(tilePoint.z, size);
+	        var bounds = this._tileCoordsToBounds(tilePoint);
+	        var bbox = [ bounds.getWest(), bounds.getSouth(), bounds.getEast(),
+	                bounds.getNorth() ];
+	        var origin = [ bbox[0], bbox[3] ];
+	        var pad = this._getTilePad(tilePoint);
+	        var deltaLeft = Math.abs(bbox[0] - bbox[2]) * pad[0];
+	        var deltaBottom = Math.abs(bbox[1] - bbox[3]) * pad[1];
+	        var deltaRight = Math.abs(bbox[0] - bbox[2]) * pad[2];
+	        var deltaTop = Math.abs(bbox[1] - bbox[3]) * pad[3];
+	        var extendedBbox = [ bbox[0] - deltaLeft, bbox[1] - deltaBottom,
+	                bbox[2] + deltaRight, bbox[3] + deltaTop ];
 
-	            var resolution = this.options.resolution || 4;
-	            var ContextType = CanvasIndexingContext;
-	//            var ContextType = CanvasContext;
-	            var context = new ContextType({
-	                canvas : canvas,
-	                newCanvas : this._newCanvas,
-	                resolution : resolution,
-	                imageMaskIndex : this._getImageMaskIndex
-	            });
-	            var map = this._map;
-	            var provider = this._getDataProvider();
-	            var renderer = new GeometryRenderer({
-	                context : context,
-	                tileSize : tileSize,
-	                scale : scale,
-	                origin : origin,
-	                bbox : [ [ bbox[0], bbox[1] ], [ bbox[2], bbox[3] ] ],
-	                getGeometry : provider.getGeometry.bind(provider),
-	                project : function(coordinates) {
-	                    function project(point) {
-	                        var p = map.project(L.latLng(point[1], point[0]),
-	                                tilePoint.z);
-	                        return [ p.x, p.y ];
-	                    }
-	                    var origin = renderer.getOrigin();
-	                    var o = project(origin);
-	                    return coordinates.map(function(point) {
-	                        var r = project(point);
-	                        var delta = [ Math.round(r[0] - o[0]),
-	                                Math.round(r[1] - o[1]) ];
-	                        return delta;
-	                    });
+	        var size = Math.min(tileSize.x, tileSize.y);
+	        var scale = GeometryRenderer.calculateScale(tilePoint.z, size);
+
+	        var resolution = this.options.resolution || 4;
+	//        var ContextType = CanvasContext;
+	        var ContextType = CanvasIndexingContext;
+	        var context = new ContextType({
+	            canvas : canvas,
+	            newCanvas : this._newCanvas,
+	            resolution : resolution,
+	            imageMaskIndex : this._getImageMaskIndex
+	        });
+	        var map = this._map;
+	        var provider = this._getDataProvider();
+	        var renderer = new GeometryRenderer({
+	            context : context,
+	            tileSize : tileSize,
+	            scale : scale,
+	            origin : origin,
+	            bbox : [ [ extendedBbox[0], extendedBbox[1] ],
+	                    [ extendedBbox[2], extendedBbox[3] ] ],
+	            getGeometry : provider.getGeometry.bind(provider),
+	            project : function(coordinates) {
+	                function project(point) {
+	                    var p = map.project(L.latLng(point[1], point[0]),
+	                            tilePoint.z);
+	                    return [ p.x, p.y ];
 	                }
-	            });
+	                var origin = renderer.getOrigin();
+	                var o = project(origin);
+	                return coordinates.map(function(point) {
+	                    var r = project(point);
+	                    var delta = [ Math.round(r[0] - o[0]),
+	                            Math.round(r[1] - o[1]) ];
+	                    return delta;
+	                });
+	            }
+	        });
 
-	            canvas.context = context;
-	            canvas.renderer = renderer;
+	        canvas.context = context;
+	        canvas.renderer = renderer;
 
-	            var style = this._getStyleProvider();
-	            provider.loadData({
-	                bbox : bbox,
-	                tilePoint : tilePoint
-	            }, function(err, data) {
-	                var canvas;
-	                try {
-	                    if (!err && data) {
-	                        var drawOptions = {
-	                                tilePoint : tilePoint,
-	                                map : this._map
-	                        };
-	                        data = this._sortData(data, drawOptions);
-	                        if (typeof data.forEach === 'function') {
-	                            data.forEach(function(d, i) {
-	                                renderer.drawFeature(d, style, drawOptions);
-	                            })
-	                        } else if (data.length) {
-	                            for (var i = 0; i < data.length; i++) {
-	                                renderer.drawFeature(data[i], style, drawOptions);
-	                            }
-	                        }
+	        var style = this._getStyleProvider();
+	        provider.loadData({
+	            bbox : extendedBbox,
+	            tilePoint : tilePoint
+	        }, function(err, data) {
+	            // console.log(tileId + ') DATA LOADED', data.length);
+	            if (!err && data && data.length) {
+	                var drawOptions = {
+	                    tilePoint : tilePoint,
+	                    map : this._map
+	                };
+	                var start = new Date().getTime();
+	                data = this._sortData(data, drawOptions);
+	                if (typeof data.forEach === 'function') {
+	                    data.forEach(function(d, i) {
+	                        renderer.drawFeature(d, style, drawOptions);
+	                    })
+	                } else if (data.length) {
+	                    for (var i = 0; i < data.length; i++) {
+	                        renderer.drawFeature(data[i], style, drawOptions);
 	                    }
-	                } catch (e) {
-	                    err = e;
 	                }
-	                setTimeout(function() {
-	                    done(err, canvas);
-	                }, 10);
-	            }.bind(this));
-	        }, this);
+	                var stop = new Date().getTime();
+	//                console.log(tileId + ') SORT+DRAWING: ', (stop - start),
+	//                        'ms for ', data.length, 'entries');
+	            }
+	        }.bind(this));
+	    },
 
-	        return canvas;
+	    _redrawTile1 : function(tile, tilePoint) {
+	        var tileSize = this.getTileSize();
+	        tile.style.border = '1px solid gray';
+	        tile.innerHTML = tilePoint.x + ':' + tilePoint.y + ':' + tilePoint.z;
+
+	        var canvas = this._newCanvas(tileSize.x, tileSize.y);
+	        tile.appendChild(canvas);
+	        canvas.style.position = 'absolute';
+	        canvas.style.top = 0;
+	        canvas.style.left = 0;
+
+	        var ctx = canvas.getContext('2d');
+	        ctx.globalAlpha = 0.3;
+	        ctx.fillStyle = 'red';
+	        ctx.arc(tileSize.x / 2, tileSize.y / 2, tileSize.x / 2, //
+	        0, 2 * Math.PI);
+	        ctx.fill();
+	    },
+
+	    createTile : function(tilePoint) {
+	        var tileSize = this.getTileSize();
+	        var tile = document.createElement('div');
+	        tile.style.width = tileSize.x;
+	        tile.style.height = tileSize.y;
+	        this._scheduleTileRedraw(tile, tilePoint);
+	        return tile;
 	    },
 
 	    // -----------------------------------------------------------------------
@@ -36051,39 +34212,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // -----------------------------------------------------------------------
 
 	    _onZoomStart : function(ev) {
+	        if (this._cleanupId) {
+	            clearTimeout(this._cleanupId);
+	            delete this._cleanupId;
+	        }
 	    },
 	    _onZoomEnd : function(ev) {
-	        var that = this;
-	        function cleanLevel() {
-	            var el = that._level.el;
-	            var parentEl = el.parentNode;
-	            if (parentEl) {
-	                var child = parentEl.firstChild;
-	                var toRemove = [];
-	                while (child) {
-	                    if (child !== el) {
-	                        toRemove.push(child);
-	                    }
-	                    child = child.nextSibling;
-	                }
-	                for (var i = 0; i < toRemove.length; i++) {
-	                    L.DomUtil.remove(toRemove[i]);
+	        if (this._cleanupId) {
+	            clearTimeout(this._cleanupId);
+	            delete this._cleanupId;
+	        }
+	        this._cleanupId = setTimeout(function() {
+	            var zoom = this._map.getZoom();
+	            for ( var z in this._levels) {
+	                if (+z !== zoom) {
+	                    L.DomUtil.remove(this._levels[z].el);
+	                    delete this._levels[z];
 	                }
 	            }
-	        }
-	        function reschedule() {
-	            if (that._cleanupId) {
-	                clearTimeout(that._cleanupId);
-	                delete that._cleanupId;
-	            }
-	            var timeoutId = that._cleanupId = setTimeout(function() {
-	                if (timeoutId !== that._cleanupId)
-	                    return;
-	                delete that._cleanupId;
-	                cleanLevel.call(that);
-	            }, 10);
-	        }
-	        reschedule();
+	        }.bind(this), 1);
 	    },
 
 	    _getTilePad : function(tilePoint) {
@@ -36095,7 +34242,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                tilePoint : tilePoint
 	            });
 	        }
-	        var pad = tilePad || [ 0.2, 0.2, 0.2, 0.2 ];
+	        var pad;
+	        if (tilePad) {
+	            var tileSize = this.getTileSize();
+	            if (Array.isArray(tilePad)) {
+	                pad = [ tilePad[0] / tileSize.y, tilePad[1] / tileSize.x,
+	                        tilePad[2] / tileSize.y, tilePad[3] / tileSize.x ];
+	            } else {
+	                pad = [ tilePad / tileSize.y, tilePad / tileSize.x,
+	                        tilePad / tileSize.y, tilePad / tileSize.x ];
+	            }
+	        }
+	        if (!pad) {
+	            pad = [ 0.2, 0.2, 0.2, 0.2 ];
+	        }
 	        return pad;
 
 	    },
@@ -36161,12 +34321,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 287 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var extend = __webpack_require__(288);
-	var GeometryUtils = __webpack_require__(289);
-	var IGridIndex = __webpack_require__(290);
+	var extend = __webpack_require__(273);
+	var GeometryUtils = __webpack_require__(274);
+	var IGridIndex = __webpack_require__(275);
 
 	/**
 	 * This class provides a set of utility methods simplifying data visualization
@@ -36175,13 +34335,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	function CanvasContext() {
 	    this.initialize.apply(this, arguments);
 	}
+	function getFields(obj) {
+	    var funcs = []
+	    for ( var name in obj) {
+	        if (typeof obj[name] === 'function') {
+	            funcs.push(name)
+	        }
+	    }
+	    return funcs;
+	}
 	extend(CanvasContext.prototype, IGridIndex.prototype, {
 
 	    /** Initializes this object. */
 	    initialize : function(options) {
 	        this.options = options || {};
 	        this._canvas = this.options.canvas;
-	        this._context = this._canvas.getContext('2d');
+	        this._context = this._newCanvasContext(this._canvas);
+	        // console.log('fields:', getFields(this._context));
+	    },
+
+	    _newCanvasContext : function(canvas) {
+	        var obj = {};
+	        var fields = {};
+	        var g = canvas.getContext('2d');
+	        for ( var name in g) {
+	            (function(name) {
+	                if (typeof g[name] === 'function') {
+	                    obj[name] = function() {
+	                        return g[name].apply(g, arguments);
+	                    };
+	                } else {
+	                    fields[name] = {
+	                        get : function() {
+	                            return g[name];
+	                        },
+	                        set : function(v) {
+	                            g[name] = v;
+	                        }
+	                    }
+	                }
+	            })(name);
+	        }
+	        Object.defineProperties(obj, fields);
+	        return obj;
 	    },
 
 	    // -----------------------------------------------------------------------
@@ -36206,9 +34402,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    drawImage : function(image, position, options) {
 	        this._drawOnCanvasContext(options, function(g) {
+	            g.globalCompositeOperation = 'source-over';
+	            // var mask = this._getImageData(image);
 	            g.drawImage(image, position[0], position[1]);
 	            return true;
 	        });
+	    },
+
+	    _getImageData : function(image) {
+	        if (!image._data) {
+	            var g;
+	            if (image.tagName === 'CANVAS') {
+	                g = image.getContext('2d');
+	            } else {
+	                var canvas = document.createElement('canvas');
+	                canvas.width = image.width;
+	                canvas.height = image.height;
+	                g = canvas.getContext('2d');
+	                g.drawImage(image, 0, 0, canvas.width, canvas.heigth);
+	            }
+	            image._data = g.getImageData(0, 0, image.width, image.height);
+	        }
+	        return image._data;
 	    },
 
 	    // -----------------------------------------------------------------------
@@ -36225,6 +34440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Simplify point sequence
 	            points = this._simplify(points);
 	            // Trace the line
+	            g.globalCompositeOperation = 'source-over';
 	            return this._drawLines(g, points, strokeStyles);
 	        });
 	    },
@@ -36278,6 +34494,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            }
 
+	            g.globalCompositeOperation = 'source-over';
 	            // Draw lines around the polygon holes
 	            for (i = 0; i < holes.length; i++) {
 	                this._drawLines(g, holes[i], strokeStyles);
@@ -36332,9 +34549,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var enableHighQuality = !!this.options.highQuality;
 	        var points = GeometryUtils.simplify(coords, tolerance,
 	                enableHighQuality);
-	        console
-	                .log(' simplify: ', coords, coords.length, points,
-	                        points.length);
 	        return points;
 	    },
 
@@ -36395,6 +34609,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // -----------------------------------------------------------------------
 
 	    _drawOnCanvasContext : function(options, f) {
+	        // var width = this._canvas.width;
+	        // var height = this._canvas.height;
+	        // var data = this._context.getImageData(0, 0, width, height);
+	        // for (var row = 0; row < height; row++) {
+	        // for (var col = 0; col < width; col++) {
+	        // var idx = ((row * width) + col) * 4;
+	        // var red = data[idx + 0];
+	        // var green = data[idx + 1];
+	        // var blue = data[idx + 2];
+	        // var alfa = data[idx + 3];
+	        // data[idx + 3] = 255;
+	        // data[idx + 2] = red;
+	        // data[idx + 0] = blue;
+	        // }
+	        // }
+
+	        // console.log(' _drawOnCanvasContext', this.options);
 	        f.call(this, this._context);
 	    },
 
@@ -36406,7 +34637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 288 */
+/* 273 */
 /***/ function(module, exports) {
 
 	module.exports = function extend(to) {
@@ -36424,7 +34655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 289 */
+/* 274 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -36745,7 +34976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 290 */
+/* 275 */
 /***/ function(module, exports) {
 
 	module.exports = IGridIndex;
@@ -36781,12 +35012,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 291 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var extend = __webpack_require__(288);
-	var CanvasContext = __webpack_require__(287);
-	var ImageGridIndex = __webpack_require__(292);
+	var extend = __webpack_require__(273);
+	var CanvasContext = __webpack_require__(272);
+	var ImageGridIndex = __webpack_require__(277);
 
 	/**
 	 * This utility class allows to associate data with non-transparent pixels of
@@ -36895,11 +35126,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 292 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var GridIndex = __webpack_require__(293);
-	var extend = __webpack_require__(288);
+	var GridIndex = __webpack_require__(278);
+	var extend = __webpack_require__(273);
 
 	function ImageGridIndex() {
 	    GridIndex.apply(this, arguments);
@@ -37049,7 +35280,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 293 */
+/* 278 */
 /***/ function(module, exports) {
 
 	function GridIndex() {
@@ -37152,11 +35383,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 294 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var extend = __webpack_require__(288);
-	var GeometryUtils = __webpack_require__(289);
+	var extend = __webpack_require__(273);
+	var GeometryUtils = __webpack_require__(274);
 
 	/**
 	 * A common interface visualizing data on canvas.
@@ -37189,9 +35420,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    drawFeature : function(resource, styles, options) {
 	        var that = this;
 	        var geometry = this._getGeometry(resource, options);
-	        if (!geometry)
-	            return;
-	        drawGeometry(geometry);
+	        if (geometry) {
+	            drawGeometry(geometry);
+	        }
 	        return;
 
 	        function _drawMarker(point, index) {
@@ -37433,10 +35664,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 295 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var extend = __webpack_require__(288);
+	var extend = __webpack_require__(273);
 
 	function GeometryRenderStyle(options) {
 	    this.initialize(options);
@@ -37493,7 +35724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 296 */
+/* 281 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -37532,11 +35763,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 297 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var rbush = __webpack_require__(298);
-	var forEachCoordinate = __webpack_require__(299);
+	var rbush = __webpack_require__(283);
+	var forEachCoordinate = __webpack_require__(284);
 
 	/**
 	 * A simple data provider synchronously indexing the given data using an RTree
@@ -37673,7 +35904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 298 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -38300,7 +36531,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 299 */
+/* 284 */
 /***/ function(module, exports) {
 
 	module.exports = function forEach(geometry, callback) {
@@ -38329,7 +36560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 300 */
+/* 285 */
 /***/ function(module, exports) {
 
 	/**
@@ -38356,7 +36587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 301 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38375,80 +36606,1984 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _DataSetCanvasStyle2 = __webpack_require__(302);
+	var _leaflet = __webpack_require__(244);
 
-	var _DataSetCanvasStyle3 = _interopRequireDefault(_DataSetCanvasStyle2);
+	var _leaflet2 = _interopRequireDefault(_leaflet);
 
-	var BasicDataSetCanvasStyle = (function (_DataSetCanvasStyle) {
-	    _inherits(BasicDataSetCanvasStyle, _DataSetCanvasStyle);
+	var _mosaicDataset = __webpack_require__(245);
 
-	    function BasicDataSetCanvasStyle(options) {
-	        _classCallCheck(this, BasicDataSetCanvasStyle);
+	__webpack_require__(270);
 
-	        _get(Object.getPrototypeOf(BasicDataSetCanvasStyle.prototype), 'constructor', this).call(this, options);
+	// import { } from 'mosaic-ui-map;
+
+	var _AbstractDataSetLeaflet2 = __webpack_require__(243);
+
+	var _AbstractDataSetLeaflet3 = _interopRequireDefault(_AbstractDataSetLeaflet2);
+
+	// import DataSetCanvasStyle from './DataSetCanvasStyle';
+
+	var _BasicDataSetCanvasStyle = __webpack_require__(268);
+
+	var _BasicDataSetCanvasStyle2 = _interopRequireDefault(_BasicDataSetCanvasStyle);
+
+	var DataSetCanvasLeafletLayer = (function (_AbstractDataSetLeaflet) {
+	    _inherits(DataSetCanvasLeafletLayer, _AbstractDataSetLeaflet);
+
+	    function DataSetCanvasLeafletLayer(options) {
+	        _classCallCheck(this, DataSetCanvasLeafletLayer);
+
+	        _get(Object.getPrototypeOf(DataSetCanvasLeafletLayer.prototype), 'constructor', this).call(this, options);
+	        this._provider = new _leaflet2['default'].DataLayer.DataProvider({
+	            getGeometry: function getGeometry(r) {
+	                return r.data.geometry;
+	            }
+	        });
+	        this._imageIndex = {};
+	        this._rebuildDataLayer();
 	    }
 
-	    _createClass(BasicDataSetCanvasStyle, [{
-	        key: 'getMarkerStyle',
-	        value: function getMarkerStyle(resource, params) {
-	            var type = resource.getTypeKey();
-	            // get color for this type
-	            if (!type) return;
-	            var zoom = params.tilePoint.z;
-	            var markers = this._markers = this._markers || {};
-	            var marker = markers[zoom];
-	            if (!marker) {
-	                var size = this.getMarkerSize(zoom);
-	                var r = Math.min(size.x / 4, size.y / 4);
-	                var lineWidth = Math.min(size.x, size.y) / 10;
-	                lineWidth = Math.min(2, lineWidth);
-	                var canvas = document.createElement('canvas');
-	                canvas.width = size.x;
-	                canvas.height = size.y;
-	                var context = canvas.getContext('2d');
-	                context.beginPath();
-	                context.fillStyle = 'yellow'; // FIXME:
-	                context.lineWidth = lineWidth;
-	                context.strokeStyle = 'black'; // FIXME:
-	                L.DataLayer.ImageUtils.drawMarker(context, lineWidth, lineWidth, canvas.width - 2 * lineWidth, canvas.height - 2 * lineWidth, r);
-	                context.fill();
-	                context.stroke();
-	                marker = canvas;
-	                markers[zoom] = marker;
+	    _createClass(DataSetCanvasLeafletLayer, [{
+	        key: '_removeDataLayer',
+	        value: function _removeDataLayer() {
+	            if (this._dataLayer) {
+	                this.removeLayer(this._dataLayer);
+	                delete this._dataLayer;
 	            }
-	            return {
-	                image: marker,
-	                anchor: [marker.width / 2, marker.height]
-	            };
 	        }
 	    }, {
-	        key: 'getLineStyle',
-	        value: function getLineStyle(resource, params) {
-	            params = params || {};
-	            return {
-	                lineColor: this.options.lineColor || params.lineColor || 'red',
-	                lineOpacity: 0.9,
-	                lineWidth: 3
-	            };
+	        key: '_rebuildDataLayer',
+	        value: function _rebuildDataLayer() {
+	            var that = this;
+	            that._removeDataLayer();
+	            var style = this.options.style || this.dataSet.getAdapter(_BasicDataSetCanvasStyle2['default']);
+	            that._dataLayer = new _leaflet2['default'].DataLayer({
+	                provider: that._provider,
+	                style: style,
+	                imageIndex: function imageIndex(image, params) {
+	                    // var properties = options.getProperties(params.data);
+	                    return that._imageIndex;
+	                },
+	                tilePad: function tilePad(params) {
+	                    return style.getTilePad(params.tilePoint.z);
+	                }
+	            });
+	            that.addLayer(that._dataLayer);
 	        }
 	    }, {
-	        key: 'getPolygonStyle',
-	        value: function getPolygonStyle(resource, params) {
-	            return {
-	                fillOpacity: 0.5,
-	                fillColor: 'blue',
-	                lineOpacity: 0.9,
-	                lineColor: 'red',
-	                lineWidth: 3
-	            };
+	        key: '_redrawLayers',
+	        value: function _redrawLayers(diff) {
+	            var list = [].concat(diff.added).concat(diff.updated);
+	            this._provider.setData(list);
+	            this._rebuildDataLayer();
+	        }
+	    }, {
+	        key: '_updateSelection',
+	        value: function _updateSelection(diff) {
+	            // TODO: cleans up deselect diff.removed markers
+	            // TODO: re-draw select diff.added markers
 	        }
 	    }]);
 
-	    return BasicDataSetCanvasStyle;
-	})(_DataSetCanvasStyle3['default']);
+	    return DataSetCanvasLeafletLayer;
+	})((0, _AbstractDataSetLeaflet3['default'])(_leaflet2['default'].FeatureGroup));
 
-	exports['default'] = BasicDataSetCanvasStyle;
+	exports['default'] = DataSetCanvasLeafletLayer;
 	module.exports = exports['default'];
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _LeafletAdapter2 = __webpack_require__(288);
+
+	var _LeafletAdapter3 = _interopRequireDefault(_LeafletAdapter2);
+
+	var _DataSetLeafletLayer = __webpack_require__(298);
+
+	var _DataSetLeafletLayer2 = _interopRequireDefault(_DataSetLeafletLayer);
+
+	var _DataSetClusteredLeafletLayer = __webpack_require__(300);
+
+	var _DataSetClusteredLeafletLayer2 = _interopRequireDefault(_DataSetClusteredLeafletLayer);
+
+	var _DataSetCanvasLeafletLayer = __webpack_require__(286);
+
+	var _DataSetCanvasLeafletLayer2 = _interopRequireDefault(_DataSetCanvasLeafletLayer);
+
+	var DataSetLeafletAdapter = (function (_LeafletAdapter) {
+	    _inherits(DataSetLeafletAdapter, _LeafletAdapter);
+
+	    function DataSetLeafletAdapter() {
+	        _classCallCheck(this, DataSetLeafletAdapter);
+
+	        _get(Object.getPrototypeOf(DataSetLeafletAdapter.prototype), 'constructor', this).apply(this, arguments);
+	    }
+
+	    _createClass(DataSetLeafletAdapter, [{
+	        key: 'newMarker',
+	        value: function newMarker() {
+	            return null;
+	        }
+
+	        /**
+	         * Returns a leaflet layer corresponding to the underlying item.
+	         */
+	    }, {
+	        key: 'newLeafletLayer',
+	        value: function newLeafletLayer() {
+	            var dataSet = this.dataSet;
+	            var LayerType = undefined;
+	            if (dataSet.options.canvas) {
+	                LayerType = _DataSetCanvasLeafletLayer2['default'];
+	            } else if (dataSet.options.cluster) {
+	                LayerType = _DataSetClusteredLeafletLayer2['default'];
+	            } else {
+	                LayerType = _DataSetLeafletLayer2['default'];
+	            }
+
+	            var options = {};
+	            for (var key in this.options) {
+	                options[key] = this.options[key];
+	            }
+	            options.dataSet = dataSet;
+	            return new LayerType(options);
+	        }
+	    }, {
+	        key: 'dataSet',
+	        get: function get() {
+	            return this.item;
+	        }
+	    }]);
+
+	    return DataSetLeafletAdapter;
+	})(_LeafletAdapter3['default']);
+
+	exports['default'] = DataSetLeafletAdapter;
+	module.exports = exports['default'];
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _mosaicIntents = __webpack_require__(249);
+
+	var _mosaicDataset = __webpack_require__(245);
+
+	var _mosaicDatasetGeo = __webpack_require__(289);
+
+	var _leaflet = __webpack_require__(244);
+
+	var _leaflet2 = _interopRequireDefault(_leaflet);
+
+	var _LeafletPopupAdapter = __webpack_require__(297);
+
+	var _LeafletPopupAdapter2 = _interopRequireDefault(_LeafletPopupAdapter);
+
+	var LeafletAdapter = (function () {
+	    function LeafletAdapter(options, item) {
+	        _classCallCheck(this, LeafletAdapter);
+
+	        this.options = options || {};
+	        this.item = item || this.options.item;
+	    }
+
+	    _createClass(LeafletAdapter, [{
+	        key: '_getPopupOffset',
+	        value: function _getPopupOffset(layer) {
+	            // Calculate the popup offset
+	            var anchor = undefined;
+	            if (layer._getPopupAnchor) {
+	                anchor = layer._getPopupAnchor();
+	            } else if (layer.options.icon) {
+	                anchor = layer.options.icon.options.popupAnchor;
+	            }
+	            if (!anchor) {
+	                anchor = [0, 0];
+	            }
+	            var offset = _leaflet2['default'].Popup.prototype.options.offset;
+	            offset = _leaflet2['default'].point(anchor).add(offset);
+	            return offset;
+	        }
+	    }, {
+	        key: '_openPopup',
+	        value: function _openPopup(layer) {
+	            var that = this;
+	            var intent = new _mosaicIntents.Intent({}, 'popup');
+	            that._closePopup(layer).then(function () {
+	                if (intent.handled) return;
+	                if (!layer._popup) {
+	                    layer._popup = new _leaflet2['default'].Popup({
+	                        autoClose: true,
+	                        closeOnClick: true,
+	                        // keepInView : true,
+	                        closeButton: true
+	                    }, layer);
+	                }
+	                var latlng = undefined;
+	                if (layer.getCenter) {
+	                    latlng = layer.getCenter();
+	                } else if (layer.getLatLng) {
+	                    latlng = layer.getLatLng();
+	                } else {
+	                    latlng = that._getMarkerCoordinates();
+	                }
+
+	                layer._popup.options.offset = that._getPopupOffset(layer);
+	                layer._popup.once('close', function () {
+	                    intent.resolve(true);
+	                });
+	                //
+	                layer._popup.setLatLng(latlng);
+	                layer._popup.update();
+
+	                var popupAdapter = that.item.getAdapter(_LeafletPopupAdapter2['default']);
+	                var popupContent = popupAdapter.renderPopupContent({
+	                    latlng: latlng
+	                });
+	                layer._popup.setContent(popupContent);
+
+	                var onClose = undefined;
+	                if (typeof layer.bindPopup) {
+	                    layer.bindPopup(layer._popup);
+	                    layer.openPopup();
+	                    onClose = function () {
+	                        layer.closePopup();
+	                    };
+	                } else {
+	                    (function () {
+	                        var map = layer._map;
+	                        onClose = function () {
+	                            map.removeLayer(layer._popup);
+	                        };
+	                        map.addLayer(layer._popup);
+	                    })();
+	                }
+	                layer._popupIntent = intent;
+	                intent.then(function () {
+	                    delete layer._popupIntent;
+	                });
+	                intent.after(onClose, onClose);
+	            });
+	            return intent;
+	        }
+	    }, {
+	        key: '_closePopup',
+	        value: function _closePopup(layer) {
+	            var promise = undefined;
+	            if (layer._popupIntent) {
+	                promise = layer._popupIntent.promise;
+	                layer._popupIntent.resolve();
+	            } else {
+	                promise = Promise.resolve();
+	            }
+	            return promise;
+	        }
+	    }, {
+	        key: 'selectLayer',
+	        value: function selectLayer(layer) {
+	            return this._openPopup(layer);
+	        }
+	    }, {
+	        key: 'deselectLayer',
+	        value: function deselectLayer(layer) {
+	            return this._closePopup(layer);
+	        }
+
+	        /**
+	         * Returns a Laflet L.LatLng object with coordinates of the marker position
+	         * for this resource.
+	         */
+	    }, {
+	        key: '_getMarkerCoordinates',
+	        value: function _getMarkerCoordinates() {
+	            var data = this.item.data;
+	            if (data.type !== 'Feature') return;
+	            if (!data.geometry || !data.geometry.type) return;
+	            var adapter = this.item.getAdapter(_mosaicDatasetGeo.GeoJsonAdapter);
+	            var center = adapter.center;
+	            return _leaflet2['default'].latLng([center[1], center[0]]);
+	        }
+
+	        /**
+	         * Returns a marker corresponding to the underlying resource.
+	         */
+	    }, {
+	        key: 'newMarker',
+	        value: function newMarker() {
+	            var latlng = this._getMarkerCoordinates();
+	            var options = {};
+	            for (var key in this.options) {
+	                options[key] = this.options[key];
+	            }
+	            var radius = 20;
+	            var icon = new MarkerIcon({
+	                // radius : radius + 'px',
+	                // iconAnchor: [radius / 2, 0],
+	                style: {
+	                    border: '2px solid gray',
+	                    backgroundColor: 'white'
+	                }
+	            });
+	            var marker = _leaflet2['default'].marker(latlng, {
+	                icon: icon,
+	                riseOnHover: true
+	            });
+	            return marker;
+	        }
+
+	        /**
+	         * Returns a leaflet layer corresponding to the underlying data item.
+	         */
+	    }, {
+	        key: 'newLeafletLayer',
+	        value: function newLeafletLayer() {
+	            var data = this.item.data;
+	            var options = {
+	                pointToLayer: (function (json) {
+	                    return this.newMarker();
+	                }).bind(this),
+	                coordsToLatLng: _leaflet2['default'].GeoJSON.coordsToLatLng
+	            };
+	            var result = _leaflet2['default'].GeoJSON.geometryToLayer(data, options);
+	            var selectedItems = this.options.selectedItems;
+	            if (result && selectedItems) {
+	                result.on('click', (function (ev) {
+	                    selectedItems.toggle(this.item);
+	                }).bind(this));
+	            }
+	            return result;
+	        }
+	    }, {
+	        key: 'deleteLeafletLayer',
+	        value: function deleteLeafletLayer(layer) {
+	            this.deselectLayer(layer);
+	        }
+	    }]);
+
+	    return LeafletAdapter;
+	})();
+
+	exports['default'] = LeafletAdapter;
+
+	var MarkerIcon = (function (_L$DivIcon) {
+	    _inherits(MarkerIcon, _L$DivIcon);
+
+	    function MarkerIcon(options) {
+	        _classCallCheck(this, MarkerIcon);
+
+	        _get(Object.getPrototypeOf(MarkerIcon.prototype), 'constructor', this).call(this, options);
+	    }
+
+	    _createClass(MarkerIcon, [{
+	        key: 'createIcon',
+	        value: function createIcon(oldIcon) {
+	            var icon = _get(Object.getPrototypeOf(MarkerIcon.prototype), 'createIcon', this).call(this, oldIcon);
+	            var radius = this.options.radius || '25px';
+	            icon.style.border = '1px solid gray';
+	            icon.style.background = 'white'; // 'transparent';
+	            icon.style.width = radius;
+	            icon.style.height = radius;
+	            icon.style.WebkitBorderRadius = radius;
+	            icon.style.MozBorderRadius = radius;
+	            icon.style.borderRadius = radius;
+	            if (this.options.style) {
+	                for (var key in this.options.style) {
+	                    icon.style[key] = this.options.style[key];
+	                }
+	            }
+
+	            return icon;
+	        }
+	    }]);
+
+	    return MarkerIcon;
+	})(_leaflet2['default'].DivIcon);
+
+	LeafletAdapter.MarkerIcon = MarkerIcon;
+	module.exports = exports['default'];
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _libGeoJsonAdapter = __webpack_require__(290);
+
+	var _libGeoJsonAdapter2 = _interopRequireDefault(_libGeoJsonAdapter);
+
+	var _libGeoJsonGenerator = __webpack_require__(296);
+
+	var _libGeoJsonGenerator2 = _interopRequireDefault(_libGeoJsonGenerator);
+
+	var _libGeoJsonUtils = __webpack_require__(291);
+
+	var _libGeoJsonUtils2 = _interopRequireDefault(_libGeoJsonUtils);
+
+	exports['default'] = {
+	    GeoJsonAdapter: _libGeoJsonAdapter2['default'],
+	    GeoJsonGenerator: _libGeoJsonGenerator2['default'],
+	    GeoJsonUtils: _libGeoJsonUtils2['default']
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _GeoJsonUtils = __webpack_require__(291);
+
+	/**
+	 * This adapters treats all data set as GeoJson objects and provides some
+	 * utility methods.
+	 */
+
+	var _GeoJsonUtils2 = _interopRequireDefault(_GeoJsonUtils);
+
+	var GeoJsonAdapter = (function () {
+
+	    /**
+	     * The main constructor initializing the internal data field.
+	     */
+
+	    function GeoJsonAdapter(options, item) {
+	        _classCallCheck(this, GeoJsonAdapter);
+
+	        options = options || {};
+	        this.item = item || options.item;
+	    }
+
+	    /** getter/setter methods for the "item" property */
+
+	    _createClass(GeoJsonAdapter, [{
+	        key: 'setData',
+	        value: function setData(data) {
+	            var item = this.item;
+	            if (item.setData) {
+	                return item.setData(data);
+	            } else {
+	                return item.data = data;
+	            }
+	        }
+
+	        /** Returns a bounding box around the underlying item. */
+	    }, {
+	        key: 'item',
+	        get: function get() {
+	            return this._item || {};
+	        },
+	        set: function set(item) {
+	            this._item = item || {};
+	        }
+
+	        /** Returns the data object associated with the underlying item */
+	    }, {
+	        key: 'data',
+	        get: function get() {
+	            return this.item.data;
+	        },
+	        set: function set(data) {
+	            this.setData(data);
+	        }
+	    }, {
+	        key: 'boundingBox',
+	        get: function get() {
+	            return _GeoJsonUtils2['default'].getBoundingBox(this.item);
+	        }
+
+	        /** Returns the central point for this item. */
+	    }, {
+	        key: 'centerPoint',
+	        get: function get() {
+	            return _GeoJsonUtils2['default'].getCenter(this.item);
+	        }
+
+	        /** Returns the coordinates of the center for this item. */
+	    }, {
+	        key: 'center',
+	        get: function get() {
+	            var center = this.centerPoint;
+	            return center.geometry.coordinates;
+	        }
+	    }]);
+
+	    return GeoJsonAdapter;
+	})();
+
+	exports['default'] = GeoJsonAdapter;
+	module.exports = exports['default'];
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _turfExtent = __webpack_require__(292);
+
+	var _turfExtent2 = _interopRequireDefault(_turfExtent);
+
+	var _turfCenter = __webpack_require__(294);
+
+	/**
+	 * This adapters treats all Data instances as GeoJson objects and provides some
+	 * utility methods.
+	 */
+
+	var _turfCenter2 = _interopRequireDefault(_turfCenter);
+
+	var GeoJsonUtils = (function () {
+	    function GeoJsonUtils() {
+	        _classCallCheck(this, GeoJsonUtils);
+	    }
+
+	    _createClass(GeoJsonUtils, null, [{
+	        key: 'getCenter',
+
+	        /**
+	         * Returns the central point for the specified GeoJSON object.
+	         */
+	        value: function getCenter(item) {
+	            var result;
+	            var data = item.data;
+	            if (data && data.geometry) {
+	                result = (0, _turfCenter2['default'])(data.geometry);
+	            }
+	            return result;
+	        }
+
+	        /**
+	         * Returns a bounding box around the underlying data object.
+	         */
+	    }, {
+	        key: 'getBoundingBox',
+	        value: function getBoundingBox(item) {
+	            var bbox;
+	            item.visit({
+	                before: function before(r) {
+	                    var data = r.data;
+	                    if (!data.geometry) return;
+	                    var box = (0, _turfExtent2['default'])(data.geometry);
+	                    if (bbox) {
+	                        box = [Math.min(bbox[0], box[0]), Math.min(bbox[1], box[1]), Math.max(bbox[2], box[2]), Math.max(bbox[3], box[3])];
+	                    }
+	                    bbox = box;
+	                }
+	            });
+	            return bbox;
+	        }
+
+	        /**
+	         * Returns <code>true</code> if the specified bounding box is empty.
+	         * 
+	         * @see http://gis.stackexchange.com/questions/8650/how-to-measure-the-accuracy-of-latitude-and-longitude/8674#8674
+	         */
+	    }, {
+	        key: 'isEmptyBox',
+	        value: function isEmptyBox(box, precision) {
+	            if (!box) return true;
+	            var first = this.round(box[0], precision);
+	            var second = this.round(box[1], precision);
+	            var third = this.round(box[2], precision);
+	            var fourth = this.round(box[3], precision);
+	            return first === third && second === fourth;
+	        }
+
+	        /**
+	         * @see http://gis.stackexchange.com/questions/8650/how-to-measure-the-accuracy-of-latitude-and-longitude/8674#8674
+	         */
+	    }, {
+	        key: 'round',
+	        value: function round(val, precision) {
+	            precision = precision || 6;
+	            return (+val).toFixed(precision);
+	        }
+	    }]);
+
+	    return GeoJsonUtils;
+	})();
+
+	exports['default'] = GeoJsonUtils;
+	module.exports = exports['default'];
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var each = __webpack_require__(293).coordEach;
+
+	/**
+	 * Takes any {@link GeoJSON} object, calculates the extent of all input features, and returns a bounding box.
+	 *
+	 * @module turf/extent
+	 * @category measurement
+	 * @param {GeoJSON} input any valid GeoJSON Object
+	 * @return {Array<number>} the bounding box of `input` given
+	 * as an array in WSEN order (west, south, east, north)
+	 * @example
+	 * var input = {
+	 *   "type": "FeatureCollection",
+	 *   "features": [
+	 *     {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [114.175329, 22.2524]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [114.170007, 22.267969]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [114.200649, 22.274641]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [114.186744, 22.265745]
+	 *       }
+	 *     }
+	 *   ]
+	 * };
+	 *
+	 * var bbox = turf.extent(input);
+	 *
+	 * var bboxPolygon = turf.bboxPolygon(bbox);
+	 *
+	 * var resultFeatures = input.features.concat(bboxPolygon);
+	 * var result = {
+	 *   "type": "FeatureCollection",
+	 *   "features": resultFeatures
+	 * };
+	 *
+	 * //=result
+	 */
+	module.exports = function (layer) {
+	  var extent = [Infinity, Infinity, -Infinity, -Infinity];
+	  each(layer, function (coord) {
+	    if (extent[0] > coord[0]) extent[0] = coord[0];
+	    if (extent[1] > coord[1]) extent[1] = coord[1];
+	    if (extent[2] < coord[0]) extent[2] = coord[0];
+	    if (extent[3] < coord[1]) extent[3] = coord[1];
+	  });
+	  return extent;
+	};
+
+/***/ },
+/* 293 */
+/***/ function(module, exports) {
+
+	/**
+	 * Lazily iterate over coordinates in any GeoJSON object, similar to
+	 * Array.forEach.
+	 *
+	 * @param {Object} layer any GeoJSON object
+	 * @param {Function} callback a method that takes (value)
+	 * @param {boolean=} excludeWrapCoord whether or not to include
+	 * the final coordinate of LinearRings that wraps the ring in its iteration.
+	 * @example
+	 * var point = { type: 'Point', coordinates: [0, 0] };
+	 * coordEach(point, function(coords) {
+	 *   // coords is equal to [0, 0]
+	 * });
+	 */
+	'use strict';
+
+	function coordEach(layer, callback, excludeWrapCoord) {
+	  var i,
+	      j,
+	      k,
+	      g,
+	      geometry,
+	      stopG,
+	      coords,
+	      geometryMaybeCollection,
+	      wrapShrink = 0,
+	      isGeometryCollection,
+	      isFeatureCollection = layer.type === 'FeatureCollection',
+	      isFeature = layer.type === 'Feature',
+	      stop = isFeatureCollection ? layer.features.length : 1;
+
+	  // This logic may look a little weird. The reason why it is that way
+	  // is because it's trying to be fast. GeoJSON supports multiple kinds
+	  // of objects at its root: FeatureCollection, Features, Geometries.
+	  // This function has the responsibility of handling all of them, and that
+	  // means that some of the `for` loops you see below actually just don't apply
+	  // to certain inputs. For instance, if you give this just a
+	  // Point geometry, then both loops are short-circuited and all we do
+	  // is gradually rename the input until it's called 'geometry'.
+	  //
+	  // This also aims to allocate as few resources as possible: just a
+	  // few numbers and booleans, rather than any temporary arrays as would
+	  // be required with the normalization approach.
+	  for (i = 0; i < stop; i++) {
+
+	    geometryMaybeCollection = isFeatureCollection ? layer.features[i].geometry : isFeature ? layer.geometry : layer;
+	    isGeometryCollection = geometryMaybeCollection.type === 'GeometryCollection';
+	    stopG = isGeometryCollection ? geometryMaybeCollection.geometries.length : 1;
+
+	    for (g = 0; g < stopG; g++) {
+
+	      geometry = isGeometryCollection ? geometryMaybeCollection.geometries[g] : geometryMaybeCollection;
+	      coords = geometry.coordinates;
+
+	      wrapShrink = excludeWrapCoord && (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') ? 1 : 0;
+
+	      if (geometry.type === 'Point') {
+	        callback(coords);
+	      } else if (geometry.type === 'LineString' || geometry.type === 'MultiPoint') {
+	        for (j = 0; j < coords.length; j++) callback(coords[j]);
+	      } else if (geometry.type === 'Polygon' || geometry.type === 'MultiLineString') {
+	        for (j = 0; j < coords.length; j++) for (k = 0; k < coords[j].length - wrapShrink; k++) callback(coords[j][k]);
+	      } else if (geometry.type === 'MultiPolygon') {
+	        for (j = 0; j < coords.length; j++) for (k = 0; k < coords[j].length; k++) for (l = 0; l < coords[j][k].length - wrapShrink; l++) callback(coords[j][k][l]);
+	      } else {
+	        throw new Error('Unknown Geometry Type');
+	      }
+	    }
+	  }
+	}
+	module.exports.coordEach = coordEach;
+
+	/**
+	 * Lazily reduce coordinates in any GeoJSON object into a single value,
+	 * similar to how Array.reduce works. However, in this case we lazily run
+	 * the reduction, so an array of all coordinates is unnecessary.
+	 *
+	 * @param {Object} layer any GeoJSON object
+	 * @param {Function} callback a method that takes (memo, value) and returns
+	 * a new memo
+	 * @param {boolean=} excludeWrapCoord whether or not to include
+	 * the final coordinate of LinearRings that wraps the ring in its iteration.
+	 * @param {*} memo the starting value of memo: can be any type.
+	 */
+	function coordReduce(layer, callback, memo, excludeWrapCoord) {
+	  coordEach(layer, function (coord) {
+	    memo = callback(memo, coord);
+	  }, excludeWrapCoord);
+	  return memo;
+	}
+	module.exports.coordReduce = coordReduce;
+
+	/**
+	 * Lazily iterate over property objects in any GeoJSON object, similar to
+	 * Array.forEach.
+	 *
+	 * @param {Object} layer any GeoJSON object
+	 * @param {Function} callback a method that takes (value)
+	 * @example
+	 * var point = { type: 'Feature', geometry: null, properties: { foo: 1 } };
+	 * propEach(point, function(props) {
+	 *   // props is equal to { foo: 1}
+	 * });
+	 */
+	function propEach(layer, callback) {
+	  var i;
+	  switch (layer.type) {
+	    case 'FeatureCollection':
+	      features = layer.features;
+	      for (i = 0; i < layer.features.length; i++) {
+	        callback(layer.features[i].properties);
+	      }
+	      break;
+	    case 'Feature':
+	      callback(layer.properties);
+	      break;
+	  }
+	}
+	module.exports.propEach = propEach;
+
+	/**
+	 * Lazily reduce properties in any GeoJSON object into a single value,
+	 * similar to how Array.reduce works. However, in this case we lazily run
+	 * the reduction, so an array of all properties is unnecessary.
+	 *
+	 * @param {Object} layer any GeoJSON object
+	 * @param {Function} callback a method that takes (memo, coord) and returns
+	 * a new memo
+	 * @param {*} memo the starting value of memo: can be any type.
+	 */
+	function propReduce(layer, callback, memo) {
+	  propEach(layer, function (prop) {
+	    memo = callback(memo, prop);
+	  });
+	  return memo;
+	}
+	module.exports.propReduce = propReduce;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var extent = __webpack_require__(292),
+	    point = __webpack_require__(295);
+
+	/**
+	 * Takes a {@link FeatureCollection} of any type and returns the absolute center point of all features.
+	 *
+	 * @module turf/center
+	 * @category measurement
+	 * @param {FeatureCollection} features a FeatureCollection of any type
+	 * @return {Point} a Point feature at the
+	 * absolute center point of all input features
+	 * @example
+	 * var features = {
+	 *   "type": "FeatureCollection",
+	 *   "features": [
+	 *     {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.522259, 35.4691]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.502754, 35.463455]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.508269, 35.463245]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.516809, 35.465779]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.515372, 35.467072]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.509363, 35.463053]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.511123, 35.466601]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.518547, 35.469327]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.519706, 35.469659]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.517839, 35.466998]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.508678, 35.464942]
+	 *       }
+	 *     }, {
+	 *       "type": "Feature",
+	 *       "properties": {},
+	 *       "geometry": {
+	 *         "type": "Point",
+	 *         "coordinates": [-97.514914, 35.463453]
+	 *       }
+	 *     }
+	 *   ]
+	 * };
+	 *
+	 * var centerPt = turf.center(features);
+	 * centerPt.properties['marker-size'] = 'large';
+	 * centerPt.properties['marker-color'] = '#000';
+	 *
+	 * var resultFeatures = features.features.concat(centerPt);
+	 * var result = {
+	 *   "type": "FeatureCollection",
+	 *   "features": resultFeatures
+	 * };
+	 *
+	 * //=result
+	 */
+
+	module.exports = function (layer, done) {
+	  var ext = extent(layer);
+	  var x = (ext[0] + ext[2]) / 2;
+	  var y = (ext[1] + ext[3]) / 2;
+	  return point([x, y]);
+	};
+
+/***/ },
+/* 295 */
+/***/ function(module, exports) {
+
+	/**
+	 * Takes coordinates and properties (optional) and returns a new {@link Point} feature.
+	 *
+	 * @module turf/point
+	 * @category helper
+	 * @param {number} longitude position west to east in decimal degrees
+	 * @param {number} latitude position south to north in decimal degrees
+	 * @param {Object} properties an Object that is used as the {@link Feature}'s
+	 * properties
+	 * @return {Point} a Point feature
+	 * @example
+	 * var pt1 = turf.point([-75.343, 39.984]);
+	 *
+	 * //=pt1
+	 */
+	'use strict';
+
+	var isArray = Array.isArray || function (arg) {
+	  return Object.prototype.toString.call(arg) === '[object Array]';
+	};
+	module.exports = function (coordinates, properties) {
+	  if (!isArray(coordinates)) throw new Error('Coordinates must be an array');
+	  if (coordinates.length < 2) throw new Error('Coordinates must be at least 2 numbers long');
+	  return {
+	    type: "Feature",
+	    geometry: {
+	      type: "Point",
+	      coordinates: coordinates
+	    },
+	    properties: properties || {}
+	  };
+	};
+
+/***/ },
+/* 296 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var GeoJsonGenerator = (function () {
+	    function GeoJsonGenerator(options) {
+	        _classCallCheck(this, GeoJsonGenerator);
+
+	        options = options || {};
+	        this.bbox = options.bbox || [-180, 90, 180, -90];
+	        this.precision = options.precision || 6;
+	    }
+
+	    _createClass(GeoJsonGenerator, [{
+	        key: 'round',
+	        value: function round(val, precision) {
+	            precision = precision || this.precision;
+	            return +(+val).toFixed(precision);
+	        }
+	    }, {
+	        key: 'random',
+	        value: function random(from, to) {
+	            return this.round(from + Math.random() * (to - from));
+	        }
+	    }, {
+	        key: 'randomLng',
+	        value: function randomLng() {
+	            return this.random(this.bbox[0], this.bbox[2]);
+	        }
+	    }, {
+	        key: 'randomLat',
+	        value: function randomLat() {
+	            return this.random(this.bbox[1], this.bbox[3]);
+	        }
+	    }, {
+	        key: 'randomLngLat',
+	        value: function randomLngLat() {
+	            return [this.randomLng(), this.randomLat()];
+	        }
+	    }, {
+	        key: 'randomPoint',
+	        value: function randomPoint() {
+	            return {
+	                type: 'Feature',
+	                geometry: {
+	                    type: 'Point',
+	                    coordinates: this.randomLngLat()
+	                }
+	            };
+	        }
+	    }, {
+	        key: 'randomPoints',
+	        value: function randomPoints(number) {
+	            var result = [];
+	            for (var i = 0; i < number; i++) {
+	                result.push(this.randomPoint());
+	            }
+	            return result;
+	        }
+	    }]);
+
+	    return GeoJsonGenerator;
+	})();
+
+	exports['default'] = GeoJsonGenerator;
+	module.exports = exports['default'];
+
+/***/ },
+/* 297 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var LeafletPopupAdapter = (function () {
+	    function LeafletPopupAdapter(options, item) {
+	        _classCallCheck(this, LeafletPopupAdapter);
+
+	        this.options = options || {};
+	        this.item = item || this.options.item;
+	    }
+
+	    _createClass(LeafletPopupAdapter, [{
+	        key: 'renderPopupContent',
+	        value: function renderPopupContent() {
+	            return this.item.get('properties.description');
+	        }
+	    }]);
+
+	    return LeafletPopupAdapter;
+	})();
+
+	exports['default'] = LeafletPopupAdapter;
+	module.exports = exports['default'];
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _leaflet = __webpack_require__(244);
+
+	var _leaflet2 = _interopRequireDefault(_leaflet);
+
+	var _mosaicDataset = __webpack_require__(245);
+
+	var _LeafletAdapter = __webpack_require__(288);
+
+	var _LeafletAdapter2 = _interopRequireDefault(_LeafletAdapter);
+
+	var _DataSetLeafletUtils = __webpack_require__(299);
+
+	var _DataSetLeafletUtils2 = _interopRequireDefault(_DataSetLeafletUtils);
+
+	var _AbstractDataSetLeaflet2 = __webpack_require__(243);
+
+	var _AbstractDataSetLeaflet3 = _interopRequireDefault(_AbstractDataSetLeaflet2);
+
+	var DataSetLeafletLayer = (function (_AbstractDataSetLeaflet) {
+	    _inherits(DataSetLeafletLayer, _AbstractDataSetLeaflet);
+
+	    function DataSetLeafletLayer(options) {
+	        _classCallCheck(this, DataSetLeafletLayer);
+
+	        _get(Object.getPrototypeOf(DataSetLeafletLayer.prototype), 'constructor', this).call(this, options);
+	        this._constructorOptions = options;
+	        this._layersIndex = {};
+	    }
+
+	    _createClass(DataSetLeafletLayer, [{
+	        key: '_updateSelection',
+	        value: function _updateSelection(diff) {
+	            var that = this;
+	            diff.added.forEach(function (item) {
+	                var layer = that._layersIndex[item.id];
+	                if (!layer) return;
+	                var adapter = that._getLeafletAdapter(item);
+	                function remove() {
+	                    that.selectedItems.removeItem(item);
+	                }
+	                adapter.selectLayer(layer).then(remove, remove);
+	            });
+
+	            diff.removed.forEach(function (item) {
+	                var layer = that._layersIndex[item.id];
+	                if (!layer) return;
+	                var adapter = that._getLeafletAdapter(item);
+	                adapter.deselectLayer(layer);
+	            });
+	        }
+	    }, {
+	        key: '_redrawLayers',
+	        value: function _redrawLayers(diff) {
+	            var that = this;
+	            diff.added.forEach(function (item) {
+	                var adapter = that._getLeafletAdapter(item);
+	                if (!adapter) return;
+	                var layer = adapter.newLeafletLayer();
+	                if (!layer) return;
+	                that._layersIndex[item.id] = layer;
+	                that.addLayer(layer);
+	            });
+	            diff.removed.forEach(function (item) {
+	                var layer = that._layersIndex[item.id];
+	                if (!layer) return;
+	                delete that._layersIndex[item.id];
+	                var adapter = that._getLeafletAdapter(item);
+	                adapter.deleteLeafletLayer(layer);
+	                that.removeLayer(layer);
+	            });
+	            if (!this.options.noFocus) {
+	                _DataSetLeafletUtils2['default'].fitToBoundsDeferred({
+	                    dataSet: this.dataSet,
+	                    map: this._map,
+	                    bbox: this.options.bbox
+	                });
+	            }
+	        }
+	    }, {
+	        key: '_getLeafletAdapter',
+	        value: function _getLeafletAdapter(item) {
+	            return item.getAdapter(_LeafletAdapter2['default'], this._constructorOptions);
+	        }
+	    }]);
+
+	    return DataSetLeafletLayer;
+	})((0, _AbstractDataSetLeaflet3['default'])(_leaflet2['default'].FeatureGroup));
+
+	exports['default'] = DataSetLeafletLayer;
+	module.exports = exports['default'];
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _leaflet = __webpack_require__(244);
+
+	var _leaflet2 = _interopRequireDefault(_leaflet);
+
+	var _mosaicDataset = __webpack_require__(245);
+
+	var _mosaicDatasetGeo = __webpack_require__(289);
+
+	exports['default'] = {
+	    fitToBoundsDeferred: function fitToBoundsDeferred(options) {
+	        var that = this;
+	        setTimeout(function () {
+	            that.fitToBounds(options);
+	        }, options.timeout || 150);
+	    },
+	    fitToBounds: function fitToBounds(options) {
+	        function getBounds(bbox) {
+	            if (!bbox) return;
+	            return _leaflet2['default'].latLngBounds([bbox[1], bbox[0]], [bbox[3], bbox[2]]);
+	        }
+	        var maxBounds = getBounds(options.bbox);
+	        var adapter = options.dataSet.getAdapter(_mosaicDatasetGeo.GeoJsonAdapter);
+	        var bbox = getBounds(adapter.boundingBox);
+	        if (!bbox) {
+	            var center = adapter.centerPoint;
+	            if (center) {
+	                var latlng = _leaflet2['default'].latLng(center[1], center[0]);
+	                options.map.panTo(latlng);
+	            }
+	        } else {
+	            if (maxBounds) {
+	                bbox = maxBounds.intersect(bbox);
+	            }
+	            options.map.fitBounds(bbox);
+	        }
+	    }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _leaflet = __webpack_require__(244);
+
+	var _leaflet2 = _interopRequireDefault(_leaflet);
+
+	__webpack_require__(301);
+
+	var _mosaicDataset = __webpack_require__(245);
+
+	var _mosaicDatasetGeo = __webpack_require__(289);
+
+	var _LeafletAdapter = __webpack_require__(288);
+
+	var _LeafletAdapter2 = _interopRequireDefault(_LeafletAdapter);
+
+	var _LeafletClusterAdapter = __webpack_require__(302);
+
+	var _LeafletClusterAdapter2 = _interopRequireDefault(_LeafletClusterAdapter);
+
+	var _DataSetLeafletUtils = __webpack_require__(299);
+
+	var _DataSetLeafletUtils2 = _interopRequireDefault(_DataSetLeafletUtils);
+
+	var _AbstractDataSetLeaflet2 = __webpack_require__(243);
+
+	var _AbstractDataSetLeaflet3 = _interopRequireDefault(_AbstractDataSetLeaflet2);
+
+	var DataSetClusteredLeafletLayer = (function (_AbstractDataSetLeaflet) {
+	    _inherits(DataSetClusteredLeafletLayer, _AbstractDataSetLeaflet);
+
+	    function DataSetClusteredLeafletLayer(options) {
+	        _classCallCheck(this, DataSetClusteredLeafletLayer);
+
+	        var that = undefined;
+	        options.iconCreateFunction = function (cluster) {
+	            var icon = that._newClusterIcon(cluster);
+	            return icon;
+	        };
+	        _get(Object.getPrototypeOf(DataSetClusteredLeafletLayer.prototype), 'constructor', this).call(this, options);
+	        options.removeOutsideVisibleBounds = true;
+	        that = this;
+	        this._constructorOptions = options || {};
+	        this._layersIndex = {};
+	        this.options.polygonOptions = that._getClusterPolygonOptions();
+	    }
+
+	    _createClass(DataSetClusteredLeafletLayer, [{
+	        key: '_updateSelection',
+	        value: function _updateSelection(diff) {
+	            var that = this;
+	            if (diff.added.length) {
+	                (function () {
+	                    var item = diff.added[0];
+	                    var layer = that._layersIndex[item.id];
+	                    var adapter = that._getLeafletAdapter(item);
+	                    if (adapter && layer) {
+	                        that.zoomToShowLayer(layer, function () {
+	                            setTimeout(function () {
+	                                var latlng = layer.getLatLng();
+	                                that._map.panTo(latlng);
+	                                function remove() {
+	                                    that.selectedItems.removeItem(item);
+	                                }
+	                                adapter.selectLayer(layer).then(remove, remove);
+	                            }, 50);
+	                        });
+	                    }
+	                })();
+	            }
+	            diff.removed.forEach(function (item) {
+	                var layer = that._layersIndex[item.id];
+	                if (!layer) return;
+	                var adapter = that._getLeafletAdapter(item);
+	                adapter.deselectLayer(layer);
+	            });
+	        }
+	    }, {
+	        key: '_redrawLayers',
+	        value: function _redrawLayers(diff) {
+	            var that = this;
+	            var toAdd = [];
+	            var toRemove = [];
+	            diff.added.forEach(function (item) {
+	                var adapter = that._getLeafletAdapter(item);
+	                if (!adapter) return;
+	                var layer = adapter.newLeafletLayer();
+	                if (!layer) return;
+	                that._layersIndex[item.id] = layer;
+	                toAdd.push(layer);
+	            });
+	            diff.removed.forEach(function (item) {
+	                var layer = that._layersIndex[item.id];
+	                if (!layer) return;
+	                delete that._layersIndex[item.id];
+	                var adapter = that._getLeafletAdapter(item);
+	                that.removeLayer(layer);
+	                adapter.deleteLeafletLayer(layer);
+	            });
+	            that.addLayers(toAdd);
+	            if (!this.options.noFocus) {
+	                _DataSetLeafletUtils2['default'].fitToBoundsDeferred({
+	                    dataSet: this.dataSet,
+	                    map: this._map,
+	                    bbox: this.options.bbox
+	                });
+	            }
+	        }
+	    }, {
+	        key: '_getLeafletAdapter',
+	        value: function _getLeafletAdapter(item) {
+	            return item.getAdapter(_LeafletAdapter2['default'], this._constructorOptions);
+	        }
+	    }, {
+	        key: '_getClusterAdapter',
+	        value: function _getClusterAdapter() {
+	            if (!this._clusterAdapter) {
+	                this._clusterAdapter = this.dataSet.getAdapter(_LeafletClusterAdapter2['default'], this._constructorOptions);
+	            }
+	            return this._clusterAdapter;
+	        }
+	    }, {
+	        key: '_newClusterIcon',
+	        value: function _newClusterIcon(cluster) {
+	            var clusterAdapter = this._getClusterAdapter();
+	            return clusterAdapter.newClusterIcon(cluster, this);
+	        }
+	    }, {
+	        key: '_getClusterPolygonOptions',
+	        value: function _getClusterPolygonOptions() {
+	            var clusterAdapter = this._getClusterAdapter();
+	            return clusterAdapter.getClusterPolygonOptions(this);
+	        }
+	    }]);
+
+	    return DataSetClusteredLeafletLayer;
+	})((0, _AbstractDataSetLeaflet3['default'])(_leaflet2['default'].MarkerClusterGroup));
+
+	exports['default'] = DataSetClusteredLeafletLayer;
+	module.exports = exports['default'];
+
+/***/ },
+/* 301 */
+/***/ function(module, exports) {
+
+	/*
+	 Leaflet.markercluster, Provides Beautiful Animated Marker Clustering functionality for Leaflet, a JS library for interactive maps.
+	 https://github.com/Leaflet/Leaflet.markercluster
+	 (c) 2012-2013, Dave Leaver, smartrak
+	*/
+	"use strict";
+
+	!(function (e, t, i) {
+	  L.MarkerClusterGroup = L.FeatureGroup.extend({ options: { maxClusterRadius: 80, iconCreateFunction: null, spiderfyOnMaxZoom: !0, showCoverageOnHover: !0, zoomToBoundsOnClick: !0, singleMarkerMode: !1, disableClusteringAtZoom: null, removeOutsideVisibleBounds: !0, animate: !0, animateAddingMarkers: !1, spiderfyDistanceMultiplier: 1, spiderLegPolylineOptions: { weight: 1.5, color: "#222", opacity: .5 }, chunkedLoading: !1, chunkInterval: 200, chunkDelay: 50, chunkProgress: null, polygonOptions: {} }, initialize: function initialize(e) {
+	      L.Util.setOptions(this, e), this.options.iconCreateFunction || (this.options.iconCreateFunction = this._defaultIconCreateFunction), this._featureGroup = L.featureGroup(), this._featureGroup.addEventParent(this), this._nonPointGroup = L.featureGroup(), this._nonPointGroup.addEventParent(this), this._inZoomAnimation = 0, this._needsClustering = [], this._needsRemoving = [], this._currentShownBounds = null, this._queue = [];var t = L.DomUtil.TRANSITION && this.options.animate;L.extend(this, t ? this._withAnimation : this._noAnimation), this._markerCluster = t ? L.MarkerCluster : L.MarkerClusterNonAnimated;
+	    }, addLayer: function addLayer(e) {
+	      if (e instanceof L.LayerGroup) {
+	        var t = [];for (var i in e._layers) t.push(e._layers[i]);return this.addLayers(t);
+	      }if (!e.getLatLng) return this._nonPointGroup.addLayer(e), this;if (!this._map) return this._needsClustering.push(e), this;if (this.hasLayer(e)) return this;this._unspiderfy && this._unspiderfy(), this._addLayer(e, this._maxZoom), this._topClusterLevel._recalculateBounds();var n = e,
+	          s = this._map.getZoom();if (e.__parent) for (; n.__parent._zoom >= s;) n = n.__parent;return this._currentShownBounds.contains(n.getLatLng()) && (this.options.animateAddingMarkers ? this._animationAddLayer(e, n) : this._animationAddLayerNonAnimated(e, n)), this;
+	    }, removeLayer: function removeLayer(e) {
+	      if (e instanceof L.LayerGroup) {
+	        var t = [];for (var i in e._layers) t.push(e._layers[i]);return this.removeLayers(t);
+	      }return e.getLatLng ? this._map ? e.__parent ? (this._unspiderfy && (this._unspiderfy(), this._unspiderfyLayer(e)), this._removeLayer(e, !0), this._topClusterLevel._recalculateBounds(), e.off("move", this._childMarkerMoved, this), this._featureGroup.hasLayer(e) && (this._featureGroup.removeLayer(e), e.clusterShow && e.clusterShow()), this) : this : (!this._arraySplice(this._needsClustering, e) && this.hasLayer(e) && this._needsRemoving.push(e), this) : (this._nonPointGroup.removeLayer(e), this);
+	    }, addLayers: function addLayers(e) {
+	      var t,
+	          i,
+	          n,
+	          s,
+	          r = this._featureGroup,
+	          o = this._nonPointGroup,
+	          a = this.options.chunkedLoading,
+	          h = this.options.chunkInterval,
+	          u = this.options.chunkProgress;if (this._map) {
+	        var l = 0,
+	            _ = new Date().getTime(),
+	            d = L.bind(function () {
+	          for (var t = new Date().getTime(); l < e.length; l++) {
+	            if (a && 0 === l % 200) {
+	              var i = new Date().getTime() - t;if (i > h) break;
+	            }if ((s = e[l], s.getLatLng)) {
+	              if (!this.hasLayer(s) && (this._addLayer(s, this._maxZoom), s.__parent && 2 === s.__parent.getChildCount())) {
+	                var n = s.__parent.getAllChildMarkers(),
+	                    c = n[0] === s ? n[1] : n[0];r.removeLayer(c);
+	              }
+	            } else o.addLayer(s);
+	          }u && u(l, e.length, new Date().getTime() - _), l === e.length ? (this._topClusterLevel._recalculateBounds(), this._featureGroup.eachLayer(function (e) {
+	            e instanceof L.MarkerCluster && e._iconNeedsUpdate && e._updateIcon();
+	          }), this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds)) : setTimeout(d, this.options.chunkDelay);
+	        }, this);d();
+	      } else {
+	        for (t = [], i = 0, n = e.length; n > i; i++) s = e[i], s.getLatLng ? this.hasLayer(s) || t.push(s) : o.addLayer(s);this._needsClustering = this._needsClustering.concat(t);
+	      }return this;
+	    }, removeLayers: function removeLayers(e) {
+	      var t,
+	          i,
+	          n,
+	          s = this._featureGroup,
+	          r = this._nonPointGroup;if (!this._map) {
+	        for (t = 0, i = e.length; i > t; t++) n = e[t], this._arraySplice(this._needsClustering, n), r.removeLayer(n), this.hasLayer(n) && this._needsRemoving.push(n);return this;
+	      }if (this._unspiderfy) for (this._unspiderfy(), t = 0, i = e.length; i > t; t++) n = e[t], this._unspiderfyLayer(n);for (t = 0, i = e.length; i > t; t++) n = e[t], n.__parent ? (this._removeLayer(n, !0, !0), s.hasLayer(n) && (s.removeLayer(n), n.clusterShow && n.clusterShow())) : r.removeLayer(n);return this._topClusterLevel._recalculateBounds(), this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds), s.eachLayer(function (e) {
+	        e instanceof L.MarkerCluster && e._updateIcon();
+	      }), this;
+	    }, clearLayers: function clearLayers() {
+	      return this._map || (this._needsClustering = [], delete this._gridClusters, delete this._gridUnclustered), this._noanimationUnspiderfy && this._noanimationUnspiderfy(), this._featureGroup.clearLayers(), this._nonPointGroup.clearLayers(), this.eachLayer(function (e) {
+	        e.off("move", this._childMarkerMoved, this), delete e.__parent;
+	      }), this._map && this._generateInitialClusters(), this;
+	    }, getBounds: function getBounds() {
+	      var e = new L.LatLngBounds();this._topClusterLevel && e.extend(this._topClusterLevel._bounds);for (var t = this._needsClustering.length - 1; t >= 0; t--) e.extend(this._needsClustering[t].getLatLng());return e.extend(this._nonPointGroup.getBounds()), e;
+	    }, eachLayer: function eachLayer(e, t) {
+	      var i,
+	          n = this._needsClustering.slice(),
+	          s = this._needsRemoving;for (this._topClusterLevel && this._topClusterLevel.getAllChildMarkers(n), i = n.length - 1; i >= 0; i--) -1 === s.indexOf(n[i]) && e.call(t, n[i]);this._nonPointGroup.eachLayer(e, t);
+	    }, getLayers: function getLayers() {
+	      var e = [];return this.eachLayer(function (t) {
+	        e.push(t);
+	      }), e;
+	    }, getLayer: function getLayer(e) {
+	      var t = null;return e = parseInt(e, 10), this.eachLayer(function (i) {
+	        L.stamp(i) === e && (t = i);
+	      }), t;
+	    }, hasLayer: function hasLayer(e) {
+	      if (!e) return !1;var t,
+	          i = this._needsClustering;for (t = i.length - 1; t >= 0; t--) if (i[t] === e) return !0;for (i = this._needsRemoving, t = i.length - 1; t >= 0; t--) if (i[t] === e) return !1;return !(!e.__parent || e.__parent._group !== this) || this._nonPointGroup.hasLayer(e);
+	    }, zoomToShowLayer: function zoomToShowLayer(e, t) {
+	      "function" != typeof t && (t = function () {});var i = function i() {
+	        !e._icon && !e.__parent._icon || this._inZoomAnimation || (this._map.off("moveend", i, this), this.off("animationend", i, this), e._icon ? t() : e.__parent._icon && (this.once("spiderfied", t, this), e.__parent.spiderfy()));
+	      };if (e._icon && this._map.getBounds().contains(e.getLatLng())) t();else if (e.__parent._zoom < this._map.getZoom()) this._map.on("moveend", i, this), this._map.panTo(e.getLatLng());else {
+	        var _n = function n() {
+	          this._map.off("movestart", _n, this), _n = null;
+	        };this._map.on("movestart", _n, this), this._map.on("moveend", i, this), this.on("animationend", i, this), e.__parent.zoomToBounds(), _n && i.call(this);
+	      }
+	    }, onAdd: function onAdd(e) {
+	      this._map = e;var t, i, n;if (!isFinite(this._map.getMaxZoom())) throw "Map has no maxZoom specified";for (this._featureGroup.addTo(e), this._nonPointGroup.addTo(e), this._gridClusters || this._generateInitialClusters(), this._maxLat = e.options.crs.projection.MAX_LATITUDE, t = 0, i = this._needsRemoving.length; i > t; t++) n = this._needsRemoving[t], this._removeLayer(n, !0);this._needsRemoving = [], this._zoom = this._map.getZoom(), this._currentShownBounds = this._getExpandedVisibleBounds(), this._map.on("zoomend", this._zoomEnd, this), this._map.on("moveend", this._moveEnd, this), this._spiderfierOnAdd && this._spiderfierOnAdd(), this._bindEvents(), i = this._needsClustering, this._needsClustering = [], this.addLayers(i);
+	    }, onRemove: function onRemove(e) {
+	      e.off("zoomend", this._zoomEnd, this), e.off("moveend", this._moveEnd, this), this._unbindEvents(), this._map._mapPane.className = this._map._mapPane.className.replace(" leaflet-cluster-anim", ""), this._spiderfierOnRemove && this._spiderfierOnRemove(), delete this._maxLat, this._hideCoverage(), this._featureGroup.remove(), this._nonPointGroup.remove(), this._featureGroup.clearLayers(), this._map = null;
+	    }, getVisibleParent: function getVisibleParent(e) {
+	      for (var t = e; t && !t._icon;) t = t.__parent;return t || null;
+	    }, _arraySplice: function _arraySplice(e, t) {
+	      for (var i = e.length - 1; i >= 0; i--) if (e[i] === t) return e.splice(i, 1), !0;
+	    }, _removeFromGridUnclustered: function _removeFromGridUnclustered(e, t) {
+	      for (var i = this._map, n = this._gridUnclustered; t >= 0 && n[t].removeObject(e, i.project(e.getLatLng(), t)); t--);
+	    }, _childMarkerMoved: function _childMarkerMoved(e) {
+	      this._ignoreMove || (e.target._latlng = e.oldLatLng, this.removeLayer(e.target), e.target._latlng = e.latlng, this.addLayer(e.target));
+	    }, _removeLayer: function _removeLayer(e, t, i) {
+	      var n = this._gridClusters,
+	          s = this._gridUnclustered,
+	          r = this._featureGroup,
+	          o = this._map;t && this._removeFromGridUnclustered(e, this._maxZoom);var a,
+	          h = e.__parent,
+	          u = h._markers;for (this._arraySplice(u, e); h && (h._childCount--, h._boundsNeedUpdate = !0, !(h._zoom < 0));) t && h._childCount <= 1 ? (a = h._markers[0] === e ? h._markers[1] : h._markers[0], n[h._zoom].removeObject(h, o.project(h._cLatLng, h._zoom)), s[h._zoom].addObject(a, o.project(a.getLatLng(), h._zoom)), this._arraySplice(h.__parent._childClusters, h), h.__parent._markers.push(a), a.__parent = h.__parent, h._icon && (r.removeLayer(h), i || r.addLayer(a))) : i && h._icon || h._updateIcon(), h = h.__parent;delete e.__parent;
+	    }, _isOrIsParent: function _isOrIsParent(e, t) {
+	      for (; t;) {
+	        if (e === t) return !0;t = t.parentNode;
+	      }return !1;
+	    }, fire: function fire(e, t, i) {
+	      if (t && t.layer instanceof L.MarkerCluster) {
+	        if (t.originalEvent && this._isOrIsParent(t.layer._icon, t.originalEvent.relatedTarget)) return;e = "cluster" + e;
+	      }L.FeatureGroup.prototype.fire.call(this, e, t, i);
+	    }, listens: function listens(e, t) {
+	      return L.FeatureGroup.prototype.listens.call(this, e, t) || L.FeatureGroup.prototype.listens.call(this, "cluster" + e, t);
+	    }, _defaultIconCreateFunction: function _defaultIconCreateFunction(e) {
+	      var t = e.getChildCount(),
+	          i = " marker-cluster-";return i += 10 > t ? "small" : 100 > t ? "medium" : "large", new L.DivIcon({ html: "<div><span>" + t + "</span></div>", className: "marker-cluster" + i, iconSize: new L.Point(40, 40) });
+	    }, _bindEvents: function _bindEvents() {
+	      var e = this._map,
+	          t = this.options.spiderfyOnMaxZoom,
+	          i = this.options.showCoverageOnHover,
+	          n = this.options.zoomToBoundsOnClick;(t || n) && this.on("clusterclick", this._zoomOrSpiderfy, this), i && (this.on("clustermouseover", this._showCoverage, this), this.on("clustermouseout", this._hideCoverage, this), e.on("zoomend", this._hideCoverage, this));
+	    }, _zoomOrSpiderfy: function _zoomOrSpiderfy(e) {
+	      for (var t = e.layer, i = t; 1 === i._childClusters.length;) i = i._childClusters[0];i._zoom === this._maxZoom && i._childCount === t._childCount ? this.options.spiderfyOnMaxZoom && t.spiderfy() : this.options.zoomToBoundsOnClick && t.zoomToBounds(), e.originalEvent && 13 === e.originalEvent.keyCode && this._map._container.focus();
+	    }, _showCoverage: function _showCoverage(e) {
+	      var t = this._map;this._inZoomAnimation || (this._shownPolygon && t.removeLayer(this._shownPolygon), e.layer.getChildCount() > 2 && e.layer !== this._spiderfied && (this._shownPolygon = new L.Polygon(e.layer.getConvexHull(), this.options.polygonOptions), t.addLayer(this._shownPolygon)));
+	    }, _hideCoverage: function _hideCoverage() {
+	      this._shownPolygon && (this._map.removeLayer(this._shownPolygon), this._shownPolygon = null);
+	    }, _unbindEvents: function _unbindEvents() {
+	      var e = this.options.spiderfyOnMaxZoom,
+	          t = this.options.showCoverageOnHover,
+	          i = this.options.zoomToBoundsOnClick,
+	          n = this._map;(e || i) && this.off("clusterclick", this._zoomOrSpiderfy, this), t && (this.off("clustermouseover", this._showCoverage, this), this.off("clustermouseout", this._hideCoverage, this), n.off("zoomend", this._hideCoverage, this));
+	    }, _zoomEnd: function _zoomEnd() {
+	      this._map && (this._mergeSplitClusters(), this._zoom = Math.round(this._map._zoom), this._currentShownBounds = this._getExpandedVisibleBounds());
+	    }, _moveEnd: function _moveEnd() {
+	      if (!this._inZoomAnimation) {
+	        var e = this._getExpandedVisibleBounds();this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, this._zoom, e), this._topClusterLevel._recursivelyAddChildrenToMap(null, Math.round(this._map._zoom), e), this._currentShownBounds = e;
+	      }
+	    }, _generateInitialClusters: function _generateInitialClusters() {
+	      var e = this._map.getMaxZoom(),
+	          t = this.options.maxClusterRadius,
+	          i = t;"function" != typeof t && (i = function () {
+	        return t;
+	      }), this.options.disableClusteringAtZoom && (e = this.options.disableClusteringAtZoom - 1), this._maxZoom = e, this._gridClusters = {}, this._gridUnclustered = {};for (var n = e; n >= 0; n--) this._gridClusters[n] = new L.DistanceGrid(i(n)), this._gridUnclustered[n] = new L.DistanceGrid(i(n));this._topClusterLevel = new this._markerCluster(this, -1);
+	    }, _addLayer: function _addLayer(e, t) {
+	      var i,
+	          n,
+	          s = this._gridClusters,
+	          r = this._gridUnclustered;for (this.options.singleMarkerMode && this._overrideMarkerIcon(e), e.on("move", this._childMarkerMoved, this); t >= 0; t--) {
+	        i = this._map.project(e.getLatLng(), t);var o = s[t].getNearObject(i);if (o) return o._addChild(e), e.__parent = o, void 0;if (o = r[t].getNearObject(i)) {
+	          var a = o.__parent;a && this._removeLayer(o, !1);var h = new this._markerCluster(this, t, o, e);s[t].addObject(h, this._map.project(h._cLatLng, t)), o.__parent = h, e.__parent = h;var u = h;for (n = t - 1; n > a._zoom; n--) u = new this._markerCluster(this, n, u), s[n].addObject(u, this._map.project(o.getLatLng(), n));return a._addChild(u), this._removeFromGridUnclustered(o, t), void 0;
+	        }r[t].addObject(e, i);
+	      }this._topClusterLevel._addChild(e), e.__parent = this._topClusterLevel;
+	    }, _enqueue: function _enqueue(e) {
+	      this._queue.push(e), this._queueTimeout || (this._queueTimeout = setTimeout(L.bind(this._processQueue, this), 300));
+	    }, _processQueue: function _processQueue() {
+	      for (var e = 0; e < this._queue.length; e++) this._queue[e].call(this);this._queue.length = 0, clearTimeout(this._queueTimeout), this._queueTimeout = null;
+	    }, _mergeSplitClusters: function _mergeSplitClusters() {
+	      var e = Math.round(this._map._zoom);this._processQueue(), this._zoom < e && this._currentShownBounds.contains(this._getExpandedVisibleBounds()) ? (this._animationStart(), this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, this._zoom, this._getExpandedVisibleBounds()), this._animationZoomIn(this._zoom, e)) : this._zoom > e ? (this._animationStart(), this._animationZoomOut(this._zoom, e)) : this._moveEnd();
+	    }, _getExpandedVisibleBounds: function _getExpandedVisibleBounds() {
+	      return this.options.removeOutsideVisibleBounds ? L.Browser.mobile ? this._checkBoundsMaxLat(this._map.getBounds()) : this._checkBoundsMaxLat(this._map.getBounds().pad(1)) : this._mapBoundsInfinite;
+	    }, _checkBoundsMaxLat: function _checkBoundsMaxLat(e) {
+	      var t = this._maxLat;return t !== i && (e.getNorth() >= t && (e._northEast.lat = 1 / 0), e.getSouth() <= -t && (e._southWest.lat = -1 / 0)), e;
+	    }, _animationAddLayerNonAnimated: function _animationAddLayerNonAnimated(e, t) {
+	      if (t === e) this._featureGroup.addLayer(e);else if (2 === t._childCount) {
+	        t._addToMap();var i = t.getAllChildMarkers();this._featureGroup.removeLayer(i[0]), this._featureGroup.removeLayer(i[1]);
+	      } else t._updateIcon();
+	    }, _overrideMarkerIcon: function _overrideMarkerIcon(e) {
+	      var t = e.options.icon = this.options.iconCreateFunction({ getChildCount: function getChildCount() {
+	          return 1;
+	        }, getAllChildMarkers: function getAllChildMarkers() {
+	          return [e];
+	        } });return t;
+	    } }), L.MarkerClusterGroup.include({ _mapBoundsInfinite: new L.LatLngBounds(new L.LatLng(-1 / 0, -1 / 0), new L.LatLng(1 / 0, 1 / 0)) }), L.MarkerClusterGroup.include({ _noAnimation: { _animationStart: function _animationStart() {}, _animationZoomIn: function _animationZoomIn(e, t) {
+	        this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, e), this._topClusterLevel._recursivelyAddChildrenToMap(null, t, this._getExpandedVisibleBounds()), this.fire("animationend");
+	      }, _animationZoomOut: function _animationZoomOut(e, t) {
+	        this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, e), this._topClusterLevel._recursivelyAddChildrenToMap(null, t, this._getExpandedVisibleBounds()), this.fire("animationend");
+	      }, _animationAddLayer: function _animationAddLayer(e, t) {
+	        this._animationAddLayerNonAnimated(e, t);
+	      } }, _withAnimation: { _animationStart: function _animationStart() {
+	        this._map._mapPane.className += " leaflet-cluster-anim", this._inZoomAnimation++;
+	      }, _animationZoomIn: function _animationZoomIn(e, t) {
+	        var i,
+	            n = this._getExpandedVisibleBounds(),
+	            s = this._featureGroup;this._ignoreMove = !0, this._topClusterLevel._recursively(n, e, 0, function (r) {
+	          var o,
+	              a = r._latlng,
+	              h = r._markers;for (n.contains(a) || (a = null), r._isSingleParent() && e + 1 === t ? (s.removeLayer(r), r._recursivelyAddChildrenToMap(null, t, n)) : (r.clusterHide(), r._recursivelyAddChildrenToMap(a, t, n)), i = h.length - 1; i >= 0; i--) o = h[i], n.contains(o._latlng) || s.removeLayer(o);
+	        }), this._forceLayout(), this._topClusterLevel._recursivelyBecomeVisible(n, t), s.eachLayer(function (e) {
+	          e instanceof L.MarkerCluster || !e._icon || e.clusterShow();
+	        }), this._topClusterLevel._recursively(n, e, t, function (e) {
+	          e._recursivelyRestoreChildPositions(t);
+	        }), this._ignoreMove = !1, this._enqueue(function () {
+	          this._topClusterLevel._recursively(n, e, 0, function (e) {
+	            s.removeLayer(e), e.clusterShow();
+	          }), this._animationEnd();
+	        });
+	      }, _animationZoomOut: function _animationZoomOut(e, t) {
+	        this._animationZoomOutSingle(this._topClusterLevel, e - 1, t), this._topClusterLevel._recursivelyAddChildrenToMap(null, t, this._getExpandedVisibleBounds()), this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, e, this._getExpandedVisibleBounds());
+	      }, _animationAddLayer: function _animationAddLayer(e, t) {
+	        var i = this,
+	            n = this._featureGroup;n.addLayer(e), t !== e && (t._childCount > 2 ? (t._updateIcon(), this._forceLayout(), this._animationStart(), e._setPos(this._map.latLngToLayerPoint(t.getLatLng())), e.clusterHide(), this._enqueue(function () {
+	          n.removeLayer(e), e.clusterShow(), i._animationEnd();
+	        })) : (this._forceLayout(), i._animationStart(), i._animationZoomOutSingle(t, this._map.getMaxZoom(), this._map.getZoom())));
+	      } }, _animationZoomOutSingle: function _animationZoomOutSingle(e, t, i) {
+	      var n = this._getExpandedVisibleBounds();e._recursivelyAnimateChildrenInAndAddSelfToMap(n, t + 1, i);var s = this;this._forceLayout(), e._recursivelyBecomeVisible(n, i), this._enqueue(function () {
+	        if (1 === e._childCount) {
+	          var r = e._markers[0];this._ignoreMove = !0, r.setLatLng(r.getLatLng()), this._ignoreMove = !1, r.clusterShow && r.clusterShow();
+	        } else e._recursively(n, i, 0, function (e) {
+	          e._recursivelyRemoveChildrenFromMap(n, t + 1);
+	        });s._animationEnd();
+	      });
+	    }, _animationEnd: function _animationEnd() {
+	      this._map && (this._map._mapPane.className = this._map._mapPane.className.replace(" leaflet-cluster-anim", "")), this._inZoomAnimation--, this.fire("animationend");
+	    }, _forceLayout: function _forceLayout() {
+	      L.Util.falseFn(t.body.offsetWidth);
+	    } }), L.markerClusterGroup = function (e) {
+	    return new L.MarkerClusterGroup(e);
+	  }, L.MarkerCluster = L.Marker.extend({ initialize: function initialize(e, t, i, n) {
+	      L.Marker.prototype.initialize.call(this, i ? i._cLatLng || i.getLatLng() : new L.LatLng(0, 0), { icon: this }), this._group = e, this._zoom = t, this._markers = [], this._childClusters = [], this._childCount = 0, this._iconNeedsUpdate = !0, this._boundsNeedUpdate = !0, this._bounds = new L.LatLngBounds(), i && this._addChild(i), n && this._addChild(n);
+	    }, getAllChildMarkers: function getAllChildMarkers(e) {
+	      e = e || [];for (var t = this._childClusters.length - 1; t >= 0; t--) this._childClusters[t].getAllChildMarkers(e);for (var i = this._markers.length - 1; i >= 0; i--) e.push(this._markers[i]);return e;
+	    }, getChildCount: function getChildCount() {
+	      return this._childCount;
+	    }, zoomToBounds: function zoomToBounds() {
+	      for (var e, t = this._childClusters.slice(), i = this._group._map, n = i.getBoundsZoom(this._bounds), s = this._zoom + 1, r = i.getZoom(); t.length > 0 && n > s;) {
+	        s++;var o = [];for (e = 0; e < t.length; e++) o = o.concat(t[e]._childClusters);t = o;
+	      }n > s ? this._group._map.setView(this._latlng, s) : r >= n ? this._group._map.setView(this._latlng, r + 1) : this._group._map.fitBounds(this._bounds);
+	    }, getBounds: function getBounds() {
+	      var e = new L.LatLngBounds();return e.extend(this._bounds), e;
+	    }, _updateIcon: function _updateIcon() {
+	      this._iconNeedsUpdate = !0, this._icon && this.setIcon(this);
+	    }, createIcon: function createIcon() {
+	      return this._iconNeedsUpdate && (this._iconObj = this._group.options.iconCreateFunction(this), this._iconNeedsUpdate = !1), this._iconObj.createIcon();
+	    }, createShadow: function createShadow() {
+	      return this._iconObj.createShadow();
+	    }, _addChild: function _addChild(e, t) {
+	      this._iconNeedsUpdate = !0, this._boundsNeedUpdate = !0, this._setClusterCenter(e), e instanceof L.MarkerCluster ? (t || (this._childClusters.push(e), e.__parent = this), this._childCount += e._childCount) : (t || this._markers.push(e), this._childCount++), this.__parent && this.__parent._addChild(e, !0);
+	    }, _setClusterCenter: function _setClusterCenter(e) {
+	      this._cLatLng || (this._cLatLng = e._cLatLng || e._latlng);
+	    }, _resetBounds: function _resetBounds() {
+	      var e = this._bounds;e._southWest && (e._southWest.lat = 1 / 0, e._southWest.lng = 1 / 0), e._northEast && (e._northEast.lat = -1 / 0, e._northEast.lng = -1 / 0);
+	    }, _recalculateBounds: function _recalculateBounds() {
+	      var e,
+	          t,
+	          i,
+	          n,
+	          s = this._markers,
+	          r = this._childClusters,
+	          o = 0,
+	          a = 0,
+	          h = this._childCount;if (0 !== h) {
+	        for (this._resetBounds(), e = 0; e < s.length; e++) i = s[e]._latlng, this._bounds.extend(i), o += i.lat, a += i.lng;for (e = 0; e < r.length; e++) t = r[e], t._boundsNeedUpdate && t._recalculateBounds(), this._bounds.extend(t._bounds), i = t._wLatLng, n = t._childCount, o += i.lat * n, a += i.lng * n;this._latlng = this._wLatLng = new L.LatLng(o / h, a / h), this._boundsNeedUpdate = !1;
+	      }
+	    }, _addToMap: function _addToMap(e) {
+	      e && (this._backupLatlng = this._latlng, this.setLatLng(e)), this._group._featureGroup.addLayer(this);
+	    }, _recursivelyAnimateChildrenIn: function _recursivelyAnimateChildrenIn(e, t, i) {
+	      this._recursively(e, 0, i - 1, function (e) {
+	        var i,
+	            n,
+	            s = e._markers;for (i = s.length - 1; i >= 0; i--) n = s[i], n._icon && (n._setPos(t), n.clusterHide());
+	      }, function (e) {
+	        var i,
+	            n,
+	            s = e._childClusters;for (i = s.length - 1; i >= 0; i--) n = s[i], n._icon && (n._setPos(t), n.clusterHide());
+	      });
+	    }, _recursivelyAnimateChildrenInAndAddSelfToMap: function _recursivelyAnimateChildrenInAndAddSelfToMap(e, t, i) {
+	      this._recursively(e, i, 0, function (n) {
+	        n._recursivelyAnimateChildrenIn(e, n._group._map.latLngToLayerPoint(n.getLatLng()).round(), t), n._isSingleParent() && t - 1 === i ? (n.clusterShow(), n._recursivelyRemoveChildrenFromMap(e, t)) : n.clusterHide(), n._addToMap();
+	      });
+	    }, _recursivelyBecomeVisible: function _recursivelyBecomeVisible(e, t) {
+	      this._recursively(e, 0, t, null, function (e) {
+	        e.clusterShow();
+	      });
+	    }, _recursivelyAddChildrenToMap: function _recursivelyAddChildrenToMap(e, t, i) {
+	      this._recursively(i, -1, t, function (n) {
+	        if (t !== n._zoom) for (var s = n._markers.length - 1; s >= 0; s--) {
+	          var r = n._markers[s];i.contains(r._latlng) && (e && (r._backupLatlng = r.getLatLng(), r.setLatLng(e), r.clusterHide && r.clusterHide()), n._group._featureGroup.addLayer(r));
+	        }
+	      }, function (t) {
+	        t._addToMap(e);
+	      });
+	    }, _recursivelyRestoreChildPositions: function _recursivelyRestoreChildPositions(e) {
+	      for (var t = this._markers.length - 1; t >= 0; t--) {
+	        var i = this._markers[t];i._backupLatlng && (i.setLatLng(i._backupLatlng), delete i._backupLatlng);
+	      }if (e - 1 === this._zoom) for (var n = this._childClusters.length - 1; n >= 0; n--) this._childClusters[n]._restorePosition();else for (var s = this._childClusters.length - 1; s >= 0; s--) this._childClusters[s]._recursivelyRestoreChildPositions(e);
+	    }, _restorePosition: function _restorePosition() {
+	      this._backupLatlng && (this.setLatLng(this._backupLatlng), delete this._backupLatlng);
+	    }, _recursivelyRemoveChildrenFromMap: function _recursivelyRemoveChildrenFromMap(e, t, i) {
+	      var n, s;this._recursively(e, -1, t - 1, function (e) {
+	        for (s = e._markers.length - 1; s >= 0; s--) n = e._markers[s], i && i.contains(n._latlng) || (e._group._featureGroup.removeLayer(n), n.clusterShow && n.clusterShow());
+	      }, function (e) {
+	        for (s = e._childClusters.length - 1; s >= 0; s--) n = e._childClusters[s], i && i.contains(n._latlng) || (e._group._featureGroup.removeLayer(n), n.clusterShow && n.clusterShow());
+	      });
+	    }, _recursively: function _recursively(e, t, i, n, s) {
+	      var r,
+	          o,
+	          a = this._childClusters,
+	          h = this._zoom;if (t > h) for (r = a.length - 1; r >= 0; r--) o = a[r], e.intersects(o._bounds) && o._recursively(e, t, i, n, s);else if ((n && n(this), s && this._zoom === i && s(this), i > h)) for (r = a.length - 1; r >= 0; r--) o = a[r], e.intersects(o._bounds) && o._recursively(e, t, i, n, s);
+	    }, _isSingleParent: function _isSingleParent() {
+	      return this._childClusters.length > 0 && this._childClusters[0]._childCount === this._childCount;
+	    } }), L.Marker.include({ clusterHide: function clusterHide() {
+	      return this.options.opacityWhenUnclustered = this.options.opacity || 1, this.setOpacity(0);
+	    }, clusterShow: function clusterShow() {
+	      var e = this.setOpacity(this.options.opacity || this.options.opacityWhenUnclustered);return delete this.options.opacityWhenUnclustered, e;
+	    } }), L.DistanceGrid = function (e) {
+	    this._cellSize = e, this._sqCellSize = e * e, this._grid = {}, this._objectPoint = {};
+	  }, L.DistanceGrid.prototype = { addObject: function addObject(e, t) {
+	      var i = this._getCoord(t.x),
+	          n = this._getCoord(t.y),
+	          s = this._grid,
+	          r = s[n] = s[n] || {},
+	          o = r[i] = r[i] || [],
+	          a = L.Util.stamp(e);this._objectPoint[a] = t, o.push(e);
+	    }, updateObject: function updateObject(e, t) {
+	      this.removeObject(e), this.addObject(e, t);
+	    }, removeObject: function removeObject(e, t) {
+	      var i,
+	          n,
+	          s = this._getCoord(t.x),
+	          r = this._getCoord(t.y),
+	          o = this._grid,
+	          a = o[r] = o[r] || {},
+	          h = a[s] = a[s] || [];for (delete this._objectPoint[L.Util.stamp(e)], i = 0, n = h.length; n > i; i++) if (h[i] === e) return h.splice(i, 1), 1 === n && delete a[s], !0;
+	    }, eachObject: function eachObject(e, t) {
+	      var i,
+	          n,
+	          s,
+	          r,
+	          o,
+	          a,
+	          h,
+	          u = this._grid;for (i in u) {
+	        o = u[i];for (n in o) for (a = o[n], s = 0, r = a.length; r > s; s++) h = e.call(t, a[s]), h && (s--, r--);
+	      }
+	    }, getNearObject: function getNearObject(e) {
+	      var t,
+	          i,
+	          n,
+	          s,
+	          r,
+	          o,
+	          a,
+	          h,
+	          u = this._getCoord(e.x),
+	          l = this._getCoord(e.y),
+	          _ = this._objectPoint,
+	          d = this._sqCellSize,
+	          c = null;for (t = l - 1; l + 1 >= t; t++) if (s = this._grid[t]) for (i = u - 1; u + 1 >= i; i++) if (r = s[i]) for (n = 0, o = r.length; o > n; n++) a = r[n], h = this._sqDist(_[L.Util.stamp(a)], e), d > h && (d = h, c = a);return c;
+	    }, _getCoord: function _getCoord(e) {
+	      return Math.floor(e / this._cellSize);
+	    }, _sqDist: function _sqDist(e, t) {
+	      var i = t.x - e.x,
+	          n = t.y - e.y;return i * i + n * n;
+	    } }, (function () {
+	    L.QuickHull = { getDistant: function getDistant(e, t) {
+	        var i = t[1].lat - t[0].lat,
+	            n = t[0].lng - t[1].lng;return n * (e.lat - t[0].lat) + i * (e.lng - t[0].lng);
+	      }, findMostDistantPointFromBaseLine: function findMostDistantPointFromBaseLine(e, t) {
+	        var i,
+	            n,
+	            s,
+	            r = 0,
+	            o = null,
+	            a = [];for (i = t.length - 1; i >= 0; i--) n = t[i], s = this.getDistant(n, e), s > 0 && (a.push(n), s > r && (r = s, o = n));return { maxPoint: o, newPoints: a };
+	      }, buildConvexHull: function buildConvexHull(e, t) {
+	        var i = [],
+	            n = this.findMostDistantPointFromBaseLine(e, t);return n.maxPoint ? (i = i.concat(this.buildConvexHull([e[0], n.maxPoint], n.newPoints)), i = i.concat(this.buildConvexHull([n.maxPoint, e[1]], n.newPoints))) : [e[0]];
+	      }, getConvexHull: function getConvexHull(e) {
+	        var t,
+	            i = !1,
+	            n = !1,
+	            s = !1,
+	            r = !1,
+	            o = null,
+	            a = null,
+	            h = null,
+	            u = null,
+	            l = null,
+	            _ = null;for (t = e.length - 1; t >= 0; t--) {
+	          var d = e[t];(i === !1 || d.lat > i) && (o = d, i = d.lat), (n === !1 || d.lat < n) && (a = d, n = d.lat), (s === !1 || d.lng > s) && (h = d, s = d.lng), (r === !1 || d.lng < r) && (u = d, r = d.lng);
+	        }n !== i ? (_ = a, l = o) : (_ = u, l = h);var c = [].concat(this.buildConvexHull([_, l], e), this.buildConvexHull([l, _], e));return c;
+	      } };
+	  })(), L.MarkerCluster.include({ getConvexHull: function getConvexHull() {
+	      var e,
+	          t,
+	          i = this.getAllChildMarkers(),
+	          n = [];for (t = i.length - 1; t >= 0; t--) e = i[t].getLatLng(), n.push(e);return L.QuickHull.getConvexHull(n);
+	    } }), L.MarkerCluster.include({ _2PI: 2 * Math.PI, _circleFootSeparation: 25, _circleStartAngle: Math.PI / 6, _spiralFootSeparation: 28, _spiralLengthStart: 11, _spiralLengthFactor: 5, _circleSpiralSwitchover: 9, spiderfy: function spiderfy() {
+	      if (this._group._spiderfied !== this && !this._group._inZoomAnimation) {
+	        var e,
+	            t = this.getAllChildMarkers(),
+	            i = this._group,
+	            n = i._map,
+	            s = n.latLngToLayerPoint(this._latlng);this._group._unspiderfy(), this._group._spiderfied = this, t.length >= this._circleSpiralSwitchover ? e = this._generatePointsSpiral(t.length, s) : (s.y += 10, e = this._generatePointsCircle(t.length, s)), this._animationSpiderfy(t, e);
+	      }
+	    }, unspiderfy: function unspiderfy(e) {
+	      this._group._inZoomAnimation || (this._animationUnspiderfy(e), this._group._spiderfied = null);
+	    }, _generatePointsCircle: function _generatePointsCircle(e, t) {
+	      var i,
+	          n,
+	          s = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + e),
+	          r = s / this._2PI,
+	          o = this._2PI / e,
+	          a = [];for (a.length = e, i = e - 1; i >= 0; i--) n = this._circleStartAngle + i * o, a[i] = new L.Point(t.x + r * Math.cos(n), t.y + r * Math.sin(n))._round();return a;
+	    }, _generatePointsSpiral: function _generatePointsSpiral(e, t) {
+	      var i,
+	          n = this._group.options.spiderfyDistanceMultiplier,
+	          s = n * this._spiralLengthStart,
+	          r = n * this._spiralFootSeparation,
+	          o = n * this._spiralLengthFactor * this._2PI,
+	          a = 0,
+	          h = [];for (h.length = e, i = e - 1; i >= 0; i--) a += r / s + 5e-4 * i, h[i] = new L.Point(t.x + s * Math.cos(a), t.y + s * Math.sin(a))._round(), s += o / a;return h;
+	    }, _noanimationUnspiderfy: function _noanimationUnspiderfy() {
+	      var e,
+	          t,
+	          i = this._group,
+	          n = i._map,
+	          s = i._featureGroup,
+	          r = this.getAllChildMarkers();for (i._ignoreMove = !0, this.setOpacity(1), t = r.length - 1; t >= 0; t--) e = r[t], s.removeLayer(e), e._preSpiderfyLatlng && (e.setLatLng(e._preSpiderfyLatlng), delete e._preSpiderfyLatlng), e.setZIndexOffset && e.setZIndexOffset(0), e._spiderLeg && (n.removeLayer(e._spiderLeg), delete e._spiderLeg);i.fire("unspiderfied", { cluster: this, markers: r }), i._ignoreMove = !1, i._spiderfied = null;
+	    } }), L.MarkerClusterNonAnimated = L.MarkerCluster.extend({ _animationSpiderfy: function _animationSpiderfy(e, t) {
+	      var i,
+	          n,
+	          s,
+	          r,
+	          o = this._group,
+	          a = o._map,
+	          h = o._featureGroup,
+	          u = this._group.options.spiderLegPolylineOptions;for (o._ignoreMove = !0, i = 0; i < e.length; i++) r = a.layerPointToLatLng(t[i]), n = e[i], s = new L.Polyline([this._latlng, r], u), a.addLayer(s), n._spiderLeg = s, n._preSpiderfyLatlng = n._latlng, n.setLatLng(r), n.setZIndexOffset && n.setZIndexOffset(1e6), h.addLayer(n);this.setOpacity(.3), o._ignoreMove = !1, o.fire("spiderfied", { cluster: this, markers: e });
+	    }, _animationUnspiderfy: function _animationUnspiderfy() {
+	      this._noanimationUnspiderfy();
+	    } }), L.MarkerCluster.include({ _animationSpiderfy: function _animationSpiderfy(e, t) {
+	      var n,
+	          s,
+	          r,
+	          o,
+	          a,
+	          h,
+	          u = this,
+	          l = this._group,
+	          _ = l._map,
+	          d = l._featureGroup,
+	          c = this._latlng,
+	          p = _.latLngToLayerPoint(c),
+	          f = L.Path.SVG,
+	          m = L.extend({}, this._group.options.spiderLegPolylineOptions),
+	          g = m.opacity;for (g === i && (g = L.MarkerClusterGroup.prototype.options.spiderLegPolylineOptions.opacity), f ? (m.opacity = 0, m.className = (m.className || "") + " leaflet-cluster-spider-leg") : m.opacity = g, l._ignoreMove = !0, n = 0; n < e.length; n++) s = e[n], h = _.layerPointToLatLng(t[n]), r = new L.Polyline([c, h], m), _.addLayer(r), s._spiderLeg = r, f && (o = r._path, a = o.getTotalLength() + .1, o.style.strokeDasharray = a, o.style.strokeDashoffset = a), s.setZIndexOffset && s.setZIndexOffset(1e6), s.clusterHide && s.clusterHide(), d.addLayer(s), s._setPos && s._setPos(p);for (l._forceLayout(), l._animationStart(), n = e.length - 1; n >= 0; n--) h = _.layerPointToLatLng(t[n]), s = e[n], s._preSpiderfyLatlng = s._latlng, s.setLatLng(h), s.clusterShow && s.clusterShow(), f && (r = s._spiderLeg, o = r._path, o.style.strokeDashoffset = 0, r.setStyle({ opacity: g }));this.setOpacity(.3), l._ignoreMove = !1, setTimeout(function () {
+	        l._animationEnd(), l.fire("spiderfied", { cluster: u, markers: e });
+	      }, 200);
+	    }, _animationUnspiderfy: function _animationUnspiderfy(e) {
+	      var t,
+	          i,
+	          n,
+	          s,
+	          r,
+	          o,
+	          a = this,
+	          h = this._group,
+	          u = h._map,
+	          l = h._featureGroup,
+	          _ = e ? u._latLngToNewLayerPoint(this._latlng, e.zoom, e.center) : u.latLngToLayerPoint(this._latlng),
+	          d = this.getAllChildMarkers(),
+	          c = L.Path.SVG;for (h._ignoreMove = !0, h._animationStart(), this.setOpacity(1), i = d.length - 1; i >= 0; i--) t = d[i], t._preSpiderfyLatlng && (t.setLatLng(t._preSpiderfyLatlng), delete t._preSpiderfyLatlng, o = !0, t._setPos && (t._setPos(_), o = !1), t.clusterHide && (t.clusterHide(), o = !1), o && l.removeLayer(t), c && (n = t._spiderLeg, s = n._path, r = s.getTotalLength() + .1, s.style.strokeDashoffset = r, n.setStyle({ opacity: 0 })));h._ignoreMove = !1, setTimeout(function () {
+	        var e = 0;for (i = d.length - 1; i >= 0; i--) t = d[i], t._spiderLeg && e++;for (i = d.length - 1; i >= 0; i--) t = d[i], t._spiderLeg && (t.clusterShow && t.clusterShow(), t.setZIndexOffset && t.setZIndexOffset(0), e > 1 && l.removeLayer(t), u.removeLayer(t._spiderLeg), delete t._spiderLeg);h._animationEnd(), h.fire("unspiderfied", { cluster: a, markers: d });
+	      }, 200);
+	    } }), L.MarkerClusterGroup.include({ _spiderfied: null, _spiderfierOnAdd: function _spiderfierOnAdd() {
+	      this._map.on("click", this._unspiderfyWrapper, this), this._map.options.zoomAnimation && this._map.on("zoomstart", this._unspiderfyZoomStart, this), this._map.on("zoomend", this._noanimationUnspiderfy, this), L.Browser.touch || this._map.getRenderer(this);
+	    }, _spiderfierOnRemove: function _spiderfierOnRemove() {
+	      this._map.off("click", this._unspiderfyWrapper, this), this._map.off("zoomstart", this._unspiderfyZoomStart, this), this._map.off("zoomanim", this._unspiderfyZoomAnim, this), this._map.off("zoomend", this._noanimationUnspiderfy, this), this._noanimationUnspiderfy();
+	    }, _unspiderfyZoomStart: function _unspiderfyZoomStart() {
+	      this._map && this._map.on("zoomanim", this._unspiderfyZoomAnim, this);
+	    }, _unspiderfyZoomAnim: function _unspiderfyZoomAnim(e) {
+	      L.DomUtil.hasClass(this._map._mapPane, "leaflet-touching") || (this._map.off("zoomanim", this._unspiderfyZoomAnim, this), this._unspiderfy(e));
+	    }, _unspiderfyWrapper: function _unspiderfyWrapper() {
+	      this._unspiderfy();
+	    }, _unspiderfy: function _unspiderfy(e) {
+	      this._spiderfied && this._spiderfied.unspiderfy(e);
+	    }, _noanimationUnspiderfy: function _noanimationUnspiderfy() {
+	      this._spiderfied && this._spiderfied._noanimationUnspiderfy();
+	    }, _unspiderfyLayer: function _unspiderfyLayer(e) {
+	      e._spiderLeg && (this._featureGroup.removeLayer(e), e.clusterShow && e.clusterShow(), e.setZIndexOffset && e.setZIndexOffset(0), this._map.removeLayer(e._spiderLeg), delete e._spiderLeg);
+	    } }), L.MarkerClusterGroup.include({ refreshClusters: function refreshClusters(e) {
+	      return e ? e instanceof L.MarkerClusterGroup ? e = e._topClusterLevel.getAllChildMarkers() : e instanceof L.LayerGroup ? e = e._layers : e instanceof L.MarkerCluster ? e = e.getAllChildMarkers() : e instanceof L.Marker && (e = [e]) : e = this._topClusterLevel.getAllChildMarkers(), this._flagParentsIconsNeedUpdate(e), this._refreshClustersIcons(), this.options.singleMarkerMode && this._refreshSingleMarkerModeMarkers(e), this;
+	    }, _flagParentsIconsNeedUpdate: function _flagParentsIconsNeedUpdate(e) {
+	      var t, i;for (t in e) for (i = e[t].__parent; i;) i._iconNeedsUpdate = !0, i = i.__parent;
+	    }, _refreshClustersIcons: function _refreshClustersIcons() {
+	      this._featureGroup.eachLayer(function (e) {
+	        e instanceof L.MarkerCluster && e._iconNeedsUpdate && e._updateIcon();
+	      });
+	    }, _refreshSingleMarkerModeMarkers: function _refreshSingleMarkerModeMarkers(e) {
+	      var t, i;for (t in e) i = e[t], this.hasLayer(i) && i.setIcon(this._overrideMarkerIcon(i));
+	    } }), L.Marker.include({ refreshIconOptions: function refreshIconOptions(e, t) {
+	      var i = this.options.icon;return L.setOptions(i, e), this.setIcon(i), t && this.__parent && this.__parent._group.refreshClusters(this), this;
+	    } });
+	})(window, document);
 
 /***/ },
 /* 302 */
@@ -38462,58 +38597,63 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	var _mosaicDataset = __webpack_require__(245);
 
-	var _leaflet = __webpack_require__(276);
+	var _leaflet = __webpack_require__(244);
 
 	var _leaflet2 = _interopRequireDefault(_leaflet);
 
-	var DataSetCanvasStyle = (function (_L$DataLayer$GeometryRendererStyle) {
-	    _inherits(DataSetCanvasStyle, _L$DataLayer$GeometryRendererStyle);
+	var LeafletClusterAdapter = (function () {
+	    function LeafletClusterAdapter(options, dataSet) {
+	        _classCallCheck(this, LeafletClusterAdapter);
 
-	    function DataSetCanvasStyle() {
-	        _classCallCheck(this, DataSetCanvasStyle);
-
-	        _get(Object.getPrototypeOf(DataSetCanvasStyle.prototype), 'constructor', this).apply(this, arguments);
+	        this.options = options || {};
+	        this.dataSet = dataSet;
 	    }
 
-	    _createClass(DataSetCanvasStyle, [{
-	        key: 'getMarkerSize',
-	        value: function getMarkerSize(zoom) {
-	            var baseZoom = this.options.baseZoom || 10;
-	            var baseWidth = this.options.baseWidth || 32;
-	            var baseHeight = this.options.baseHeight || 32;
-	            var minWidth = this.options.minWidth || 8;
-	            var minHeight = this.options.minHeight || 8;
-	            var maxWidth = this.options.maxWidth || 48;
-	            var maxHeight = this.options.maxHeight || 48;
-	            var k = Math.pow(2, zoom - baseZoom);
-	            return {
-	                x: Math.min(maxWidth, Math.max(minWidth, Math.round(baseWidth * k))),
-	                y: Math.min(maxHeight, Math.max(minHeight, Math.round(baseHeight * k)))
-	            };
+	    _createClass(LeafletClusterAdapter, [{
+	        key: 'newClusterIcon',
+	        value: function newClusterIcon(cluster) {
+	            var childCount = cluster.getChildCount();
+
+	            var c = ' marker-cluster-';
+	            if (childCount < 10) {
+	                c += 'small';
+	            } else if (childCount < 100) {
+	                c += 'medium';
+	            } else {
+	                c += 'large';
+	            }
+
+	            return new _leaflet2['default'].DivIcon({
+	                html: '<div><span>' + childCount + '</span></div>',
+	                className: 'marker-cluster' + c,
+	                iconSize: new _leaflet2['default'].Point(40, 40)
+	            });
 	        }
 	    }, {
-	        key: 'getTilePad',
-	        value: function getTilePad(zoom) {
-	            var markerSize = this.getMarkerSize(zoom);
-	            var tileSize = this.options.tieSize || 256;
-	            var deltaX = markerSize.x ? tileSize / markerSize.x : 1;
-	            var deltaY = markerSize.y ? tileSize / markerSize.y : 1;
-	            return [deltaX, deltaY, deltaX, deltaY];
+	        key: 'getClusterPolygonOptions',
+	        value: function getClusterPolygonOptions() {
+	            return {
+	                stroke: true,
+	                color: 'white',
+	                weight: 1,
+	                opacity: 1,
+	                fill: true,
+	                fillColor: 'white',
+	                fillOpacity: 0.3
+	            };
 	        }
 	    }]);
 
-	    return DataSetCanvasStyle;
-	})(_leaflet2['default'].DataLayer.GeometryRendererStyle);
+	    return LeafletClusterAdapter;
+	})();
 
-	exports['default'] = DataSetCanvasStyle;
+	exports['default'] = LeafletClusterAdapter;
 	module.exports = exports['default'];
 
 /***/ },
@@ -38522,7 +38662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var L = __webpack_require__(276);
+	var L = __webpack_require__(244);
 
 	/**
 	 * 
@@ -38660,11 +38800,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _leaflet = __webpack_require__(276);
+	var _leaflet = __webpack_require__(244);
 
 	var _leaflet2 = _interopRequireDefault(_leaflet);
 
-	var _LeafletAdapter2 = __webpack_require__(244);
+	var _LeafletAdapter2 = __webpack_require__(288);
 
 	var _LeafletAdapter3 = _interopRequireDefault(_LeafletAdapter2);
 
@@ -38711,7 +38851,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var L = __webpack_require__(276);
+	var L = __webpack_require__(244);
 	var InteractionLayer = __webpack_require__(303);
 
 	// Copied from the Leaflet.utfgrid implementation
@@ -40205,7 +40345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _leaflet = __webpack_require__(276);
+	var _leaflet = __webpack_require__(244);
 
 	var _leaflet2 = _interopRequireDefault(_leaflet);
 
@@ -40221,7 +40361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _mosaicUi = __webpack_require__(309);
 
-	var _LeafletAdapter = __webpack_require__(244);
+	var _LeafletAdapter = __webpack_require__(288);
 
 	var _LeafletAdapter2 = _interopRequireDefault(_LeafletAdapter);
 
@@ -40443,13 +40583,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function _updateMapLayers() {
 	            this._removeMapLayers();
 	            var dataSet = this.dataSet;
-	            var options = {
+	            var options = _leaflet2['default'].Util.extend({}, {
 	                mapLayout: this,
 	                layout: this,
 	                map: this.map,
 	                dataSet: dataSet,
 	                selectedItems: this.props.selectedItems
-	            };
+	            }, this.props);
 	            var adapter = dataSet.getAdapter(_LeafletAdapter2['default'], options);
 	            adapter.options.mapLayout = this;
 	            adapter.options.map = this;
@@ -40882,7 +41022,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var L = __webpack_require__(276);
+	var L = __webpack_require__(244);
 
 	/**
 	 * This class provides common utility methods to manage specific geographic zone
@@ -41071,13 +41211,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _mosaicDataset = __webpack_require__(260);
+	var _mosaicDataset = __webpack_require__(245);
 
-	var _DataSetLeafletAdapter = __webpack_require__(243);
+	var _DataSetLeafletAdapter = __webpack_require__(287);
 
 	var _DataSetLeafletAdapter2 = _interopRequireDefault(_DataSetLeafletAdapter);
 
-	var _LeafletAdapter = __webpack_require__(244);
+	var _LeafletAdapter = __webpack_require__(288);
 
 	var _LeafletAdapter2 = _interopRequireDefault(_LeafletAdapter);
 
@@ -41115,7 +41255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _mosaicDataset = __webpack_require__(260);
+	var _mosaicDataset = __webpack_require__(245);
 
 	var TilesInfo = (function (_Data) {
 	    _inherits(TilesInfo, _Data);
